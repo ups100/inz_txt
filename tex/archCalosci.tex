@@ -3,8 +3,184 @@
 
 \section[Podział na moduły][Podział na moduły]{Podział na moduły}
 
+Monitorowanie klienta mobilnego jest zagadnieniem złożonym. Niestety
+nie jest możliwe zaadoptowanie bez modyfikacji żadnego z~dostępnych na
+rynku systemów. Wymagania przedstawione w~\ref{chap:Wymagania}
+wymuszają budowę systemu monitorowania, który będzie umożliwiał
+monitorowanie zarówno klienta mobilnego jak i~statycznego. Napisanie
+całości takiego systemu jest zadaniem bardzo obszernym. Warto tutaj
+nadmienić, że jądro monitorujące systemu Icinga zostało napisane
+w~języku~C i~zajmuje 315~000 linii kodu. Na tej podstawie uznano za
+niemożliwe napisanie systemu o~funkcjonalności szerszej od
+wspominanego w~ramach pracy inżynierskiej.
+
+Kolejnym argumentem przeciw tworzeniu takiego systemu od podstaw jest
+konieczność przeprowadzenia obszernych testów. Większość systemów
+dostępnych na rynku posiada rozbudowany system testów autoamtycznych,
+a~także szeroką społeczność, co powoduje, że kod w nich zawarty jest
+dobrze przetestowany, a~jego jakoś jest bardzo wysoka.
+
+W obec powyższych, bezsprzecznie słusznych argumentów, w~ramach tej
+pracy inżynierskiej zaproponowano system monitorujący oparty
+o~rozwiązania dostępne na rynku, które zostały zmodyfikowane, aby
+umożliwić monitoring klienta mobilnego. Proponowany system składa się
+z~trzech modułów pełniących następujące funkcje:
+
+\begin{itemize}
+\item Moduł podstawowy, odpowiedzialny za bezpośredni monitoring
+  klientów statycznych oraz analizę danych od klientów mobilnych.
+\item Moduł odbioru danych, odpowiedzialny za przekazywanie wpisów
+  dziennika od klientów mobilnych do modułu podstawowego.
+\item Moduł mobilny, odpowiedzialny za monitorowanie klientów
+  mobilnych i~przekazywanie danych do modułu odbioru danych.
+\end{itemize}
+
+%dodac rysunek z tymi komponentami
+%dodac referencje do wiki icingi
+Elementy modułu podstawowego rozmieszczone są na serwerach sieci
+lokalnej, w~której znajdują się klienty statyczne. Moduł ten zapewnia
+ich monitorowanie oraz stanowi interfejs dostępowy dla
+administratora. W~przedstawionej kofiguracji istnieje tylko jedna
+instancja jądra monitorującego, lecz możliwa jest również konfiguracją
+zawierająca kilka rdzeni systemu monitorowania. Sposób wykonania
+takiej kofiguracji został omowiony w~[wiki\_icingi]. Moduł odbioru
+danych umieszczony jest na urządzeniu posiadającym dostęp do sieci,
+w~której pracują klienty mobilne. W~omawianej kofiguracji przyjęto, iż
+klienty mobilne oraz moduł odbioru danych mają dostęp do sieci
+Internet. Ponadto w~celu uproszczenia omawianej kofiguracji
+i~pominięcia dodatkowych elementów, które nie są przedmiotem tej
+pracy, poczyniono założenie, iż moduł odbierający dane oraz rdzeń
+monitorujący modułu podstawowego znajdują się na tym samym systemie
+operacyjnym. Możliwa jest jednak konfiguracja, w~której wspomniane
+elementy znajdują się na różnych urządzeniach. Moduł mobilny
+instalowany jest na urządzeniu mobilnym, które jest monitorowane przez
+system. Jest on bezpośrednio odpowiedzialny za wykonywanie
+zaplanowanych odczytów oraz przekazanie ich wyników do modułu
+odbierającego. Poszczególne elementy zostały omówione w kolejnych
+podrozdziałach. Moduły omawianego systemu są od siebie niezależne
+i~komunikują się poprzez dobrze zdefiniowane interfejsy
+i~protokoły. Możliwa jest zatem zmiana przedstawionej konfiguracji,
+w~taki sposób, aby spełniała ona dodatkowe oczekiwania odbiorcy.
+
 \section[Moduł podstawowy][Moduł podstawowy]{Moduł podstawowy}
 
+Moduł podstawowy stanowi rdzeń całego systemu monitorowania. Moduł ten
+został zbudowany wykorzystując system monitorowania Icinga. System
+monitorujący Icinga został szeroko opisany
+w~\ref{subsec:Icinga}. Cieszy się on uznaniem środowiska
+administratorów, a~jego możliwości konfiguracji umożliwiają budowę
+rozległego systemu monitorowania rozproszonego zarówno dla bardzo
+dużej sieci, jak i~dla dużej liczby klientów mobilnych.
+
+Tutaj bedzie opis tego modulu
+
 \section[Moduł odbioru danych][Moduł odbioru danych]{Moduł odbioru danych}
+\label{sec:ModOdbDanych}
+
+Moduł ten odpowiedzialny jest za odbieranie danych od klientów
+mobilnych i~przekazywanie ich do modułu podstawowego. Żaden
+z~dostępnych na rynku systemów monitorowania, ani dodatek do takiego
+systemu, nie spełniał wymagań stawianych przed omawianym
+systemem. W~związku z~powyższym moduł odbioru doanych został
+zaprojektowany oraz zaimplementowany w~ramach niniejszej
+pracy. Omawiany moduł jest niezależny od pozostałych. Możliwe jest
+jego użycie zarówno z~innymi klientami mobilnymi, jaki z~innym
+systemem monitorującym. Należy jedynie zapewnić implementacje
+protokołu komunikacyjnego po stronie klienta, oraz dostarczyć metodę,
+wprowadzania danych do modułu podstawowego. Omawiany moduł
+przeznaczony jest dla systemów z~rodziny Linux. Składa się on
+z~samodzielnego demona systemowego, którego szczegółowa architektura
+została omówiona w~\ref{chap:ArchDaemona}.
+
+%dodac odniesienia do literatury o AES i CBC
+Moduł ten spełnia kilka bardzo ważnych funkcji. Podstawowym jego
+zadaniem jest odbieranie danych od klienta. Zgodnie z~wymaganiami
+określonymi w~\ref{chap:Wymagania} konieczne jest, aby system
+zapewniał zarówno poufność jak i~integralność danych. Oba te wymagania
+są spełnione przez ten system, poprzez użycie kryptografi oraz funkcji
+skrótu, które pozwalają jednoznacznie zweryfikować integralność
+wiadomości. System jest niezależny od zastosowanego algorytmu
+szyfrowania danych. W omawianej konfiguracji, do transportu danych
+został wykorzystany algorytm AES pracujący w trybie wiązania bloków
+zaszyfrowanych (CBC). Jako długość klucza przyjęto 128 bitów, pomimo,
+iż jest to najmniejsza z~dostępnych długosci klucza AES jest ona
+wystarczająca do tego zastosowania.
+
+Kolejnym zadaniem omawianego modułu jest uwierzytelnienie klienta. Dla
+celów demonstracyjnych dostarczono dwa moduły
+uwierzytelnienia. Pierwszy z~nich to uwierzytelnienie zawsze
+pozytywne, które pozwala na dostęp każdemu klientowi. Drugi natomiast,
+to proste uwierzytelnienie na podstawie nazwy użytkownika oraz hasła
+przydzielonego przez administratora\footnote{Przedstawione moduły mają
+  charakter czysto akdemicki i~służą jedynie zaprezentowaniu
+  niezalezności modułu odbierania danych od wybranej metody
+  uwierzytelnienia użytkownika. Wszystkie nazwy użytkowników oraz
+  hasła, używane przez jedną z~metod przechowywane są jawnym
+  tekstem. Przed użyciem systemu należy skonfigurować metodę
+  uwierzytelnienia urzytkownika zgodnie z polityką stosowaną w danej
+  sieci.}. Możliwe jest skonfigurowanie dowolnej motody
+uwierzytelnienia klienta, zgodnie z polityką bezpieczeństwa stosowaną
+w~danej sieci.
+
+Odebrane od klienta dane są przechowywane przez moduł z~wykorzystaniem
+pamięci trwałej, co umożliwa bardzo szybkie potwierdzenie odebrania
+danych, jeszcze przed przekazaniem ich do miejsc
+przeznaczenia. Omawiany moduł, na podstawie pliku konfiguracyjnego
+dostarcza dane do wskazanych miejsc docelowych. Możliwe jest
+definiowanie dowolnych miejsc przeznaczenia dla danych, co umożliwia
+przekazywanie danych pochodzących od klienta do wielu systemów bez
+konieczności ich retransmisji. Zastosowany plik pośredni gwarantuje,
+iż czas zapisu danych w~miejsce docelowe, nie będzie wydłużał czasu
+oczekiwania na potwierdzenie przyjęcia danych od klienta. Warto
+zauważyć również, że dane odebrane przez ten moduł zostaną zawsze
+dostarczone do ich miejsc docelowych, lub jawnie usuniętę przez
+administratora. Oznacza to zatem, iż moduł gwarantuje dostarczenie
+danych, natomiast wykrywanie duplikatów danych jest wykonywane
+w~miejsca docelowych dla danych.
+
+%Trzeba bedzie dopisac o walidacji danych jesli faktycznie bedzie tutaj robiona
 
 \section[Moduł mobilny][Moduł mobilny]{Moduł mobilny}
+
+Moduł ten jest odpowiedzialny za monitorowanie zadanych parametrów
+urządzenia mobilnego. Każdy klient mobilny posiada swoją instancję
+tego modułu, która jest odpowiedzialna za monitorowanie jego
+urządzenia. Ten elemento systemu powinien posiadać budową
+modularną. Najważniejsze z wymagań odnoszocych się do tego modułu
+wymusza, aby możliwe było w jak najprostszy sposób dodawanie
+możliwości sprawdzania nowych parametrów.  
+
+Ponad to implementacja tego modułu musi brać pod uwagę architekturę
+sprzętową na której pracuje. Urządzenia mobilne są zazwyczaj zasilane
+z~własnych akumulatorów dlatego konieczne jest zastosowanie
+mechanizmów, które pozwolą na zredukowanie zużycia energii związanego
+z~systematycznym wykonywaniem sprawdzeń. Należy równiez wspomnieć, iż
+moduł mobilny odpowiedzialny jest za nadawianie każdemu z~odczytów
+stempla czasu uniwersalnego dokonywanego pomiaru. Na podstawie
+dokonanej charakterystyki klienta mobilnego, w~niniejszej pracy
+poczyniono założenie, iż klient posiada dostęp do punktów
+synchronizacji czasu. Jest wiele dostępnych metod synchronizacji czasu
+na urządzeniu mobilnym, midzy innymi pobranie czasu z~sieci GSM czy
+też z~serwerów czasu światowego, przez co nie stanowi to dla klienta
+mobilnego poważnego wymagania.
+
+Klient mobilny po zebraniu porcji wpisów dziennika o~rozmiarze zgodnym
+z~polityką administratora, lub po upływie określonego czasu powinien
+przesłać posiadane wpisy dziennika do modułu odbiorczego, a~po
+uzyskaniu potwierdzenia usunąć je z~urządzenia w~celu oszczędności
+pamięci. Różnorodność platform dostępnych na rynku sprawia, iż nie
+jest możliwe dostarczenie uniwersalnej implementacji protokołu
+komunikacyjnego dla wszystkich platform mobilnych. Oznacza to, iż
+przed klientem mobilnym stawia się wymóg zarówno implementacji
+protokołu komunikacyjnego jak i~odpowiednich mechanizmów
+uwierzytelnienia klienta. Protokół komunikacyjny został szczegółowo
+opisany w~\ref{chap:ProtKom}.
+
+%dodać referencje do pracy kubika
+W ramach omawianego systemu wykorzystano wiele instancji modułu
+mobilnego zaprojektowanego i~zaimplementowanego przez Pana Marcina
+Kubika. Moduł ten został szeroko omówiony w [praca\_kubika]. Całość
+systemu jest niezależna od platformy klienta mobilnego, zatem mozliwa
+jest współpraca całości systemu z~klientami mobilnymi przeznaczonymi
+dla innych platform, jednak muszą one implementować protokół
+komunikacyjny wykorzystywany przez moduł pośredniczący.
