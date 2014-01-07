@@ -1,4 +1,5 @@
 \chapter{Monitorowanie rozproszone z użyciem NSCA}
+\label{chap:nsca}
 
 \section[Opis dodatku NSCA][Opis dodatku NSCA]{Opis dodatku NSCA}
 
@@ -250,7 +251,7 @@ symetryczny, to nie tylko będzie mógł odczytywać informacje o wpisach
 przesyłanych od klientów, lecz także podszywać się pod klientów
 i~przesyłać fałszywe wpisy. Taka luka może być wykorzystana przy ataku
 na jakąś usługę. Atakujący rozpoczyna atak, po czym przechwytuje
-pakiety z wpisami z dziennika, które mogą świadczyć o~rozpoczęciu
+pakiety z~wpisami z~dziennika, które mogą świadczyć o~rozpoczęciu
 ataku i~w~zamian przesyła do serwera fałszywe pakiety informujące iż
 wszystkie usługi pracują normalnie.
 
@@ -287,21 +288,21 @@ Liczba obliczeń & Prawdopodobieństwo \\
 Dodatek NSCA jest powszechnie do monitorowania serwerów znajdujących
 się za zaporą, która uniemożliwia wykonywanie aktywnych sprawdzeń lub
 gdy charakterystyka monitorowanego parametru nie jest przystająca do
-cyklicznego odpytywania. Dodatek ten może być stosowany, w sieciach o
-statycznym charakterze, gdzie połączenia są stałe, a łączność nie
+cyklicznego odpytywania. Dodatek ten może być stosowany, w~sieciach
+o~statycznym charakterze, gdzie połączenia są stałe, a~łączność nie
 ulega częstym przerwanią. Ponadto należy być świadomym słabości
 kryptografii stosowanej w protokole wymiany danych. Stosowanie dodatku
 NSCA poza zamkniętymi sieciami firmowymi może okazać się nieskuteczne
-i zawodne.  
+i~zawodne.
 
-Problem monitorowania klienta mobilnego został szczegółowo opisany w
-\ref{chap:Wymagania}. Niestety dodatek NSCA nie spełnia bardzo wielu z
-przedstawionych wymagań przez co nie powinien być on stosowany w
-systemach tego typu. Głównymi problemami, który dyskryminują dodatek
+Problem monitorowania klienta mobilnego został szczegółowo opisany
+w~\ref{chap:Wymagania}. Niestety dodatek NSCA nie spełnia bardzo wielu
+z~przedstawionych wymagań przez co nie powinien być on stosowany
+w~systemach tego typu. Głównymi problemami, który dyskryminują dodatek
 NSCA w zastosowaniach do monitorowania klienta mbilnego są:
 
 \begin{itemize}
-\item Bezpieczeństwo: mechanizmy bezpieczeństwa zawarte w protokole
+\item Bezpieczeństwo: mechanizmy bezpieczeństwa zawarte w~protokole
   wymiany dancyh posiadają bardzo powazne luki. Zastosowanie CRC32 do
   sprawdzania spójności dancyh niesie za sobą bardzo duże
   ryzyko. Ponadto konieczność przechowywania na urządzeniu klucza
@@ -311,16 +312,16 @@ NSCA w zastosowaniach do monitorowania klienta mbilnego są:
   wpisu dziennika aktualny stempel czasy. Powoduje to brak możliwości
   przesyłania, historycznych danych zgromadzonych w skutek utraty
   dostępu do sieci.
-\item Brak dodatkowych mechanizmów uwierzytelnienia klienta: decyzja o
-  przydzieleniu klientowi dostępu czyli akceptacji przesłanych przez
+\item Brak dodatkowych mechanizmów uwierzytelnienia klienta: decyzja
+  o~przydzieleniu klientowi dostępu czyli akceptacji przesłanych przez
   niego wpisów dziennika podejmowana jest na podstawie znajomości
   przez niego algorytmu szyfrowania oraz klucza.
 \item Brak kontroli otrzymywanych danych: każdy klient, który zna
-  klucz może przesyłać wpisy dotyczące dowolnego hosta i dowolnej
+  klucz może przesyłać wpisy dotyczące dowolnego hosta i~dowolnej
   usługi. Brak jest mechanizmu, który pozwolił by na kontrolę tego,
-  jaki klient ma prawo informować o jakim hoście czy też usłudze.
+  jaki klient ma prawo informować o~jakim hoście czy też usłudze.
 \item Brak potwierdzenia dostarczenia danych: klient wysyłający dane
-  nie ma żadnej informacji o tym, czy jego dane zostały zaakceptowane
+  nie ma żadnej informacji o~tym, czy jego dane zostały zaakceptowane
   czy odrzucone. Oznacza to brak możliwości synchronizacji danych na
   kliencie mobilnym i serwerze, gdyż nigdy nie mamy gwarancji iż
   wysłane przez klienta dane zostały przetworzone przez dodatek NSCA.
@@ -328,16 +329,15 @@ NSCA w zastosowaniach do monitorowania klienta mbilnego są:
   aktualnie zaimplementowany jedynie na systemy Windows oraz
   Linux. Wiele współczesnych urządzeń mobilnych, które powinny być
   monitorowane funkcjonuje z systemem Android czy też Windows Phone.
-\item Przekazywanie danych tylko w jedno miejsce: dane odebrane przez
-  moduł odbierający mogą być przekazane jedynie w jedno miejsce. Przy
+\item Przekazywanie danych tylko w~jedno miejsce: dane odebrane przez
+  moduł odbierający mogą być przekazane jedynie w~jedno miejsce. Przy
   bardziej złożonych systemach, konieczna jest możliwość przekazywania
   dancyh do kilku systemów oraz definiowania reguł, które dane gdzie
   powinny trafić.
 \end{itemize}
 
 Powyższe wady zdecydowanie dyskryminują dodatek NSCA jako narzędzie do
-monitoringu klienta mobilnego. W związku z powyższym w tej pracy
-zaproponowano nowy protokół komunikacyjny, który został opisany w
-\ref{chap:ProtKom} oraz cały rzykładowy system do monitorowania
-zarówno klientów stacjonarnych jak i mobilnych opisany w
-\ref{chap:ArchCal}.
+monitoringu klienta mobilnego. W~związku z~powyższym w tej pracy
+zaproponowano nowy protokół komunikacyjny, który został opisany
+w~\ref{chap:ProtKom} oraz cały rzykładowy system do monitorowania
+zarówno klientów stacjonarnych jak i~mobilnych opisany w~\ref{chap:ArchCal}.
