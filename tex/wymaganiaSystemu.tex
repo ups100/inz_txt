@@ -1,7 +1,256 @@
 \chapter{Monitorowanie klienta mobilnego jako monitorowanie rozproszone}
 \label{chap:Wymagania}
-\section[Charakterystyka problemu][Charakterystyka problemu]{Charakterystyka opoblemu}
 
-\section[Wymagania funkcjonalne][Wymagania funkcjonalne]{Wymagania funkcjonalne}
+\section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
+statycznych]{Monitorowanie rozproszone klientów statycznych}
 
-\section[Wymagania niefunkcjonalne][Wymagania niefunkcjonalne]{Wymagania niefunkcjonalne}
+Firmy działające obecnie na rynku posiadają bardzo rozbudowaną
+infrastruktę informatyczna. Od bardzo wielu lat działy odpowiedzialne
+za utrzymanie infrastruktury informatycznej prowadzą ciągły monitoring
+zarówno urządzeń sieciowych jak i~serwerów oraz stacji roboczych
+użytkowników. Bardzo wiele firm posiada również specjalistyczne
+urządzenia, które również muszą być podłączone do sieci i~monitorowane
+w celu zapewnienia ciągłości procesów biznesowych danej
+firmy. Powyższe urządzenia rozumiane są jako klienty
+statyczne. Urządzenia tego typu zazwyczaj pracują nieprzerwanie
+i~posiadają dobrze zdefiniowaną hierarchię. Wzajemne relacje pomiędzy
+tymi urządzeniami wynikają w~dużej mierze z~struktury sieci lecz mogą
+również wynikać z~innych zależności. Dzięki monitorowaniu wszystkich
+urządzeń w~danej sieci systemy monitorujące są w~stanie wspierać
+administratora wskazując z~bardzo dużym prawdopodobieństwem miejsce
+wystąpienia awarii.
+
+Sieć w~dużej firmie rzadko stanowi jedną całość. Zazwyczaj są to
+segmenty sieci oddzielone zaporami lub w ogóle oddzielnie sieci LAN
+lub VLAN. Taka separacja urządzeń pozwala na zwiększenie poziomu
+bezpieczeństwa, lecz jednocześnie utrudnia monitorowanie całej
+infrastruktury. Aby umożliwić monitorowanie całej sieci firmowej
+wykorzystywane jest monitorowanie rozproszone. Można wyróżnić dwie
+podstawowe konfiguracje monitorowania rozproszonego:
+
+\begin{itemize}
+\item Monitorowanie pasywne: Istnieje jedna instancja jądra
+  monitorującego, do którego przesyłane są wyniki sprawdzeń
+  poszczególnych usług. Każdy serwer sam monitoruje swoje usługi
+  i~zgłasza rezultaty.
+\item Wieloinstancyjny system monitorujący: Istnieje wiele instancji
+  jądra monitorującego. Typowo, każda wydzielona część sieci posiada
+  swoją instancję. Każda instancja może posiadać zarówno usługi
+  monitorowane aktywnie jak i~pasywnie. Wyniki sprawdzeń przesyłane są
+  następnie do jednej wybranej instancji, która gromadzi wszystkie
+  dane.
+\end{itemize}
+
+%dorzucic tu jakies rysunki
+
+Użycie monitorowania pasywnego dla wszystkich usług jest bardzo nie
+wygodnie i~jednocześnie utrudnia konfiguracje, a~także pozbawia
+administratora możliwosci używania niektórych mechanizmów dostępnych
+wyłącznie dla urządzeń monitorowanych aktywnie. Ponadto wyniki
+sprawdzeń pasywnych nie są akumulowane, lecz wysyłane odrazu po ich
+uzyskaniu. Oznacza to, że jeśli pojawi się chwilowy brak połączenia
+z~serwerem, to wpisy dziennika zostaną zgubione. W~przypadku
+monitorowania klienta stacjonarnego, nie ma to większego dla
+wykrywania awarii, jednak wprowadza to luki do wykresów analizujących
+dane historyczne. Wieleinstancyjny system minitorujący wymaga
+zdecydowanie więcej zasobów jednak pozwala na osiągnięcie znacznie
+wygodniejszego i~bardziej niezawodnego systemu. Ponadto dzięki takiej
+konfiguracji nie ma potrzeby ingerencji w monitorowane serwery co
+redukuje obciążenie, a~także zwiększa bezpieczeństwo. Warto również
+wspomnieć iż istnieje dodatek do systemów z rodziny Nagios o~nazwie
+Nagios Fusion, który umożliwia integrację wielu instancji jądra
+sprawdzającego bez konieczności tworzenia centralnej jego instancji
+i~przesyłania wyników wszystkich sprawdzeń. Do przesyłania wyników
+sprawdzeń dokonywanych czy to pasywnie na serwerach czy też aktywnie
+przez różne instacje jądra sprawdzającego służy dodatek NSCA opisany w
+\ref{chap:nsca}.
+
+\section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
+mobilnych]{Monitorowanie rozproszone klientów mobilnych}
+
+%\section[Charakterystyka problemu][Charakterystyka problemu]{Charakterystyka problemu}
+
+Rosnąca w~ostatnich latach popularność technologii mobilnych
+przyczyniła się do pojawienia się w firmach bardzo dużej liczby
+urządzeń mobilnych, które wymagają zarówno zarządzania jak
+i~monitorowania. Urządzenia mobilne są używane bardzo często przez
+przedstawicieli handlowych, a~także przez menadżerów w~celu
+umożliwienia wykonywania pracy poza obszarem firmy. Ponadto coraz
+więcej firm świadczących zaawansowane technicznie usługi wyposaża
+swoich pracowników w~bardzo drogi sprzęt, który wymaga ciągłego
+monitorowania. Duże korporacje coraz częściej decydują się również na
+wyposażenie swoich pracowników w smartfony lub tablety, które mają
+ułatwić współpracę z firmą w trakcie podróży służbowych czy spotkań
+z~klientami.
+
+Klient mobilny posiada szereg cech, które znacząco odróżniają go od
+klientów statycznych. Przedewszystkim należy zauważyć, że urządzenia,
+o~których mowa bardzo często pracują poza obszarem firmy. Wynika
+z~tego iż nie zawsze możliwe jest utrzymywanie takich urządzeń
+w~wirtualnej sieci prywatnej, gdyż urządzenie może znaleźć się
+w~obszarze, gdzie nie ma dostępu do internetu. Ponadto nie zawsze
+konieczne jest, aby urządzenia mobilne pracowały podłączone do sieci
+firmowej, gdyż dla użytkownika często wymagany jest jedynie dostęp do
+internetu i inne funkcje tego urządzenia. Warto więc zdać sobie
+sprawę, że urządzenia te są często narażone na dostęp do sieci,
+o~bardzo niskim poziomie zaufania i wielu zagrożeniach. Oznacze to
+w~szczególności, iż urządzenie mobilne zazwyczaj posiada zmienny adres
+IP, który rzadko jest adresem globalnym. Również struktura sieci,
+z~której korzysta klienty mobilne jest dynamiczna i~znajduje się poza
+obszarem monitorowania administratorów danego
+przedsiębiorstwa. Znacząca większość klientów mobilnych dzięki
+kontaktom z~sieciom poza firmową posiada, w~przeciwieństwie do
+klientów statycznych, możliwość synchronizacji swojego czasu czy to
+z~serwerami czasu światowego, czy też z~sieci GSM.
+
+Należy również zwrócić uwagę na duże rozproszenie klientów
+mobilnych. W~przeciwieństwie do klientów statycznych, którzy zazwyczaj
+pracują w~pewnych grupach lub fragmentach sieci, klienty mobilne są
+zazwyczaj rozpatrywane pojedyńczo. Większość klientów mobilnych
+operuje w~pełni samodzielnie, zatem grupa liczność grupy klientów
+wynosi zazwyczaj~1. Powoduje to, że w przeciwieństwie do klientów
+statycznych gdzie grup klientów było zazwyczaj kilka lub kilkanaście,
+w~przypadku klientów mobilnych takich grup może być kilkaset lub nawet
+kilka tysięcy. Warto również dostrzec różnice w~zasilaniu. Klienty
+mobilne zazwyczaj posiadają własne zasilanie, przez co każda operacja
+wykonywana na nich nie tylko spowalnia jego działanie, lecz również
+zmniejsza jego czas pracy pomiędzy ładowaniami. Przenośność klienta
+mobilnego zmienia również jego stopień bezpieczeństwa. Urządzenia
+mobilne stosunkowo często są gubione lub kradzione, co nie było
+możliwe w~przypadku klientów statycznych. W~związku z~możliwością
+utraty urządzenia, nie powinno sie na nim przechowywać tajnych danych,
+dzięki którym możnaby skompromitować cały system z~którego korzysta
+klient.
+
+Klient mobilny znacznie różni się swoją charakterystyką od klienta
+statycznego. Różni się również rodzaj monitorowanych
+usług. W~przypadku klientów statycznych znaczna część wysiłków jest
+skierowana na pomiar usług świadczonych przez dany system dla innych
+systemów. Natomiast w~przypadku klientów mobilnych znacznie większy
+nacisk jest położony na monitorowanie parametrów wewnętrznych danego
+klienta.
+
+\section[Wymagania][Wymagania systemu monitorowania klientów
+mobilnych]{Wymagania systemu monitorowania klientów mobilnych}
+
+Odmienna charakterystyka klienta mobilnego powoduje, że wymagania
+stawiane przed systemem monitorowania takich urządzeń są rózne od
+tych, które stawiano projektując systemy do monitoringu
+klienta. Wymagania, jakie zdaniem autora, powinno sie postawić zebrano
+w~\ref{tab:Wymagania}.
+
+
+
+Na podstawie \ref{tab:Wymagania} jasno można stwierdzić, iż dostępne
+na rynku systemy nie spełniają wymagań stawianych przed systemem
+monitorowania klienta mobilnego. Obecnie brak jest na rynku
+spejalistycznego systemu przeznaczonego do monitorowania klientów
+mobilny. Ponadto istnienie takiego systemu byłoby nieuzasadnione, gdyż
+oddzielenie zarządzania klientami statycznymi i~mobilnymi niosłoby za
+sobą dodatkowe koszty jak i~komplikacje całego systemu. Łatwo można
+również zauważyć iż współczesne systemy przeznaczone dla klientów
+statycznych posiadają większość komponentów serwerowych niezbędnych do
+monitorowania jak i~analizy danych klienta mobilnego. Niestety
+niektóre z~komponentów tych systemów posiadają poważne uchybenia,
+które dyskwalifikują ich użycie przy monitorowaniu klienta
+mobilnego. Głównym uchybeniem wydaje się być kwestia bezpieczeństwa
+transportu wpisów dziennika oraz brak implementacji minimalnych wersji
+jądra sprawdzającego na platformy mobilne takie jak Androdid czy
+Windows Phone. Dokładny opis dodadku NSCA służącego do przekazywania
+wpisów dziennika w systemach z rodziny Nagios oraz opis jego uchybień
+w~kwestii bezpieczeństwa zawarto w~\ref{chap:nsca}.
+
+
+
+%dodac referencje do pracy kubika
+W~rozdziale \ref{chap:ArchDaemona} niniejszej pracy przedstawiono nowy moduł systemu,
+kótry można zintegrować z~systemami z~rodziny Nagios. Natomiast
+rozdział \ref{chap:ProtKom} zawiera opis protokołu zdefiniowanego na potrzeby
+bezpiecznego przekazywania wpisów dziennika od klienta
+mobilnego. Moduł systemu odpowiedzialny, za generację wpisów dziennika
+jest poza zakresem tej pracy. Dla platformy Android taki moduł został
+opisany w. ...
+
+\begin{longtable}[c]{|c||p{3.5cm}|p{9cm}|}
+\caption[Wymagania systemu monitorowania klienta mobilnego]{Wymagania systemu monitorowania klienta mobilnego} \label{tab:Wymagania} \\ 
+  \hline
+  Kod & \multicolumn{1}{c|}{Nazwa} & \multicolumn{1}{c|}{Opis} \tabularnewline
+  \hline \hline
+  \endfirsthead
+
+  \multicolumn{3}{c}%
+  {{\tablename\ \thetable{} -- Kontynuacja z~poprzedniej strony}} \\
+  \hline
+  Kod & \multicolumn{1}{c|}{Nazwa} & \multicolumn{1}{c|}{Opis} \tabularnewline
+  \hline \hline
+  \endhead
+
+  \hline \multicolumn{3}{|r|}{{Kontynuacja na następnej stronie}} \\ \hline
+  \endfoot
+
+  \hline\hline
+  \endlastfoot
+  
+  W1 & \raggedright{Spójność danych} & \raggedright{System musi zapewnić, że wpisy dziennika nie zostaną zgubione. System musi zapewniać spójność danych pomiędzy serwerem, a~klientem mobilnym.} \tabularnewline
+  \hline
+
+  W2 & Integralności & \raggedright{System musi zapewnić, że wpisy dziennika dostarczone do serwera nie zostały w~żaden sposób zmodyfikowane lub dodane.} \tabularnewline
+  \hline
+
+  W3 & Autentyczność & \raggedright{System musi zapewnić, że odebrane dane pochodzą od uprawionego klienta.} \tabularnewline
+  \hline
+  
+  W4 & Poufność & \raggedright{System musi zapewniać poufność danych przesyłanych od klienta poprzez szyfrowanie.} \tabularnewline
+  \hline
+
+  W5 & \raggedright{Dodawanie algorytmów} & \raggedright{System musi być niezależny od algorytmu kryptograficznego stosowanego podczas przesyłania danych. Ponadto system musi umożliwać dodawanie w prosty sposób nowych algorytmów kryptograficznych.} \tabularnewline
+  \hline
+
+  W6 & \raggedright{Uwierzytelnienie klienta} & \raggedright{System musi zapewnić możliwość uwierzytelnienia klienta.} \tabularnewline
+  \hline
+
+  W7 & \raggedright{Wymienne algorytmy uwierzytelnienia klienta} & \raggedright{System musi być niezależny od algorytmu uwierzytelnienia kliena. Ponadto system musi umożliwaić dodanie w prosty sposób nowych algorytmów uwierzytelnienia klienta.} \tabularnewline
+  \hline
+
+  W8 & \raggedright{Uwierzytelnienie serwera} & \raggedright{System musi zapewniać, iż wpisy dziennika zostaną przesłane tylko do wyznaczonego, uprawnionego serwera.} \tabularnewline
+  \hline
+
+  W9 & \raggedright{Odporność na zgubienie urządzenia} & \raggedright{Systes musi być odporny na zgubienie urządzenie. Oznacza to iż zgubienie urządzenia nie może powodować kompromitacji całego systemu.} \tabularnewline
+  \hline
+
+  W10 & \raggedright{Dostarczanie w wiele miejsc} & \raggedright{System musi umożliwiać przekazywanie danych do wielu podsystemów monitorujących, bez konieczności ich retransmisjii z~klienta mobilnego.} \tabularnewline
+  \hline
+
+  W11 & \raggedright{Reguły definiowane dla każdego klienta} & \raggedright{System musi umożliwiać definowanie reguł dotyczących miejsc przeznaczenia dla każdego klienta indywidualnie.} \tabularnewline
+  \hline
+
+  W12 & \raggedright{Oszczędność pasma} & \raggedright{System powinien minimalizować ilość przesyłanych danych. Ponadto powinien skrócić do minimum czas oczekiwania na potwierdzenie przetworzenia przesłanych danych.} \tabularnewline
+  \hline
+
+  W13 & \raggedright{Integracja z~istniejącymi systemami} & \raggedright{System monitoringu klienta mobilnego musi mieć możliwość integracji i~współpracy z~istniejącymi systemami monitorowania klienta statycznego.} \tabularnewline
+  \hline
+
+  W14 & \raggedright{Analiza danych bierzących} & \raggedright{System musi umożliwiać prezentację oraz analizę danych bierzących, a~także posiadać możliwość reagowania na wystąpienie zdefiniowanych przez użytkownika zdarzeń.} \tabularnewline
+  \hline
+
+  W15 & \raggedright{Analiza danych historycznych} & \raggedright{System musi umożliwiać analizę zadanych danych historycznych włączając w~to ich graficzną reprezentację.} \tabularnewline
+  \hline
+
+  W16 & \raggedright{Kontrola danych wejściowych} & \raggedright{System musi prowadzić kontrolę danych wejściowych od klientów. Konieczne jest aby system umożliwiał definiowanie jakie dane mogą być dostarczane przez jakich klientów.} \tabularnewline
+  \hline
+
+  W17 & \raggedright{Łatwość dodawania nowych sprawdzeń} & \raggedright{System musi umożliwiać dodawanie w łatwy sposób możliwości monitorowania nowych usług i~parametrów.} \tabularnewline
+  \hline
+
+  W18 & \raggedright{Klient dla platformy Android} & \raggedright{System musi udostępniać klienta pozwalającego na monitorowanie urządzeń opartych na platformie Android} \tabularnewline
+  \hline
+
+  W19 & \raggedright{Klient dla platformy Windows Phone} & \raggedright{System musi udostępniać klienta pozwalającego na monitorowanie urządzeń opartych na platformie Windows Phone} \tabularnewline 
+  \hline
+
+  W20 & \raggedright{Klient dla platformy Windows 8} & \raggedright{System musi udostępniać klienta pozwalającego na monitorowanie urządzeń opartych na platformie Windows 8} \tabularnewline
+  \hline
+
+  W21 & \raggedright{Klient dla platformy Linux} & \raggedright{System musi udostępniać klienta pozwalającego na monitorowanie urządzeń opartych na platformie Linux} \tabularnewline
+  \hline
+\end{longtable}
