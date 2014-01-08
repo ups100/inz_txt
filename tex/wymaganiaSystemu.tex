@@ -15,10 +15,10 @@ firmy. Powyższe urządzenia rozumiane są jako klienty
 statyczne. Urządzenia tego typu zazwyczaj pracują nieprzerwanie
 i~posiadają dobrze zdefiniowaną hierarchię. Wzajemne relacje pomiędzy
 tymi urządzeniami wynikają w~dużej mierze z~struktury sieci lecz mogą
-również wynikać z~innych zależności. Dzięki monitorowaniu wszystkich
-urządzeń w~danej sieci systemy monitorujące są w~stanie wspierać
-administratora wskazując z~bardzo dużym prawdopodobieństwem miejsce
-wystąpienia awarii.
+również wynikać z~roli jaką pełnią one w~danej organizacji. Dzięki
+monitorowaniu wszystkich urządzeń w~danej sieci systemy monitorujące
+są w~stanie wspierać administratora wskazując z~bardzo dużym
+prawdopodobieństwem miejsce wystąpienia awarii.
 
 Sieć w~dużej firmie rzadko stanowi jedną całość. Zazwyczaj są to
 segmenty sieci oddzielone zaporami lub w ogóle oddzielnie sieci LAN
@@ -29,9 +29,9 @@ wykorzystywane jest monitorowanie rozproszone. Można wyróżnić dwie
 podstawowe konfiguracje monitorowania rozproszonego:
 
 \begin{itemize}
-\item Monitorowanie pasywne: Istnieje jedna instancja jądra
+\item Monitorowanie pasywne: Istnieje jedna, centralna instancja jądra
   monitorującego, do którego przesyłane są wyniki sprawdzeń
-  poszczególnych usług. Każdy serwer sam monitoruje swoje usługi
+  poszczególnych usług. Każde urządzemoe samo monitoruje swoje usługi
   i~zgłasza rezultaty.
 \item Wieloinstancyjny system monitorujący: Istnieje wiele instancji
   jądra monitorującego. Typowo, każda wydzielona część sieci posiada
@@ -49,21 +49,24 @@ administratora możliwosci używania niektórych mechanizmów dostępnych
 wyłącznie dla urządzeń monitorowanych aktywnie. Ponadto wyniki
 sprawdzeń pasywnych nie są akumulowane, lecz wysyłane odrazu po ich
 uzyskaniu. Oznacza to, że jeśli pojawi się chwilowy brak połączenia
-z~serwerem, to wpisy dziennika zostaną zgubione. W~przypadku
-monitorowania klienta stacjonarnego, nie ma to większego dla
-wykrywania awarii, jednak wprowadza to luki do wykresów analizujących
-dane historyczne. Wieleinstancyjny system minitorujący wymaga
+z~serwerem, to wpisy dziennika zostaną zgubione. W~przypadku, gdy
+jedynym celem systemu jest monitorowanie dostępności danej usługi
+zewnętrznej serwera, a nie jego parametrów wewnętrznych nie ma to
+większego znaczenia.Kwestia ta staje się jednak istotna, gdy jednym z
+zadań systemu, jest gromadzenia i analiza danych
+historycznych. Wieleinstancyjny system minitorujący wymaga
 zdecydowanie więcej zasobów jednak pozwala na osiągnięcie znacznie
 wygodniejszego i~bardziej niezawodnego systemu. Ponadto dzięki takiej
 konfiguracji nie ma potrzeby ingerencji w monitorowane serwery co
-redukuje obciążenie, a~także zwiększa bezpieczeństwo. Warto również
-wspomnieć iż istnieje dodatek do systemów z rodziny Nagios o~nazwie
-Nagios Fusion, który umożliwia integrację wielu instancji jądra
-sprawdzającego bez konieczności tworzenia centralnej jego instancji
-i~przesyłania wyników wszystkich sprawdzeń. Do przesyłania wyników
-sprawdzeń dokonywanych czy to pasywnie na serwerach czy też aktywnie
-przez różne instacje jądra sprawdzającego służy dodatek NSCA opisany w
-\ref{chap:nsca}.
+redukuje ich obciążenie, a~także zwiększa bezpieczeństwo. Warto
+również wspomnieć, iż istnieją systemy, które dają możliwość
+integracji wielu instancji jądra monitorującego. Dzięki temu
+administrator danej sieci ma możliwość monitorowania i kofigurowania
+wielu wielu instancji. Niestety rozwiązanie to posiada zamknięte
+źródła i jego wykorzystanie wymaga zakupu licencji. Darmowe
+rozwiązanie opera sie natomiast na istnieniu jednej centralnej
+instancji jądra systemu monitorujacego, do kótrej przesyłane są w
+ramach możliwości odczyty wykonane przez inne instancje.
 
 \section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
 mobilnych]{Monitorowanie rozproszone klientów mobilnych}
@@ -93,11 +96,11 @@ konieczne jest, aby urządzenia mobilne pracowały podłączone do sieci
 firmowej, gdyż dla użytkownika często wymagany jest jedynie dostęp do
 internetu i inne funkcje tego urządzenia. Warto więc zdać sobie
 sprawę, że urządzenia te są często narażone na dostęp do sieci,
-o~bardzo niskim poziomie zaufania i wielu zagrożeniach. Oznacze to
+o~bardzo niskim poziomie zaufania i wielu zagrożeniach. Oznaczia to
 w~szczególności, iż urządzenie mobilne zazwyczaj posiada zmienny adres
 IP, który rzadko jest adresem globalnym. Również struktura sieci,
-z~której korzysta klienty mobilne jest dynamiczna i~znajduje się poza
-obszarem monitorowania administratorów danego
+z~której korzystają klienty mobilne jest dynamiczna i~znajduje się
+poza obszarem monitorowania administratorów danego
 przedsiębiorstwa. Znacząca większość klientów mobilnych dzięki
 kontaktom z~sieciom poza firmową posiada, w~przeciwieństwie do
 klientów statycznych, możliwość synchronizacji swojego czasu czy to
@@ -109,18 +112,18 @@ pracują w~pewnych grupach lub fragmentach sieci, klienty mobilne są
 zazwyczaj rozpatrywane pojedyńczo. Większość klientów mobilnych
 operuje w~pełni samodzielnie, zatem grupa liczność grupy klientów
 wynosi zazwyczaj~1. Powoduje to, że w przeciwieństwie do klientów
-statycznych gdzie grup klientów było zazwyczaj kilka lub kilkanaście,
-w~przypadku klientów mobilnych takich grup może być kilkaset lub nawet
-kilka tysięcy. Warto również dostrzec różnice w~zasilaniu. Klienty
-mobilne zazwyczaj posiadają własne zasilanie, przez co każda operacja
-wykonywana na nich nie tylko spowalnia jego działanie, lecz również
-zmniejsza jego czas pracy pomiędzy ładowaniami. Przenośność klienta
-mobilnego zmienia również jego stopień bezpieczeństwa. Urządzenia
-mobilne stosunkowo często są gubione lub kradzione, co nie było
-możliwe w~przypadku klientów statycznych. W~związku z~możliwością
-utraty urządzenia, nie powinno sie na nim przechowywać tajnych danych,
-dzięki którym możnaby skompromitować cały system z~którego korzysta
-klient.
+statycznych gdzie grup koniecznych do wydzielenia było zazwyczaj kilka
+lub kilkanaście, w~przypadku klientów mobilnych takich grup może być
+kilkaset lub nawet kilka tysięcy. Warto również dostrzec różnice
+w~zasilaniu. Klienty mobilne zazwyczaj posiadają własne zasilanie,
+przez co każda operacja wykonywana na nim nie tylko spowalnia jego
+działanie, lecz również zmniejsza jego czas pracy pomiędzy
+ładowaniami. Przenośność klienta mobilnego zmienia również jego
+stopień bezpieczeństwa. Urządzenia mobilne stosunkowo często są
+gubione lub kradzione, co nie było możliwe w~przypadku klientów
+statycznych. W~związku z~możliwością utraty urządzenia, nie powinno
+sie na nim przechowywać tajnych danych, dzięki którym możnaby
+skompromitować cały system z~którego korzysta klient.
 
 Klient mobilny znacznie różni się swoją charakterystyką od klienta
 statycznego. Różni się również rodzaj monitorowanych
@@ -133,43 +136,32 @@ klienta.
 \section[Wymagania][Wymagania systemu monitorowania klientów
 mobilnych]{Wymagania systemu monitorowania klientów mobilnych}
 
-Odmienna charakterystyka klienta mobilnego powoduje, że wymagania
-stawiane przed systemem monitorowania takich urządzeń są rózne od
-tych, które stawiano projektując systemy do monitoringu
-klienta. Wymagania, jakie zdaniem autora, powinno sie postawić zebrano
-w~\ref{tab:Wymagania}.
+Klient mobilny posiada zdecydowanie odmienną charakterystykę niż
+klient statyczny. Dokonano zatem głębokiej analizy, jakie wymagania
+należały spełnić, aby dostarczyć system, który sprosta oczekiwaniom
+administratów.
 
-
-
-Na podstawie \ref{tab:Wymagania} jasno można stwierdzić, iż dostępne
-na rynku systemy nie spełniają wymagań stawianych przed systemem
-monitorowania klienta mobilnego. Obecnie brak jest na rynku
-spejalistycznego systemu przeznaczonego do monitorowania klientów
-mobilny. Ponadto istnienie takiego systemu byłoby nieuzasadnione, gdyż
-oddzielenie zarządzania klientami statycznymi i~mobilnymi niosłoby za
-sobą dodatkowe koszty jak i~komplikacje całego systemu. Łatwo można
-również zauważyć iż współczesne systemy przeznaczone dla klientów
-statycznych posiadają większość komponentów serwerowych niezbędnych do
-monitorowania jak i~analizy danych klienta mobilnego. Niestety
-niektóre z~komponentów tych systemów posiadają poważne uchybenia,
-które dyskwalifikują ich użycie przy monitorowaniu klienta
-mobilnego. Głównym uchybeniem wydaje się być kwestia bezpieczeństwa
-transportu wpisów dziennika oraz brak implementacji minimalnych wersji
-jądra sprawdzającego na platformy mobilne takie jak Androdid czy
-Windows Phone. Dokładny opis dodadku NSCA służącego do przekazywania
-wpisów dziennika w systemach z rodziny Nagios oraz opis jego uchybień
-w~kwestii bezpieczeństwa zawarto w~\ref{chap:nsca}.
-
-
-
-%dodac referencje do pracy kubika
-W~rozdziale \ref{chap:ArchDaemona} niniejszej pracy przedstawiono nowy moduł systemu,
-kótry można zintegrować z~systemami z~rodziny Nagios. Natomiast
-rozdział \ref{chap:ProtKom} zawiera opis protokołu zdefiniowanego na potrzeby
-bezpiecznego przekazywania wpisów dziennika od klienta
-mobilnego. Moduł systemu odpowiedzialny, za generację wpisów dziennika
-jest poza zakresem tej pracy. Dla platformy Android taki moduł został
-opisany w. ...
+Odbiorcą systemu mają być duże firmy i korporacje, które posiadają
+bardzo rozbudowaną sieć wewnątrz firmy, a ponadto udostępniają swoim
+pracownikom urządzenia mobilne różnej klasy. Wsród tych urządzeń
+znajdują się przedewszystkim telefony oraz tablety z systemem
+operacyjnym Android oraz Windows Phone, a także liczne laptopy
+wyposażone w system Windows lub Linux. Konieczne jest zatem, aby
+system pozwalał na monitorowanie każdej z wspomnianych platform. Duże
+firmy oraz korporacje, zazwyczaj posiadają już oprogramowanie służące
+do minitorowania swojej infrastruktury sieciowej. Aby umożliwić
+administratorom łatwe zarządzanie oraz monitorowanie zarówno klientami
+mobilnymi jak i statycznymi, należy zapewnić integrację systemów
+monitorowania obu kategorii klientów. Dane odczytywane na urządzeniu
+mobilnym mogą zawierać zarówno dane prywatne pracownika, jak i
+tajemnice handlowe firmy. Oba te rodzaje danych nalezą do kategorii
+poufnych i powiny być należycie chronione. Ponieważ urządzenie mobilne
+będzie pracowało często poza siecią firmową, podczas tworzenia systemu
+należy zwrócić szczególną uwagę na kwestię bezpieczeństwa przesyłanych
+danych. Ponieważ system, musi przesyłać dane poprzez sieć publiczną,
+konieczne jest również zapewnienie odporności systemu na ataki
+zewnętrzne oraz na próby przekazywania sfałszowanych danych do
+systemu. Wszystkie wymagania stawiane przed omawianym systemem zostały zebrane w \ref{tab:Wymagania}.
 
 \begin{longtable}[c]{|c||p{3.5cm}|p{9cm}|}
 \caption[Wymagania systemu monitorowania klienta mobilnego]{Wymagania systemu monitorowania klienta mobilnego} \label{tab:Wymagania} \\ 
