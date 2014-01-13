@@ -1,16 +1,88 @@
 \chapter{Architektura modułu odbioru danych}
 \label{chap:ArchDaemona}
 
-\section[Podział na moduły][Podział na moduły]{Podział na moduły}
+\section[Analiza][Analiza]{Analiza}
+
+Na rynku brak jest rozwiazań dedykowanych do monitoringu klienta
+mobilnego. Rozwiązania przeznaczone dla klientów statycznych, takie
+jak dodatek NSCA, nie spełniają bardzo wielu wymagań, przez co ich
+użycie w budowanym systemie nie jest możliwe. W związku z powyższym
+zaprojektowany został i zaimplementowany moduł odbiorczy, stanowiący
+dodatek do systemów rodziny Nagios. Dodatek ten jest w pełni
+uniwersalny, można go wykorzystać, zarówno do monitorowania pasywnego
+klientów statycznych, jak i do monitorowania klientów
+mobilnych. Podczas projektowania oraz implementacji, szczególny nacisk
+położono na monitorowanie klienta mobilnego. Znaczna część wymagań
+przedstawionych w \ref{chap:Wymagania} związana jest właśnie z
+omawianym modułem. Dołożono wszelkich starań, aby zapewnić pełną
+funkcjonalność systemu. Spełnienie wymagań dotyczących monitorowania
+klienta mobilnego przez ten moduł podsumowano w . Tabela ta zawiera
+tylko wymagania, które w sposób bezpośredni odnoszą się do
+architektury omawianego modułu. Wymagania, których spełnienie jest
+zależne od wykorzystywanego protokołu komunikacyjnego, zostały
+rozważone w \ref{chap:ProtKom}.
+
+\begin{longtable}[c]{|c||p{3.5cm}|p{9cm}|}
+\caption[Realizacja wymagań przez moduł odbiorczy]{Realizacja wymagań przez moduł odbiorczy} \label{tab:RealWymOdb} \\ 
+  \hline
+  Kod & \multicolumn{1}{c|}{Nazwa} & \multicolumn{1}{c|}{Opis} \tabularnewline
+  \hline \hline
+  \endfirsthead
+
+  \multicolumn{3}{c}%
+  {{\tablename\ \thetable{} -- Kontynuacja z~poprzedniej strony}} \\
+  \hline
+  Kod & \multicolumn{1}{c|}{Nazwa} & \multicolumn{1}{c|}{Opis} \tabularnewline
+  \hline \hline
+  \endhead
+
+  \hline \multicolumn{3}{|r|}{{Kontynuacja na następnej stronie}} \\ \hline
+  \endfoot
+
+  \hline\hline
+  \endlastfoot
+
+  W5 & \raggedright{Dodawanie algorytmów} & \raggedright{Moduł kryptograficzny zastosowany w omawianym programie umożliwa bardzo łatwe dodawanie nowych algorytmów. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModCrypto}.} \tabularnewline
+  \hline
+
+%referencja do pracy kubika
+  W7 & \raggedright{Wymienne algorytmy uwierzytelnienia klienta} & \raggedright{Moduł autoryzacji klienta umożliwia dodawanie w łatwy sposób dowolnych algorytmów uwierzytelnienia. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModAuth}\footnote{Konieczne jest dostarczenie również odpowiedniej implementacji algorytmu dla klienta mobilnego. Szczegóły dla platformy Android zostały opisane w [praca\_kubika]}.} \tabularnewline
+\hline
+
+  W10 & \raggedright{Dostarczanie w wiele miejsc} & \raggedright{Moduł odbiorczy pozwala na przekazywanie danych do wielu lokalizacji i podsystemów docelowych, bez konieczności ich retransmisji. Szerszy opis implementacji tego mechanizmu znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  \hline
+
+ W11 & \raggedright{Reguły definiowane dla każdego klienta} & \raggedright{Możliwe jest definiowanie reguł dostarczania danych od konkretnych klientów. Ponadto możliwe jest definiowanie grup klientów i reguł dla nich.} \tabularnewline
+  \hline
+
+  W12 & \raggedright{Oszczędność pasma} & \raggedright{Program stosuje wewnętrzne bufory, co umożliwia przesłanie potwierdzenia przetworzenia danych zanim jeszcze trafią one do miejsc docelowych. Szczegółowy opis tego mechanizmu znajduje się w \ref{sec:ModBase}} \tabularnewline
+  \hline
+
+  W13 & \raggedright{Integracja z~istniejącymi systemami} & \raggedright{Moduł może być wykorzystywany z wieloma istniejącymi systemami monitorowania. Możliwe jest dodawanie nowych sposobów przekazywania danych do miejsca docelowego, co umożliwia wręcz nieograniczone zastosowania. Szerszy opis znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  \hline
+
+  W16 & \raggedright{Kontrola danych wejściowych} & \raggedright{Program pozwala na definiowanie reguł, określających uprawnienia klientów do zgłaszania odczytów parametrów danego urządzenia czy też usługi. Szerszy opis mechanizmu filtrowania danych znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  \hline
+
+\end{longtable}
+
+\section[Opis architektury][Opis architektury]{Opis architektury}
+
+Program został napisany z użyciem biblioteki Qt jako podstawowego
+szkieletu aplikacji. Wykorzystano równiez biblioteki boost oraz
+Crypto++. Moduł ten przeznaczony jest, podobnie jak system
+monitorujący Icinga dla komputerów pracujących pod kontrolą systemu
+operacyjnego Linux.
 
 \section[Szkielet programu][Szkielet programu]{Szkielet programu}
+\label{sec:ModBase}
 
 \section[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
+\label{sec:ModCrypto}
 
 \section[Moduł autoryzacyjny][Moduł autoryzacji klienta]{Moduł autoryzacji klienta}
+\label{sec:ModAuth}
 
 \section[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
-
-\section[Moduł pisarza potoku][Moduł pisarza potoku]{Moduł pisarza potoku}
 
 \section[Moduł logowania][Moduł logowania]{Moduł logowania}
