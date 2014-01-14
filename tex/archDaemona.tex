@@ -12,15 +12,15 @@ dodatek do systemów rodziny Nagios. Dodatek ten jest w pełni
 uniwersalny, można go wykorzystać, zarówno do monitorowania pasywnego
 klientów statycznych, jak i do monitorowania klientów
 mobilnych. Podczas projektowania oraz implementacji, szczególny nacisk
-położono na monitorowanie klienta mobilnego. Znaczna część wymagań
-przedstawionych w \ref{chap:Wymagania} związana jest właśnie z
-omawianym modułem. Dołożono wszelkich starań, aby zapewnić pełną
-funkcjonalność systemu. Spełnienie wymagań dotyczących monitorowania
-klienta mobilnego przez ten moduł podsumowano w . Tabela ta zawiera
-tylko wymagania, które w sposób bezpośredni odnoszą się do
-architektury omawianego modułu. Wymagania, których spełnienie jest
-zależne od wykorzystywanego protokołu komunikacyjnego, zostały
-rozważone w \ref{chap:ProtKom}.
+położono na monitorowanie klienta mobilnego. Analiza wymagań
+przedstawionych w \ref{chap:Wymagania}, doprowadziła do wyznaczenia
+podzbioru wymagań, które powinny być spełnione przez ten moduł. Należy
+zwrócić uwagę, że istnieje również znaczny podzbiór wymagań, powiązany
+z modułem odbioru danych, jednak ich realizacja jest uzależniona od
+wybranego protokołu komunikacyjnego, zatem one omówione w
+\ref{chap:ProtKom}. W \ref{tab:RealWymOdb} przedstawiono podzbiór
+wymagań, odnoszących się do modułu odbiorczego, a także sposób ich
+realizacji.
 
 \begin{longtable}[c]{|c||p{3.5cm}|p{9cm}|}
 \caption[Realizacja wymagań przez moduł odbiorczy]{Realizacja wymagań przez moduł odbiorczy} \label{tab:RealWymOdb} \\ 
@@ -42,14 +42,14 @@ rozważone w \ref{chap:ProtKom}.
   \hline\hline
   \endlastfoot
 
-  W5 & \raggedright{Dodawanie algorytmów} & \raggedright{Moduł kryptograficzny zastosowany w omawianym programie umożliwa bardzo łatwe dodawanie nowych algorytmów. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModCrypto}.} \tabularnewline
+  W5 & \raggedright{Dodawanie algorytmów} & \raggedright{Możliwe jest to poprzez dostarczenie implementacji odpowiedniego interfejsu. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModCrypto}.} \tabularnewline
   \hline
 
 %referencja do pracy kubika
-  W7 & \raggedright{Wymienne algorytmy uwierzytelnienia klienta} & \raggedright{Moduł autoryzacji klienta umożliwia dodawanie w łatwy sposób dowolnych algorytmów uwierzytelnienia. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModAuth}\footnote{Konieczne jest dostarczenie również odpowiedniej implementacji algorytmu dla klienta mobilnego. Szczegóły dla platformy Android zostały opisane w [praca\_kubika]}.} \tabularnewline
+  W7 & \raggedright{Wymienne algorytmy uwierzytelnienia klienta} & \raggedright{Możliwe jest definiowanie dowolnych metod autoryzacji klienta, poprzez dostarczenie implementacji odpowiedniego interfejsu. W celu komunikacji z klientem mobilnym został algorytm autoryzacji posiada dostep do bezpiecznego kanału danych. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModAuth}\footnote{Konieczne jest dostarczenie również odpowiedniej implementacji algorytmu dla klienta mobilnego. Szczegóły dla platformy Android zostały opisane w [praca\_kubika]}.} \tabularnewline
 \hline
 
-  W10 & \raggedright{Dostarczanie w wiele miejsc} & \raggedright{Moduł odbiorczy pozwala na przekazywanie danych do wielu lokalizacji i podsystemów docelowych, bez konieczności ich retransmisji. Szerszy opis implementacji tego mechanizmu znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  W10 & \raggedright{Dostarczanie w wiele miejsc} & \raggedright{Moduł odbiorczy pozwala na przekazywanie danych do wielu lokalizacji i podsystemów docelowych, bez konieczności ich retransmisji. Konfiguracja reguł zapisana jest w pliku konfiguracyjnym. Szerszy opis implementacji tego mechanizmu znajduje się w \ref{sec:ModBase}.} \tabularnewline
   \hline
 
  W11 & \raggedright{Reguły definiowane dla każdego klienta} & \raggedright{Możliwe jest definiowanie reguł dostarczania danych od konkretnych klientów. Ponadto możliwe jest definiowanie grup klientów i reguł dla nich.} \tabularnewline
@@ -58,24 +58,155 @@ rozważone w \ref{chap:ProtKom}.
   W12 & \raggedright{Oszczędność pasma} & \raggedright{Program stosuje wewnętrzne bufory, co umożliwia przesłanie potwierdzenia przetworzenia danych zanim jeszcze trafią one do miejsc docelowych. Szczegółowy opis tego mechanizmu znajduje się w \ref{sec:ModBase}} \tabularnewline
   \hline
 
-  W13 & \raggedright{Integracja z~istniejącymi systemami} & \raggedright{Moduł może być wykorzystywany z wieloma istniejącymi systemami monitorowania. Możliwe jest dodawanie nowych sposobów przekazywania danych do miejsca docelowego, co umożliwia wręcz nieograniczone zastosowania. Szerszy opis znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  W13 & \raggedright{Integracja z~istniejącymi systemami} & \raggedright{Moduł może być wykorzystywany z wieloma istniejącymi systemami monitorowania. Dodawanie nowych sposobów przekazywania danych do miejsca doceloweg możliwe jest poprzez dostarczenie implementacji odpowiedniego interfejsu. Szerszy opis tego zagadnienia znajduje się w \ref{sec:ModBase}.} \tabularnewline
   \hline
 
-  W16 & \raggedright{Kontrola danych wejściowych} & \raggedright{Program pozwala na definiowanie reguł, określających uprawnienia klientów do zgłaszania odczytów parametrów danego urządzenia czy też usługi. Szerszy opis mechanizmu filtrowania danych znajduje się w \ref{sec:ModBase}.} \tabularnewline
+  W16 & \raggedright{Kontrola danych wejściowych} & \raggedright{Program pozwala na definiowanie reguł, określających uprawnienia klientów do zgłaszania odczytów parametrów danego urządzenia czy też usługi. Reguły definiowane są w pliku konfiguracyjnym. Szerszy opis mechanizmu filtrowania danych znajduje się w \ref{sec:ModBase}.} \tabularnewline
   \hline
 
 \end{longtable}
 
+
 \section[Opis architektury][Opis architektury]{Opis architektury}
 
-Program został napisany z użyciem biblioteki Qt jako podstawowego
-szkieletu aplikacji. Wykorzystano równiez biblioteki boost oraz
-Crypto++. Moduł ten przeznaczony jest, podobnie jak system
+Wysokopoziomowa struktura logiczna programu zakłada istnienie dwóch
+podstawowych obiektów. Są nimi producenci danych oraz konsumenci. Dane
+od klienta mobilnego dostarczane są przez producentów danych, a więc
+muszą oni zawierać implementacje protokołów komunikacyjnych oraz
+wszystkiego co z tym związane. Konsumenci danych natomist zajmują się
+przekazywaniem danych do zewnętrznych programów. W celu przekazania
+danych od producenta danych do konsumentów, zgodnie z zasadami
+trasowania danych, potrzebny jest kanał komunikacyjny. Aby użyć kanału
+komunikacyjnego potrzebna jest wiadomość, a więc poprawnie
+sformatowana porcja danych.
+
+%obrazek z high level design (tak jak powyzej)
+
+Fizyczna struktura programu została utworzona z użyciem biblioteki Qt
+jako podstawowego szkieletu aplikacji. Wykorzystano równiez biblioteki
+boost oraz Crypto++. Moduł ten przeznaczony jest, podobnie jak system
 monitorujący Icinga dla komputerów pracujących pod kontrolą systemu
-operacyjnego Linux.
+operacyjnego Linux i jest uruchamiany jako samodzielny serwis. Fizyczna struktura programu składa się z następujących elementów:
+
+\begin{description}
+\item[Szkielet programu] Zawiera on elementy programu, konieczne do
+  wytworzenia środowiska dla funkcjonowania pozostałych modułów oraz
+  zarządzania nimi. Ponadto zawiera implementacje źródeł, a także ujść
+  danych.
+\item[Moduł kryptograficzny] Dostarcza on implementacji funkcji
+  kryptograficznych, wymaganych podczas komunikacji z klientem
+  mobilnym. Zawiera on zarówno algorytmy asymetryczne, konieczne do
+  inicjalizacji kryptografi symetrycznej, jak i algorytmy symetryczne,
+  służące do przesyłania danych.
+\item[Moduł autoryzacji klienta] Zawiera on implementację algorytmów
+  uwierzytelnienia klienta.
+\item[Moduł komunikacji z użyciem TCP] Dostarcza on implementację
+  protokołu komunikacyjnego używanego do komunikacji z klientem
+  opartego na protokole TCP.
+\item[Moduł logowania] Pozwala on na przekazywanie wiadomości z
+  dowolnych miejsc znajdujących się w innych modułach, która zawiera
+  informacje o zaistaniałym błędzie, lub innym zdarzeniu wymagającym
+  poinformowania użytkownika.
+\end{description}
+
+%dodac referencje do ksiazki gammy - fabryka
+
+Odwzorowanie podstawowych elementów struktury logicznej w fizyczną
+znajduje się w szkielecie aplikacji. Pozostałe elementy programu
+zapewniają elastyczność przy rozbudowie aplikacji. Szczególnym
+przykładem tego usługowego charakteru pozostałych modułów może być
+moduł kryptograficzny i moduł autoryzacji klienta. Zostały one
+zaprojektowane jako moduły dostarczające dobrze zdefiniowane usługi
+usługi dla pozostałych elemetów programu. Udostępniają one generyczne
+interfejsy, które są następnie w nich implementowane. Utworzenie
+obiektów pochodzących z tych modułów uzależnione jest od bierzącej
+konifguracji porgramu, a ich zawartość moze być bardzo dynamiczna. W
+celu ograniczenia wpływu rozrostu liczby klas w tych modułach
+wykorzystano wzorzec fabryki. Każdy z omawiancy modułów zawiera klasę,
+w której rejestrowana jest dostępność poszczególnych
+algorytmów. Pozostałe moduły uzyskują instancje tych algorytmów,
+poprzez klasę fabryki. Jeśli dany algorytm jest dostępny, zostanie on
+wówczas przekazany wywołującemu i będzie on mógł uzywać go poprzez
+standardowy, zdefiniowany wcześniej interface. Należy wspomnieć, iż
+poszczególne klasy fabryk wykorzystują wzorzec projektowy nazywany
+signleton. Oznacza to iż istnieje w programie tylko i wyłącznie jedna
+instancja danej fabryki, co umożliwa zachowanie spójności i
+dostępności danych w całym systemie. Zastosowanie wzorca projektowego
+fabryki pozwala pozostałym obiektom, na korzystanie z obiektów,
+których typ faktyczny jest nieznany w trakcie kompilacji
+programu. Jest to niezbędne, gdyż faktyczny typ wykorzystywanego
+algorytmu kryptograficznego czy też algorytmu autoryzacji użytkownika,
+określany jest na podstawie pliku konfiguracyjnego.
+
+W celu konfuguracji programu wykorzystano zewnętrzny plik w formacie
+XML. Umożliwaia to zmianę konfiguracji programu bez konieczności jego
+ponownej komilacji. Plik konfuguracyjny składa się z czterech zasadniczych sekcji:
+
+\begin{description}
+\item[Sekcja dostawców danych] zawiera dane dostawców, którzy mają
+  zostać uruchomieni podczas startu programu. Umożliwia przekazanie
+  dodatkowych informacji do obiektu dostawcy np. adresu IP lub portu
+  na którym powinien on oczekiwać na połączenia. Ponadto w tej sekcji
+  definiowane są grupy dostawców.
+\item[Sekcja odbiorców danych] zawiera dane odbiorców danych, którzy
+  mają zostać uruchomieni podczas startu programu. Umożliwia
+  przekazanie dodatkowych informacji do obiektu odbiorcy danych,
+  takich jak ścieżka do pliku do którego nalezy zapisywać dane. Sekcja
+  ta umożliwia również definiowanie grup odbiorców.
+\item[Sekcja definicji klientów] zawiera definicję klientów oraz grup
+  klientów. Każda definicja klienta składa się z następujących sekcji:
+  \begin{description}
+  \item[Sekcja autoryzacji] zawiera dane o dozwolonych modułach
+    autoryzacyjnych dla danego klienta. Umożliwia także dodatkową
+    konfigurację instancji modułów przeznaczonych dla danego klienta.
+  \item[Sekcja filtrowania] zawiera urządzenia oraz usługi, których
+    dane monitorowania mogą być przesyłane przez tego konkretnego
+    klienta.
+  \end{description}
+\item[Sekcja definicji ścieżek danych] zawiera definicję ścieżek
+  danych w programie. Pozwala na definiowanie, do którego odbiorcy
+  danych mają trafić dane odebrane od wskazanego klienta.
+\end{description}
+
+Podczas uruchamiania programu, plik konfiguracyjny zostaje przeczytany
+oraz sprawdzony pod kątem poprawności, zarówno składniowej jak i
+syntaktycznej. Niestety, ponieważ obiekty odbiekty dostawców oraz
+odbiorców danych są dostarczane z zewnętrz prawidłowość ich ustawień
+nie moze być sprawdzana na tym samym etapie. Jest to wykonywane
+dopiero w trakcie inicjalizacji danego obiektu. Należy zatem zawsze po
+pomyślnej analizie pliku konfiguracyjnego sprawdzić zawartość pliku
+dziennika wykonania programu.
 
 \section[Szkielet programu][Szkielet programu]{Szkielet programu}
 \label{sec:ModBase}
+
+Moduł ten zawiera podstawowe komponenty programu. Zawarto tutaj
+wszystkie czynności przygotowawcze związane z wczytaniem konfiguracji
+oraz powołaniem do życia obiektów wymaganych przez nią. Ponadto w
+module tym zawarto definicję podstawowych bytów logicznych programu. W
+zależności od pełnionej funkcji można wyróżnić następujące grupy obiektów:
+
+\begin{description}
+\item[Grupa obiektów konfiguracyjnych] zawiera wszystkie obiekty
+  używane zarówno do wczytania parametrów uruchomienia programu z
+  linii poleceń, jak również obiekty odpowiedzialne za dostarczenie do
+  programu konfiguracji zawartej w pliku.
+\item[Grupa obiektów zarządzających] zawiera zarządce programu oraz
+  obiekty pomocnicze. Wykonywane są tutaj wszelkie czynności, które
+  nalezy wykonać w trakcie uruchamiania programu, oraz powoływanie
+  oraz niszczenie obiektów odwzorowań główych obiektów logicznych
+  programu.
+\item[Grupa obiektów producentów danych] zawiera generyczny interfejs
+  producenta danych, fabrykę, umożliwającą uzyskiwanie obiektów z tej
+  grupy oraz definicję dostępnych producentów danych.
+\item[Grupa obiektów konsumentów danych] zawiera generyczny interfejs
+  konsumenta danych, fabrykę, umożliwającą uzyskiwanie obiektów z tej
+  grupy oraz definicję dostępnych konsumentów danych.
+\item[Grupa obiektów kanału komunikacyjnego] zawiera obiekty powiązane
+  z kanałem komunikacyjnym pomiędzy producentami danych, a ich
+  konsumentami. Zawiera również mechanizmy formatowania danych oraz
+  bufory przeznaczone na dane oczekujace na przekazanie.
+\end{description}
 
 \section[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
 \label{sec:ModCrypto}
