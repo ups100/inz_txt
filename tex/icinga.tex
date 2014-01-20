@@ -1,0 +1,737 @@
+\chapter{System monitorowania Icinga}
+\label{chap:Icinga}
+
+\section[Opis systemu][Opis systemu]{Opis systemu}
+
+System Icinga powstał jako klon systemu Nagios. Zachowana została
+kompatybilność wsteczna przez co możliwe jest używanie dodatków oraz
+wtyczek przeznaczonych dla systemu Nagios. Podstawowa konfiguracja
+systemu Icinga składa się dwóch modułów:
+
+\begin{itemize}
+\item Rdzeń monitorujący
+\item Interfejs użytkownika
+\end{itemize}
+
+Rdzeń monitorujący stanowi element centralny całego systemu. Do jego
+zadań należy przede wszystkim monitorowanie usług i~urządzeń zgodnie
+z~ustawieniami zawartymi w plikach konfiguracyjnych. System posiada
+możliwość monitorowania zarówno aktywnego jak
+i~pasywnego. Monitorowanie aktywne wykonywane jest przy pomocy
+zewnętrznych programów lub skryptów nazywanych wtyczkami. Każda usługa
+oraz urządzenia posiada zdefiniowaną komendę sprawdzającą która
+definiuje jaką wtyczkę należy uruchomić oraz jakie dane do niej
+przekazać. Każda wtyczka posiada zdefiniowany zestaw danych
+wejściowych, które odpowiadają jej opcjom konfiguracyjnym. Po
+zakończeniu pomiaru wtyczka przekazuje dane o~jego wynikach do systemu
+monitorującego. Przekazanie to odbywa się dwiema drogami. Pierwsza
+z~nich to wartość zwrócona z~programu, która determinuje w~jakim
+stanie znajduje się urządzenie lub usługa. Zwrócona wartość powinna
+być jedną z następujących:
+
+\begin{description}
+\item[0] OK, wtyczka mogła wykonać sprawdzenie i~usługa lub urządzenie
+  jest w~stanie OK
+\item[1] WARNING, wtyczka mogła wykonać sprawdzenie ale parametry
+  urządzenia lub usługi przekraczają poziom ostrzegawczy.
+\item[2] CRITICAL, wtyczka mogła wykonać sprawdzenia ale parametry
+  urządzenia lub usługi przekraczają poziom krytyczny.
+\item[3] UNKNOWN, wtyczka nie była w~stanie wykonać sprawdzenia ze
+  względu na dostarczenie nie prawidłowych parametrów wywołania lub
+  niskopoziomowego błędu systemu.
+\end{description}
+
+Większość wtyczek dokonuje pewnych pomiarów, dlatego każde ich
+wykonanie gromadzi zdecydowanie więcej danych niż można przekazać
+poprzez jedną z~czterech wartości. Przekazanie pozostałych informacji
+odbywa się poprzez dane tekstowe, wypisywane przez wtyczkę na
+standardowym wyjściu programu. Dane te rozdzielane są znakiem~| na dwie
+grupy. Przed tym znakiem, znajdują się dane czytelna dla człowieka. Po
+znaku znajdują się dane wydajnościowe w~formacie klucz=wartość,
+przeznaczone do analizy przez zewnętrzne programy np. do generacji
+wykresów. Znak~| oraz druga grupa nie są obowiązkowe.
+
+%referencja do tutoriala z lista komend
+System Icinga umożliwia również monitorowanie w~sposób
+pasywny. Dostarczanie wyników sprawdzenia pasywnego odbywa się poprzez
+plik komend zewnętrznych. Plik komend zewnętrznych jest to potok
+nazwany przez który poszczególne komendy trafiają do rdzenia
+monitorującego. Pełna lista dostępnych komend znajduje się
+w~XXX. Zatem pewien dowolny program wykonuje sprawdzenia urządzenia
+lub usługi, po czym zapisuje wynik tego sprawdzenia zgodnie z~formatem
+do potoku. Format przekazywanego sprawdzenia został opisany
+w~XXX. Jeśli program wykonuje się na urządzeniu innym niż to na którym
+uruchomiony jest rdzeń monitorujący konieczne jest przesłanie danych
+do tego systemu. System Icinga posiada do tego celu dodatek NSCA,
+który został szeroko opisany w~\ref{sec:NSCA}
+
+Dane otrzymane od wtyczki są przez system monitorujący przechowywane
+wraz z~innymi danymi potrzebnymi do monitorowania w~plikach, a~gdy
+przestają one być potrzebne, są kasowane. System Icinga udostępnia
+jednak możliwość przechowywania tych danych w~bazie danych przy pomocy
+komponentu systemu IDOUtils. Został on dokładnie opisany
+w~\ref{sec:IDOUtils}. Rdzeń monitorujący posiada także możliwość
+udostępniania danych wydajnościowych otrzymanych przez każdą wtyczkę
+dla zewnętrznych programów. Możliwe jest zdefiniowanie formatu danych
+wyjściowych. Po włączeniu eksportu danych wydajnościowych, rdzeń
+monitorujący będzie zapisywał do zdefiniowanych plików dane
+wydajnościowe pochodzące od wtyczek jak i czasy ich przybycia. Dane te
+są wykorzystywane np. przez dodatek inGraph opisany
+w~\ref{sec:inGraph}.
+
+System Icinga odziedziczył po systemie Nagios klasyczny interfejs
+oparty o~technologię CGI. Ponieważ technologia ta jest już
+przestarzała, udostępniono użytkownikom również w~pełni nowoczesny
+interfejs nazywany icinga-web. Jest to dynamiczny interfejs
+użytkownika zaimplementowany w~języku PHP w~oparciu o~technologię
+AJAX. Różnice pomiędzy tymi interfejsami zauważalne są nie tylko
+w~warstwie prezentacji lecz również w~architekturze i~warstwie
+komunikacji z~rdzeniem monitorującym. Interfejs klasyczny
+wykorzystywał pliki generowane przez rdzeń monitorujący do pobierania
+aktualnych danych, przez co musiał on znajdować się na tym samym
+urządzeniu co rdzeń monitorujący. W~przypadku interfejsu icinga-web
+komunikacja z~rdzeniem monitorującym odbywa się poprzez bazę danych,
+dzięki czemu elementy te mogą znajdować się na różnych fizycznych
+urządzeniach. Należy również dostrzec różnice
+w~bezpieczeństwie. Interfejs klasyczny zabezpieczony był jedynie
+poprzez mechanizm uwierzytelnienia http i~wszyscy użytkownicy mieli
+dostęp do całego systemu. Interfejs icinga-web posiada swoją bazę
+użytkowników oraz ich uprawnień. Umożliwia to ograniczenie praw danego
+użytkownika np. tylko do wyświetlania stanu konkretnego urządzenia lub
+usługi.
+
+\section[Komponent IDOUtils][Komponent IDOUtils]{Komponent IDOUtils}
+\label{sec:IDOUtils}
+
+Komponent IDOUtils jest to zestaw programów dzięki którym możliwe jest
+składowanie informacji generowanych przez rdzeń monitorujący w~bazie
+danych. W~wersji dostępnej podczas pisania tej pracy wspierany były
+następujące systemy zarządzania baza danych:
+
+\begin{itemize}
+\item MySql,
+\item PostgreSQL,
+\item Oracle.
+\end{itemize}
+
+%odwołanie do schematu bazy danych
+W~celu zapewnienia funkcjonalności omawianego komponentu, konieczne
+jest utworzenie bazy danych o~odpowiednim schemacie, który został
+opisany w~XXX. Udostępnione zostały również skrypty SQL, które
+definiują odpowiednie tabele. Ponadto administrator musi zapewnić
+odpowiednia konfigurację bazy danych, w~tym konto użytkownika i~hasło,
+w~taki sposób, aby umożliwić odpowiednim elementom komponentu
+IDOUtils dostęp do bazy danych.
+
+W~celu odciążenia urządzenia, na którym uruchomiony jest system
+Icinga. Komponent ten został podzielony, na kilka elementów, które
+mogą znajdować się na różnych urządzeniach. Można wyróżnić następujące
+elementy:
+
+\begin{description}
+\item[IDOMOD] moduł rdzenia monitorującego, który pozwala mu na dostęp
+  do bazy danych
+\item[LOG2IDO] program pozwalający na import utworzonych wcześniej
+  plików do bazy danych
+\item[FILE2SOCK] program pozwalający na przekierowanie danych
+  zapisywanych do pliku do gniazda TCP lub Unix
+\item[IDO2DB] demon, który jest odpowiedzialny za wykonywanie operacji
+  na bazie danych
+\end{description}
+
+%rysunek
+Podstawowymi elementami całego komponentu są IDOMOD oraz IDO2DB. Moduł
+rdzenia IDOMOD ładowany jest przez rdzeń systemu Icinga tuż po
+starcie. Po załadowaniu zapewnia on spójny interfejs do uzyskiwania
+danych dla wszystkich pozostałych części rdzenia
+monitorującego. Ponieważ wykonywanie operacji na bazie danych może być
+czasochłonne nie powinno być to wykonywane przez rdzeń
+monitorujący. Z~tego powodu powstał program IDO2DB. Jest on
+uruchomiony jako demon na dowolnym urządzeniu. Zadaniem tego serwisu
+jest fizyczna realizacja żądań na bazie danych.
+
+%odnosnik do ssl
+Ponieważ rdzeń monitorujący oraz demon IDO2DB mogą znajdować się
+zarówno na jednym urządzeniu jak i~na różnych urządzeniach konieczne
+jest zapewnienie odpowiednich mechanizmów komunikacji pomiędzy nimi.
+Gdy programy te znajdują się na różnych urządzeniach, jako mechanizm
+komunikacji wykorzystywane są gniazda TCP. W~podstawowej konfiguracji
+dane przekazywane są w~sposób niezaszyfrowany. Jeśli jednak istnieje
+potrzeba zapewnienia tajności oraz integralności przekazywanych danych
+możliwe jest użycie protokołu SSL\footnote{ ang. {\em Secure Socket
+    Layer} -- protokół warstwy prezentacji, zapewniający poufność oraz
+  integralność przesyłanych danych.}. W~sytuacji, gdy oba programy
+uruchomione są na tym samym urządzeniu, w~celu poprawy wydajności
+możliwe jest użycie gniazd protokołu Unix\footnote{ and. {\em Unix
+    Domain Socket} -- metoda komunikacji między procesowej w~systemach
+  Unix. Posiada jednolite API jak gniazda domeny internetowej.}.
+
+W~celu zapewnienia możliwości migracji z~środowiska, które korzystało
+wcześniej z~przechowywania danych w~plikach, został dostarczony
+program LOG2IDO. Pozwala on, na import danych historycznych do bazy
+danych. Program ten, analogicznie jak IDOMOD nie operuje bezpośrednio
+na bazie danych, lecz komunikuje się tymi samymi metodami co IDOMOD
+z~demonem IDO2DB. Zarówno program LOG2IDO jak i~moduł IDOMOD mogą
+kierować żądania do IDO2DB poprzez plik. W~celu zapewnienia
+przekazywania tych danych z~pliku do demona IDO2DB opracowano program
+FILE2SOCK. Jest to prosty program, który przekazuje dane zapisane do
+danego pliku do demona IDO2DB. Program ten nie zajmuje się w~żadnym
+stopniu przetwarzaniem odczytaniem danych, lecz jedynie przesłaniem ich
+poprzez gniazdo internetowe lub Unix do demona IDO2DB.
+
+\section[Dodatek inGraph][Dodatek inGraph]{Dodatek inGraph}
+\label{sec:inGraph}
+
+inGraph jest to dodatek do systemów Icinga oraz Nagios, który
+umożliwia prezentację danych zgromadzonych poprzez system monitorujący
+w~postaci wykresów. Dodatek ten został opracowany przez firmę NETWAYS
+GmbH i~wydany na licencji GPL w~wersji 3. Cechą, która odróżnia dodatek
+inGraph od innych rozwiązań, przeznaczonych do analizy danych
+historycznych jest wykorzystanie relacyjnej bazy danych do
+przechowywania danych otrzymanych od systemu monitorującego. Dzięki
+wykorzystaniu relacyjnej bazy danych, możliwe jest zarówno
+przeglądanie danych dokładnych w~przedziale czasu w~historii, jak
+i~wykresów długoterminowych prezentujących trendy danej wartości.
+
+%referencja do XMLRPC
+Dodatek inGraph składa się z~dwóch niezależnych elementów,
+komunikujących się poprzez XMLRPC\footnote{ang. {\em XML Remote
+    Procedure Call} -- zdalne wywołanie procedur przy użyciu
+  XML. Metoda zdalnego wywoływania funkcji oparta na formacie
+  XML. Szczegółowy opis w XXX.}:
+
+\begin{itemize}
+\item interfejs graficzny
+\item rdzeń zbierający dane
+\end{itemize}
+
+Rdzeń zbierający oraz przetwarzający dane został napisany w~języku
+Python. Jego zadaniem jest pobieranie danych od systemu
+monitorującego, dokonywanie ich przeliczeń, oraz umieszczanie ich
+wyników w~bazie danych. Do pobierania danych z~systemu monitorującego
+wykorzystano mechanizm udostępniania danych wydajnościowych. System
+monitorujący, musi eksportować dane przy pomocy formatu zrozumiałego
+dla dodatku inGraph. Demon zbierający dane dokonuje analizy otrzymanych
+danych, a~następnie wykonuje wszystkie niezbędne obliczenia, a~wyniki
+zapisuje w~bazie danych MySql lub PostgreSQL. Ważną różnicą pomiędzy
+danymi składowanymi w~tej bazie, a~danymi przechowywanymi przez system
+monitorujący jest ich format. Systemy monitorujące, przechowują
+w~postaci numerycznej jedynie skwantowany stan danej usługi lub
+urządzenia. Dodatek inGraph przechowuje natomiast w~swojej bazie dane
+w~postaci już przetworzonej. Oznacza to iż dokonywany jest rozbiór
+składniowy rezultatów pomiarów i~w~bazie danych zapamiętywane są
+pochodzące z~tych rezultatów dane w~postaci numerycznej.
+
+%referencja do rfc jsona
+%obrazek z gui
+Interfejs użytkownika został napisany w~językach PHP oraz
+JavaScript. Umożliwia on podgląd danych zebranych i~przetworzonych
+przez rdzeń dodatku. Interfejs może funkcjonować zarówno jako
+niezależny serwis jak i~jako integralna część interfejsu systemu
+Icinga. Umożliwia on generację wykresów dla każdego z~urządzeń oraz
+dla każdej z usług. Formaty wykresów, a~także przedziały agregacji
+danych definiowane są w~plikach konfiguracyjnych w formacie
+JASON\footnote{ang. {\em JavaScrip Object Notation} -- lekki format
+  tekstowy wymiany danych komputerowych. Szczegółowo opisany w XXX}.
+Użytkownik po wybraniu usługi lub urządzenia uzyskuje interaktywny
+wykres przezentujący dane w~zadanym okresie. Wszystkie wykresy
+wygenerowane przez program są w~pełni konfigurowalne jak
+i~edytowalne. Typ prezentowanych danych jest uzależniony od rozmiaru
+przedziału czasu w~którym generowany jest wykres. Jeśli okno czasu
+jest odpowiednio małe, na wykresie zostaną przedstawione dane
+dokładne. W~sytuacji, gdy nie jest możliwe przedstawienie danych
+dokładnych, ze względu na rozmiar zadanego okresu czasu, dane są
+agregowane w~przedziały, a~na wykresie udostępniana jest wartość
+minimalna, maksymalna oraz średnia dla danego przedziału agregacji
+danych.
+
+
+\section[Dodatek NSCA][Dodatek NSCA]{Dodatek NSCA}
+\label{sec:NSCA}
+
+\subsection[Opis dodatku NSCA][Opis dodatku NSCA]{Opis dodatku NSCA}
+
+NSCA - Nagios Service Check Acceptor jest to dodatek do systemów
+monitorujących opartych o~system Nagios, więc również systemu
+Icinga. Pozwala on na wykorzystanie mechanizmów pasywnego
+monitorowania z~systemu innego niż ten na którym uruchomione jest
+oprogramowanie monitorujące. Program ten został napisany w całości w
+języku~C i~wydany na licencji pozwalającej na wgląd do kodu
+źródłowego. Wykorzystuje on plik zewnętrznych komend i nie integruje
+się z jądrem monitorującym. Dzięki temu możliwe jest jego
+wykorzystanie zarówno w systemie Nagios jak i jego klonach takich jak
+system Icinga. Dodatek ten składa się z~dwóch modułów:
+
+\begin{itemize}
+\item moduł wysyłający (send\_nsca) służący do wysyłania wyników
+  sprawdzeń z~monitorującego systemu do centralnego serwera, na którym
+  umieszczony jest rdzeń systemu monitorującego odpowiedzialny za
+  przetwarzanie wyników sprawdzeń,
+\item moduł odbierający (nsca) służący do odbierania wyników sprawdzeń
+  od klientów i~dostarczaniu ich do pliku komend zewnętrznych danego
+  systemu monitorującego.
+\end{itemize}
+
+%tutaj wstawic grafike z tym jak to dziala
+%źrodło: dokumentacja w repo
+
+\subsubsection[Moduł wysyłający][Moduł wysyłający]{Moduł wysyłający}
+\label{subsubsec:modulWysylajacy}
+
+Ta część dodatku uruchamiana jest na systemie, na którym funkcjonuje
+jakiś mechanizm sprawdzający, który generuje wpisy dziennika. Wpisy te
+po utworzeniu, przekazywane są do programu wysyłającego. Moduł
+wysyłający, po uruchomieniu odczytuje ustawienia z~pliku
+konfiguracyjnego, a~następnie próbuje połączyć się z~serwerem. Po
+udanej próbie połączenia otrzymuje pakiet inicjujący, który zawiera:
+
+\begin{itemize}
+\item wektor inicjujący: używany do celów kryptograficznych,
+  wygenerowany przez serwer pseudolosowy ciąg znaków, konieczny do
+  inicjalizacji algorytmu kryptograficznego,
+\item stempel czasu: czas odczytany przez serwer w~chwili nadejścia
+  połączenia od klienta.
+\end{itemize} 
+
+Po otrzymaniu pakietu inicjującego moduł rozpoczyna czytanie wpisów
+z~standardowego wejścia programu. Wszystkie wpisy dziennika muszą być
+odpowiednio sformatowane. Poszczególne pola informacyjne muszą być
+rozdzielone pojedynczą tabulacją, a~cały wpis zakończony znakiem
+nowej linii. Wpisy dotyczącego urządzenia powinny zawierać następujące
+pola:
+
+\begin{itemize}
+\item nazwa urządzenia: krótka nazwa urządzenia, którego stan jest
+  przekazywany,
+\item stan: numerycznie wyrażony kod stanu urządzenia,
+\item odczyt: dodatkowe wartości odczytów opisujące stan urządzenia.
+\end{itemize}
+
+Natomiast wpisy dotyczące usługi świadczonej przez to urządzenia, lub
+innego rejestrowanego parametru tego urządzenia powinny zawierać
+następujące pola:
+
+\begin{itemize}
+\item nazwa urządzenia: krótka nazwa urządzenia na którym uruchomiona
+  jest usługa,
+\item opis usługi: nazwa usługi danego urządzenia, której dotyczy wpis
+\item stan: numerycznie wyrażony kod stanu usługi,
+\item odczyt: dodatkowe wartości odczytów opisujące stan usługi.
+\end{itemize}
+
+%dodac odniesienie do odpowiedniego rozdzialu
+Łatwo zauważyć, że żadne z~pól wpisu dziennika nie zawiera stempla
+czasu wymaganego przez rdzeń sprawdzający przy zapamiętywaniu odczytu
+pasywnego. Dzieje się tak, gdyż program NSCA posiada zdefiniowaną
+własną politykę określania czasu wpisu w dzienniku. Do każdego pakietu
+zawierającego wpis dziennika dodawany jest stempel czasu otrzymany
+w~pakiecie inicjującym od modułu odbierającego. Właściwy stempel czasu,
+który trafia do jadra sprawdzającego nadawany jest natomiast przez
+moduł odbierający.
+
+Kolejnym krokiem działania modułu jest obliczenie cyklicznego kodu
+nadmiarowego CRC32 dla danego pakietu. Po dołączeniu obliczonego kodu
+do pakietu pakiet jest szyfrowany. Algorytm kryptograficzny stosowany do
+szyfrowania pakietów został wcześniej zainicjalizowany wektorem
+pseudolosowych danych odebranych w~pakiecie inicjalizacyjnym od modułu
+odbierającego. Po zaszyfrowaniu dane są wysyłane, a~moduł wysyłający,
+bez oczekiwania na potwierdzenie przetworzenia przez serwer,
+rozpoczyna przetwarzanie kolejnego wpisu dziennika.
+
+\subsubsection[Moduł odbierający][Moduł odbierający]{Moduł odbierający}
+
+Demon, który stanowi moduł odbierający funkcjonuje na tym samym
+systemie operacyjny na którym znajduje się rdzeń systemu
+monitorującego. Ta część odpowiedzialna jest za odbieranie danych od
+klientów i~przekazywanie ich do rdzenia programu monitorującego. Moduł
+ten może pracować w jednym z~poniższych trybów:
+
+\begin{itemize}
+\item samodzielny demon jedno procesowy: uruchomiony w~tle demon, który
+  nasłuchuje na przychodzące połączenia od klientów i~po nadejściu
+  połączenia jest ono obsługiwane przy użyciu jednego procesu z~jednym
+  wątkiem,
+\item samodzielny demon wieloprocesowy: uruchomiony w~tle demon,
+  którego proces główny nasłuchuje na nadejście połączeń od klientów,
+  gdy takie połączenie nadejdzie proces jest duplikowany i~każdy
+  z~klientów obsługiwany jest w~innym procesie potomnym,
+\item demon zintegrowany z~inetd: w systemie uruchomiony jest demon
+  inetd, który nasłuchuje na połączenia od klientów na konkretnym
+  gnieździe, a~gdy nadejdzie połączenie od klienta uruchamiany jest
+  proces demona NSCA, który obsługuje nowe połączenie i~kończy się
+  wraz z zakończeniem obsługi klienta
+\end{itemize}
+
+Do przekazywania wpisów dziennika używany jest mechanizm pasywnego
+monitorowania dostępny w~systemach z~rodziny Nagios. Aby możliwe było
+wykorzystanie tego mechanizmu konieczne jest zapewnienie demonowi
+dostępu do pliku zewnętrznych komend systemu monitorującego. Ponieważ
+plik zewnętrznych komend jest potokiem nazwanym, chroniony jest on
+przez Uniksowy system uprawnień użytkowników. Zapewnienie dostępu do
+takiego bytu może się odbyć na dwa sposoby. Pierwszym, polecanym przez
+twórców systemów monitorujących, jest uruchamianie demona NSCA jako
+procesu tego samego użytkownika co proces rdzenia systemu
+monitorującego. Drugim sposobem jest modyfikacja praw dostępu do
+omawianego pliku, tak aby umożliwić dostęp użytkownikowi z~którego
+uprawnieniami uruchomiony jest demon NSCA. Przy zastosowaniu drugiego
+rozwiązania zalecana jest szczególna ostrożność, gdyż dostęp do pliku
+zewnętrznych komend daje bardzo duże możliwości ingerencji w system
+monitorujący.
+
+Komunikacja modułu odbierającego z~klientem rozpoczyna się od nadejścia
+połączenia od klienta. Gdy moduł odbierający otrzyma nowe połączenie
+zostanie wysłany pakiet inicjalizujący, którego zawartość została
+opisana w~\ref{subsubsec:modulWysylajacy}. Po przesłaniu pakietu
+inicjalizującego połączenie, moduł odbierający oczekuje na dane od
+klienta. Każdy wpis dziennika przesyłany jest przy użyciu pakietu
+o~poniższych polach:
+
+\begin{itemize}
+\item wersja protokołu: aktualnie używana wersja protokołu komunikacyjnego,
+\item kod CRC32: kod CRC32 bieżącego pakietu,
+\item stempel czasu: stempel czasu pochodzący z~pakietu
+  inicjalizującego przesłanego klientowi,
+\item kod statusu: kod stanu usługi/hosta powiązany z~przesyłanym wpisem
+\item nazwa hosta: nazwa klienta, który podlegał sprawdzeniu. Nie jest
+  konieczne aby był to ten sam klient, który dostarcza dane,
+\item opis usługi: nazwa usługi, która podlegała sprawdzeniu lub pusty
+  napis jeśli sprawdzenie dotyczy hosta,
+\item wynik sprawdzenia: napis wygenerowany przez wtyczkę, która
+  dokonywała sprawdzenia, zawierający dodatkowe dane na temat stanu
+  urządzenia lub usługi
+\end{itemize}
+
+Pakiety są zaszyfrowane z~użyciem algorytmu oraz klucza symetrycznego
+pochodzącego z~pliku konfiguracyjnego. Po odebraniu spodziewanej
+ilości danych, następuje próba odszyfrowania odebranych
+danych. Sprawdzenie poprawności odebranych danych i~jednocześnie
+weryfikacja uprawnień odbywa się poprzez kontrolę zawartości pola
+CRC32. Jeśli wartość znajdująca się w~tym polu, zgadza się z~wartością
+wyliczoną dla całości otrzymanych danych, to pakiet jest przyjmowany,
+w~przeciwnym zaś razie pakiet zostanie odrzucony. Dalsze przetwarzanie
+otrzymanego pakietu rozpoczyna się od porównania bieżącego stempla
+czasu z~tym pochodzącym z~odebranego pakietu. Jeśli różnica pomiędzy
+nimi jest zbyt duża, dane zostają odrzucone. Ostatnią czynnością
+wykonywaną przez moduł odbierający jest zapisanie odebranego wpisu do
+pliku zewnętrznych komend jądra systemu monitorującego.
+
+Warto wspomnieć, że stempel czasu przesłany przez klienta nie jest
+dostarczany do jądra monitorującego. Służy on jedynie określeniu
+odstępu czasu od inicjalizacji sesji do chwili otrzymania wiadomości~i
+podjęciu decyzji o~przyjęciu, bądź odrzuceniu pakietu. Do systemu
+monitorującego trafia natomiast bieżący stempel czasu serwera, na
+którym uruchomiony jest moduł odbierający i~jądro systemu
+monitorującego. Do generacji stempla czasu wykorzystywany jest czas
+uniwersalny. Istotną, może się również okazać informacja, iż protokół
+komunikacyjny nie przewiduje przesyłania ACK\footnote {ang. {\em
+    Acknowledgement} -- pozytywne potwierdzenie, powszechnie przyjęta
+  nazwa komunikatu potwierdzającego przyjęcie i~przetworzenie danych
+  przez aplikację}, bądź też NACK\footnote{ang. {\em
+    Negative Acknowledgement} -- potwierdzenie negatywne, powszechnie
+  przyjęta nazwa komunikatu oznaczająca odmowę przyjęcia lub
+  przetworzenia odebranych danych}. Moduł wysyłający, ma zatem
+pewność, iż wysłane przez nie go dane zostaną dostarczone, gdyż
+używany jest protokół TCP, lecz nie ma żadnej gwarancji ani
+informacji, że dane przesłane do modułu odbierającego zostaną
+dostarczone do rdzenia systemu monitorującego.
+
+\subsection[Bezpieczeństwo][Bezpieczeństwo]{Bezpieczeństwo}
+
+%bibliografia dodac libmcrypt
+Bezpieczeństwo monitorowania z~użyciem dodatku NSCA opiera się na
+kryptografii symetrycznej oraz cyklicznym kodzie nadmiarowym
+CRC32. Wiadomość inicjująca połączenie jest nieszyfrowana. Natomiast
+każda wiadomość zawierająca wpisy dziennika jest zaszyfrowana
+algorytmem wybranym podczas konfiguracji systemu. Dodatek NSCA
+korzysta z~biblioteki libmcrypt i~umożliwia użycie jednego spośród
+wielu algorytmów kryptografii symetrycznej, które zostały w niej
+zaimplementowane. Użytkownik posiada jedynie możliwość wyboru
+stosowanego algorytmu, natomiast jako tryb pracy stosowany jest tryb
+sprzężenia zwrotnego szyfrogramu. Tryb ten wymaga zawsze inicjalizacji
+zarówno kodera jak i~dekodera tym samym wektorem początkowym, który
+w~przypadku tego protokołu, jest przesyłany przez serwer w pakiecie
+inicjującym.
+
+Wszystkie algorytmy symetryczne do prawidłowego działania wymagają,
+aby komunikujące się strony współdzieliły pewien sekret jakim jest
+klucz używany do szyfrowania. Ujawnienie klucza symetrycznego wiąże
+się z~kompromitacją całego systemu kryptograficznego. W dodatku NSCA
+klucz ten uzyskiwany jest z~hasła, które musi być zapisane przez
+administratora systemu zarówno w~części odbierającej jak
+i~wysyłającej. Oczywistym jest, iż poza współdzieleniem klucza,
+wszystkie komunikujące się węzły muszą używać tego samego algorytmu
+kryptograficznego.
+
+%zrodlo z kodem crc32
+Algorytmy szyfrowania zapewniają tajność przesyłanej wiadomości,
+jednak w~przypadku systemu monitorowania potrzebne jest również
+zapewnienie integralności wiadomości. Integralność w~dodatku NSCA
+zapewniana jest poprzez cykliczny kod nadmiarowy CRC32. Obliczanie
+kodu CRC32 odbywa się poprzez dzielenie przesyłanego ciągu bitów przez
+dzielnik o~długości 33 bitów, co daje kod CRC o~długości 32
+bitów. W~celu sprawdzenia integralności, otrzymane bity są dzielone
+przez kod CRC. Jeśli reszta z~dzielenia jest zero, oznacza to poprawna
+weryfikację integralności wiadomości. Jeśli reszta z~dzielenia jest
+niezerowa oznacza to naruszenie integralności przesłanej
+wiadomości. W~szczególności, taka sytuacja może się zdarzyć, gdy
+klient używa innego algorytmu kryptograficznego lub klucza. Pakiety,
+których integralność nie zostanie pozytywnie zweryfikowana są
+odrzucane.
+
+%zrodło o zagrozeniach z kodu CRC32
+%stack overflow crc32 colision
+Model bezpieczeństwa zastosowany w~dodatku NSCA ma bardzo wiele
+wad. Największą z~nich jest zastosowanie kodu CRC32 do sprawdzania
+integralności przesyłanych wiadomości. Kod ten można bardzo prosto
+i~szybko obliczyć, a~ponadto posiada on niewielką długość. Niestety
+jest on bardzo podatny na kolizje przez co nie powinien on być
+stosowany w~kryptografii. Prawdopodobieństwo nie znalezienia kolizji po
+200~000 prób wynosi poniżej~1\%. Oznacza to iż jedynie w~niespełna 1\%
+przypadków konieczne będzie obliczenie więcej niż 200~000 kodów CRC
+przed znalezieniem kolizji. Prawdopodobieństwo nie znalezienia kolizji
+w~zależności od liczby obliczonych kodów CRC32 przedstawiono
+w~\ref{tab:CRC32Colisions}. Łatwość odnalezienia kolizji nie jest
+jedyną wadą modelu bezpieczeństwa zastosowanego w~dodatku NSCA. Warto
+przypomnieć, iż wszystkie ustawienia zarówno modułu wysyłającego jak
+i~odbierającego przechowywane są w plikach na dyskach odpowiednich
+urządzeń. Pliki te zawierają również klucze symetryczne, które są
+stosowane w całym systemie. Oznacza to, iż uzyskanie dostępu typu
+odczyt do takiego pliku powoduje utratę tajności danych przesyłanych
+w~całym systemie. Ponadto przyjęty model bezpieczeństwa, nie zawiera
+żadnej weryfikacji danych pochodzących od klientów. Oznacza to, że
+każdy klient może przesłać wpisy dziennika, udające wpisy pochodzące od
+zupełnie innych klientów. W~szczególności jeśli atakujący uzyska klucz
+symetryczny, to nie tylko będzie mógł odczytywać informacje o~wpisach
+przesyłanych od klientów, lecz także podszywać się pod klientów
+i~przesyłać fałszywe wpisy. Taka luka może być wykorzystana przy ataku
+na jakąś usługę lub urządzenie. Atakujący rozpoczyna atak, po czym
+przechwytuje pakiety z~wpisami dziennika, które mogą świadczyć
+o~rozpoczęciu ataku i~w~zamian przesyła do serwera fałszywe pakiety
+informujące iż wszystkie usługi pracują normalnie.
+
+\begin{table}
+\centering
+\caption{Prawdopodobieństwo nie znalezienia kolizji w zależności od
+  liczby obliczonych kodów CRC32}
+\label{tab:CRC32Colisions}
+\begin{tabular}{|c|c|}
+\hline
+Liczba obliczeń & Prawdopodobieństwo \\
+\hline
+50~000 & 74,7\% \\
+\hline
+77~000 & 50,1\% \\
+\hline
+78~000 & 49,2\% \\
+\hline
+102~000 & 29,8\% \\
+\hline
+110~000 & 24,5\% \\
+\hline
+128~000 & 14,8\% \\
+\hline
+150~000 & 7,3\% \\
+\hline
+200~000 & 0,95\% \\
+\hline
+\end{tabular}
+\end{table} 
+
+\section[Konfiguracje rozproszone][Podstawowe konfiguracje rozproszone]{Podstawowe konfiguracje rozproszone}
+
+%obrazek do tego
+Podstawowa konfiguracja systemu monitorującego Icinga składa się
+jedynie z~rdzenia monitorującego oraz klasycznego interfejsu
+użytkownika. W~tej konfiguracji, zarówno ustawienia systemu
+monitorującego, jak i~dane o~stanie usług i~urządzeń znajdują się
+w~plikach lokalnych. Jeśli nie zostaną użyte żadne dodatkowe
+mechanizmy transportu danych, obie części systemu Icinga będą musiały
+być wykonywane na jednym urządzeniu. Jeśli monitorowana infrastruktura
+jest bardzo rozbudowana, a~administrator często i~intensywnie korzysta
+z~interfejsu graficznego, to umiejscowienie obu tych elementów na
+jednym urządzeniu może powodować jego znaczące obciążenie i~zaburzenia
+w~prawidłowym monitorowaniu infrastruktury. Należy również zwrócić
+uwagę na zagadnienie bezpieczeństwa takiego rozwiązania. Jeśli
+administrator chciałby udostępnić interfejs użytkownika poza
+monitorowaną sieć, musi on zezwolić na dostęp z~zewnątrz do
+urządzenia, które monitoruje całą infrastrukturę. Obniża to
+bezpieczeństwo w~sieci, gdyż atakujący może ukierunkować swoje
+działania właśnie na to urządzenie, a~uzyskanie dostępu do niego
+pozwoli na ataki innych, być może słabiej zabezpieczonych urządzeń
+znajdujących się w~sieci.
+
+Podstawową metodą optymalizacji przedstawionej konfiguracji jest
+rozmieszczenie rdzenia monitorującego oraz interfejsu użytkownika na
+różnych urządzeniach fizycznych. Umożliwienie rozdzielenia tych dwóch
+bytów wymaga zapewnienia im wspólnego miejsca, w~którym składowane
+będą dane konfiguracyjne, dane zawierające bieżący stan sieci oraz
+reprezentację powstałych zdarzeń. System Icinga wykorzystuje do tego
+celu relacyjną bazę danych. Klasyczny interfejs nie wspiera
+komunikacji poprzez bazę danych, dlatego należy wykorzystać interfejs
+icinga-web. Zapewnienie współpracy rdzenia monitorującego z~baza
+danych odbywa się poprzez komponent IDOUtils opisany
+w~\ref{sec:IDOUtils}. System składa się zatem z~następujących
+elementów:
+
+\begin{itemize}
+\item rdzeń monitorujący
+\item baza danych
+\item interfejs graficzny
+\end{itemize}
+
+%obrazek o co kaman
+Dzięki modularnej budowie całego systemu możliwe jest umieszczenie
+każdego z~wymienionych elementów na osobnym urządzaniu fizycznym.
+Umożliwia to odciążenie urządzenia, na którym uruchomiony jest rdzeń
+monitorujący. Ponadto zwiększone zostaje bezpieczeństwo całego
+rozwiązania, gdyż konieczne jest udostępnienie na zewnątrz jedynie
+serwera na którym znajduje się interfejs sieciowy. Urządzenie to musi
+mieć dostęp do bazy danych, lecz nie musi mieć dostępu do urządzenia,
+na którym umieszczony jest rdzeń monitorujący oraz do całej
+monitorowanej infrastruktury. Pozwala to na umieszczenie rdzenia
+monitorującego razem z~monitorowaną infrastrukturą za zaporą ogniową,
+co ogranicza możliwości ingerencji w~system monitorowania
+i~infrastrukturę sieciową.
+
+Przedstawiona architektura stanowi bardzo dobrą konfigurację dla firm
+posiadających jednolitą infrastrukturę sieciową o~średniej
+wielkości. Istnieją jednak sieci dla których przedstawiona
+architektura może okazać się niewystarczająca. Jedna z~takich sytuacji
+ma miejsce, gdy instytucja posiada sieć złożoną z~kilku segmentów czy
+to ze względu na separacje czy też lokalizacje
+geograficzną. Przedstawiona architektura nie umożliwia monitorowania
+aktywnego, urządzeń znajdujących się za zaporą ogniową. Możliwe jest
+monitorowanie pasywne takich usług jednak wymaga ono ingerencji
+w~monitorowane serwery. Kolejna z~sytuacji ma miejsce, gdy
+monitorowana infrastruktura, jest na tyle rozbudowana, że urządzenie
+na którym uruchomiony jest rdzeń nie posiada wystarczającej ilości
+zasobów, aby monitorować wszystkie urządzenia i~usługi. Obie te
+sytuacje wymagają monitorowania przy jednoczesnym użyciu wielu
+instancji rdzenia monitorującego.
+
+%rysunek
+Pierwszy z~możliwych scenariuszy współpracy wielu instancji rdzenia
+monitorującego wymaga zastosowania dodatku NSCA omówionego
+w~\ref{sec:NSCA}. Konfiguracja ta zakłada istnienie jednej wyróżnionej
+instancji rdzenia monitorującego, która będzie odpowiedzialna za
+przetwarzanie wszystkich wyników sprawdzeń, a~także generacje zdarzeń
+i~powiadomień. Konieczne jest również zapewnienie możliwości
+komunikacji z~co najmniej jednego urządzenia w~każdym segmencie
+sieci. Konfiguracja ta została oparta o~mechanizm pasywnego sprawdzana
+usług i~urządzeń. Instancja centralna posiada wszystkie usługi
+skonfigurowane w~taki sposób, aby możliwe było dostarczanie pasywnych
+wyników sprawdzeń tych usług. Na tym samym systemie, co wyróżniona
+instancja rdzenia uruchomiony jest również serwis systemowy NSCA,
+który oczekuje na dane przesyłany z~instancji roboczych. Każda
+z~instancji roboczych może zarówno wykonywać monitorowanie aktywne jak
+i~pasywne pewnej części usług lub urządzeń. Wyniki sprawdzeń nie są
+jednak przetwarzane przez instancję roboczą, lecz są przesyłane
+z~użyciem send\_nsca do instancji centralnej, w~której następuje
+odpowiednie przetwarzanie.
+
+%rysunek
+Kolejnym z~możliwych scenariuszy współpracy wielu instancji rdzenia
+monitorującego jest wykorzystanie wspólnej bazy danych. Rozwiązanie to
+wymaga jedynie, aby wszystkie instancje rdzenia miały dostęp do jednej
+bazy danych. Wszystkie instancje są w pełni niezależne i~każda z~nich
+monitoruje w~dowolny sposób pewną grupę usług i~urządzeń. Wyniki
+monitorowania są przetwarzane, przez każda instancję niezależnie, a~na
+podstawie ich przetwarzania generowane są odpowiednie zdarzenia. Przy
+użyciu komponentu IDOUtils wszystkie te dane są konsolidowane w
+wspólnej bazie danych z~której korzysta interfejs icinga-web. Dzięki
+wykorzystaniu nowego interfejsu możliwe jest równoczesna prezentacja
+wyników monitorowania pochodzących od wielu instancji, przy użyciu
+jednego interfejsu.
+
+Oba rozwiązania posiadają zarówno zalety jak i~wady. Rozwiązanie
+z~użyciem dodatku NSCA zapewnia spójne przetwarzanie danych przez
+jedna instancje i~łatwość konfiguracji dodatków wykorzystujących dane
+eksportowane przez jądro w~postaci danych wydajnościowych. Niestety
+rozwiązanie to generuje znaczące obciążenie instancji centralnej, gdyż
+musi ona przetwarzać wszystkie wyniki sprawdzeń. Ponadto należy
+przypomnieć, że model bezpieczeństwa dodatku NSCA posiada poważne
+wady. Rozwiązanie oparte o~wspólną bazę danych posiada rozproszony
+mechanizm przetwarzania sprawdzeń jak i~zdarzeń dzięki czemu nie
+występuje w~nim nadmierne obciążenie jednej z~instancji. Ponadto
+awaria, dowolnej z~instancji nie powoduje nigdy braku możliwości
+monitorowania całej sieci lecz jedynie jej fragmentu. Niestety
+w~rozwiązaniu tym konieczna jest bardziej zaawansowana konfiguracja
+dodatków korzystających z~danych wydajnościowych. Wybór konfiguracji
+zależy zatem silnie od infrastruktury w jakiej ma być ona zastosowana,
+a także od pozostałych elementów systemu, jakie będą wykorzystane.
+
+
+\section[Problemy][Problemy z monitorowaniem klienta mobilnego]{Problemy z monitorowaniem klienta mobilnego}
+
+System Icinga nie posiada żadnego mechanizmu wsparcia dla klientów
+mobilnych. Istnieje wiele konfiguracji rozproszonych, a~część z nich
+może być zaadoptowana do monitorowania klienta mobilnego. Należy
+pamiętać, iż element systemu obecny na urządzeniu mobilnym musi
+oszczędzać zarówno pamięć jak i~czas procesora. Konfiguracja
+rozproszona z~wspólną bazą danych w~znaczący sposób zwiększyła by
+obciążenie klienta mobilnego. W związku z~powyższym zdecydowano się
+rozważyć konfigurację rozproszoną z~użyciem NSCA. Wymaga ona
+dostarczenia elementu systemu, który będzie znajdował się na
+urządzeniu mobilnym i monitorował je, a~następnie przekazywał, gdy
+będzie to możliwe dane do instancji nadrzędnej, która będzie
+prowadziła analizę otrzymanych danych.
+
+Wykorzystanie do celu komunikacji pomiędzy klientem mobilnym,
+a~instancja nadrzędną dodatku NSCA niesie za sobą wiele problemów.
+Dodatek NSCA jest powszechnie używany do monitorowania serwerów
+znajdujących się za zaporą lub w wydzielonym segmencie sieci. Dodatek
+ten może być stosowany, w~sieciach o~statycznym charakterze, gdzie
+połączenia są stałe, a~łączność nie ulega częstym przerwaniom. Ponadto
+należy być świadomym słabości modelu bezpieczeństwa stosowanego
+w~protokole wymiany danych. Stosowanie dodatku NSCA poza zamkniętymi
+sieciami firmowymi może okazać się niebezpieczne i~zawodne.
+
+Zagadnienie monitorowania klienta mobilnego zostało szczegółowo opisane
+w~\ref{chap:Wymagania}. Niestety dodatek NSCA nie spełnia bardzo wielu
+z~przedstawionych wymagań przez co nie powinien być on stosowany
+w~systemach tego typu. Głównymi problemami, które dyskryminują dodatek
+NSCA w zastosowaniu do monitorowania klienta mobilnego są:
+
+\begin{itemize}
+\item Bezpieczeństwo: mechanizmy bezpieczeństwa zawarte w~protokole
+  wymiany danych posiadają bardzo poważne luki. Zastosowanie CRC32 do
+  sprawdzania spójności danych niesie za sobą bardzo duże
+  ryzyko. Ponadto konieczność przechowywania na urządzeniu klucza
+  symetrycznego, którego ujawnienie kompromituje cały system znacząco osłabia
+  stosowane mechanizmy bezpieczeństwa.
+\item Nadpisywanie stempla czasu: Moduł odbierający dodaje do każdego
+  wpisu dziennika aktualny stempel czasy. Powoduje to brak możliwości
+  przesyłania, historycznych danych zgromadzonych w skutek utraty
+  dostępu do sieci.
+\item Brak dodatkowych mechanizmów uwierzytelnienia klienta: decyzja
+  o~przydzieleniu klientowi dostępu czyli akceptacji przesłanych przez
+  niego wpisów dziennika podejmowana jest na podstawie znajomości
+  przez niego algorytmu szyfrowania oraz klucza.
+\item Brak kontroli otrzymywanych danych: każdy klient, który zna
+  klucz może przesyłać wpisy dotyczące dowolnego urządzenia i~dowolnej
+  usługi. Brak jest mechanizmu, który pozwolił by na kontrolę tego,
+  jaki klient ma prawo informować o~jakim urządzeniu czy też usłudze.
+\item Brak potwierdzenia dostarczenia danych: klient wysyłający dane
+  nie ma żadnej informacji o~tym, czy jego dane zostały zaakceptowane
+  czy odrzucone. Oznacza to brak możliwości synchronizacji danych na
+  kliencie mobilnym i serwerze, gdyż nigdy nie mamy gwarancji, że
+  wysłane przez klienta dane zostały przetworzone przez dodatek NSCA
+  i~przekazane do rdzenia monitorującego.
+\item Brak implementacji dla systemów mobilnych: moduł wysyłający jest
+  aktualnie zaimplementowany jedynie na systemy Windows oraz
+  Linux. Wiele współczesnych urządzeń mobilnych, które powinny być
+  monitorowane funkcjonuje pod kontrolą systemu operacyjnego Android
+  czy też Windows Phone.
+\item Przekazywanie danych tylko w~jedno miejsce: dane odebrane przez
+  moduł odbierający mogą być przekazane jedynie w~jedno miejsce. Przy
+  bardziej złożonych systemach, konieczna jest możliwość przekazywania
+  danych do kilku systemów oraz definiowania reguł, które dane gdzie
+  powinny trafić.
+\end{itemize}
+
+Ze względu na powyższe wady, zastosowanie dodatku NSCA do
+monitorowania klienta mobilnego jest niemożliwe, gdyż stwarza poważne
+uchybienia w~zakresie bezpieczeństwa. Wykorzystanie konfiguracji z
+nadrzędną instancją systemu, która będzie przeważała dane pochodzące
+od klientów mobilnych, zdecydowanie przystaje do charakterystyki
+monitorowania klienta mobilnego.
