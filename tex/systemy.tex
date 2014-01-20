@@ -4,8 +4,8 @@
 \section[Przegląd systemów][Przegląd systemów dostępnych na rynku]{Przegląd systemów dostępnych na rynku}
 
 Na rynku dostępnych jest wiele bardzo różnych systemów
-monitorujacych. Narzędzia z~tej grupy możemy podzielić na dwie
-ketegorie:
+monitorujących. Narzędzia z~tej grupy możemy podzielić na dwie
+kategorie:
 
 \begin{itemize}
 \item Systemy dostępnościowe
@@ -15,31 +15,31 @@ ketegorie:
 Systemy monitorujące w~których główny nacisk jest położony na
 zapewnienie ciągłej dostępności monitorowanych usług. Systemy te
 wspierają administratora w~codziennych zadaniach, poprzez nieustanne
-monitorowanie aktualnego stanu sieci. Narzędzia te sa wykorzystywane
-przedewszystkim do szybkiego powiadamiania oraz lokalizacji awawarii.
+monitorowanie aktualnego stanu sieci. Narzędzia te są wykorzystywane
+przede wszystkim do szybkiego powiadamiania oraz lokalizacji awarii.
 
 Systemy analityczne, w~kontekście monitorowania infrastruktury
 sieciowej, to systemy, które są nastawione na zbieranie i~analizę
 posiadanych danych. Tego typu systemy nie są zazwyczaj wykorzystywane
 do powiadamiania czy lokalizacji awarii, ich zadaniem jest
-przedewszystkim gromadzenie danych dotyczących zużycia poszczególnych
+przede wszystkim gromadzenie danych dotyczących zużycia poszczególnych
 zasobów, czy też wskaźników jakości poszczególnych usług. Systemy tego
-typu posadają zazwyczaj bardzo rozbudowane narzędzia służące do
+typu posiadają zazwyczaj bardzo rozbudowane narzędzia służące do
 generacji i~analizy wykresów na podstawie zebranych wcześniej danych.
 
 W ostatnich latach można zauważyć wzrost popularności rozwiązań
 hybrydowych. Pozwalają one na kompleksowe zarządzanie infrastrukturą
 sieciową. Dzięki zastosowaniu takiego systemu administrator uzyskuje
-jeden interfejs, w którym może zarówno śledzić bierzący stan sieci
+jeden interfejs, w którym może zarówno śledzić bieżący stan sieci
 i~diagnozować awarie, jak również prowadzić analizę danych
 historycznych.
 
 Przechowywanie danych zgromadzonych podczas monitorowania może odbywać
 się na różne sposoby. Podstawową techniką przechowywania danych,
-jeszcze 5 lat temu były płaskie pliki zawirające zgromadzone
+jeszcze 5 lat temu były płaskie pliki zawierające zgromadzone
 dane. Rozwiązanie tego typu jest bardzo uciążliwe, a~sprawne
 zarządzanie zgromadzonymi danymi wymaga dużego wkładu pracy własnej
-administratora. Obecnie rozpowszchniają się techniki przechowywania
+administratora. Obecnie rozpowszechniają się techniki przechowywania
 zebranych danych w~oparciu o~bazy danych. Współcześnie używane typy baz danych to:
 
 \begin{itemize}
@@ -62,11 +62,11 @@ tworzenia rozmiar. Rozmiar ten określa o liczbę porcji danych jaka
 może być przechowywana w bazie. Jeśli rozmiar bazy przekroczy rozmiar
 zadany przy tworzeniu, wykonywana jest konsolidacja danych. Polega ona
 na wyliczeniu zadanych wartości w~odpowiednich przedziałach
-i~zachowanie ich w~pojedyńczych rekordach, a~usunięcie dokładnych
+i~zachowanie ich w~pojedynczych rekordach, a~usunięcie dokładnych
 danych. Możliwe są trzy typy konsolidacji danych, minimum, średnia
 oraz maksimum. Rozmiar bazy danych jest definiowany w~chwili jej
 tworzenia i~późniejsza modyfikacja tego rozmiaru nie jest już
-możliwa. Ponadto nalezy zwrócić szczególną uwagę, na fakt iż dane są
+możliwa. Ponadto należy zwrócić szczególną uwagę, na fakt iż dane są
 usuwane z~bazy danych bez wiedzy użytkownika, przez co taka baza
 danych nie może zostać użyta do dokładnej analizy danych
 historycznych.
@@ -75,15 +75,15 @@ Każdy typ systemu, jak i~rodzaj bazy danych posiada swoje
 zastosowanie. Należy zatem rozważnie zdefiniować wymagania jakie
 stawia się przed systemem. Po dokonaniu ich analizy i~analizy
 możliwości konkretnego systemu dokonać wyboru systemu, który system
-najlepiej spełnia przedstaiwone wymagania.
+najlepiej spełnia przedstawione wymagania.
 
 \subsection[Cacti][System monitorowania Cacti]{System monitorowania Cacti}
 
 %dodac do bibliografii http://oss.oetiker.ch/rrdtool/
-Jest to system monitorujacy, rozwijany przez The Cacti Group
+Jest to system monitorujący, rozwijany przez The Cacti Group
 Inc. i~dystrybuowany na licencji~GPL\footnote{ ang. {\em General
-    Public Licens} - popularna licencja oprogramowania o~otwartych
-  źródłach. Treść licencji mozna znaleźć w XXX}. System bazuje na
+    Public License} - popularna licencja oprogramowania o~otwartych
+  źródłach. Treść licencji można znaleźć w XXX}. System bazuje na
 narzędziu RRDtool. Jest to narzędzie, które pozwala na wykorzystanie
 cyklicznej bazy danych do składowania pomiarów wartości w zadanym
 przedziale czasowym. Ponadto narzędzie dostarcza funkcji do generacji
@@ -107,7 +107,7 @@ wybrane dane. Interfejs umożliwia graficzne przedstawienie wyników
 w~postaci wykresów. Format wykresu może być definiowany bezpośrednio
 przez użytkownika, lub można skorzystać z~bogatej biblioteki gotowych
 szablonów. Dostęp do interfejsu zabezpieczony jest poprzez mechanizm
-uwierzytelnienia użytkownika systemu monitorującego. Mozliwe jest
+uwierzytelnienia użytkownika systemu monitorującego. Możliwe jest
 definiowanie wielu użytkowników oraz ich uprawnienia. Każdy użytkownik
 ma możliwość definiowania własnego zestawu wykresów oraz pulpitów.
 
@@ -123,18 +123,18 @@ przy pomocy protokołu SNMP\footnote{ {\em Simple Network Management
   drzewa, gdzie każdy liść posiada globalnie unikalny identyfikator
   o~ściśle określonym znaczeniu. Szeroko opisany w XXX}. Skrypt
 cmd.php przeznaczony jest do monitorowania jedynie niewielkich
-sieci. Ze względów wydajnosciowych, nie jest możliwe wykorzystanie go
+sieci. Ze względów wydajnościowych, nie jest możliwe wykorzystanie go
 do monitorowania rozległej infrastruktury.
 
 Drugim z~możliwych do wyboru dostawców danych jest program Spine,
 nazywany również Cacttid. Jest to program napisany w~języku~C, który
 uruchomiony jest jako serwis systemowy na urządzeniu
-monitorujacym. Umożliwa on monitorowanie urządzeń zarówno poprzez
-protokół SNMP jak i~z~wykorzystaniem innych metod. Możliwośc
+monitorującym. Umożliwia on monitorowanie urządzeń zarówno poprzez
+protokół SNMP jak i~z~wykorzystaniem innych metod. Możliwość
 dostarczenia własnych metod monitorowania opiera się na dostarczeniu
 skryptu lub pliku wykonywalnego, który będzie cyklicznie uruchamiany
 przez Cactid, a~jako wyniki przekazywane w taki sam sposób jak
-z~sprawdzeń operających się na SNMP.
+z~sprawdzeń operlających się na SNMP.
 
 Żaden z~dostawców danych nie umożliwia monitorowania danego urządzenia
 lub usługi w~sposób pasywny. Cacti nie posiada również żadnego
@@ -153,7 +153,7 @@ autorów jak i~przez szeroką społeczność. W~systemie Nagios najwyższym
 priorytetem jest dbałość o~zapewnienie dostępności wszystkich
 monitorowanych usług. Organizacja systemu zakłada, iż w~sieci znajdują
 się urządzenia, które mogą świadczyć pewne usługi. Każde urządzenie
-jak i~usługa może być w jednym z trzech stanów:
+jak i~usługa może być w jednym z trzech stanów logicznych:
 
 \begin{description}
 \item[OK] usługa działa poprawnie
@@ -168,7 +168,7 @@ urządzenie, na którym dana usługa jest świadczona. Ponadto użytkownik
 może definiować zależności pomiędzy urządzeniami. System Nagios
 posiada rozbudowany system powiadamiania administratora o~wystąpieniu
 awarii oraz o~jej zakończeniu, lub innych zdefiniowanych wydarzeniach
-systemowych. Ponadto mozliwe jest automatyczne wykonowanie
+systemowych. Ponadto możliwe jest automatyczne wykonywanie
 zdefiniowanych programów lub skryptów, jeśli wystąpiło jakieś
 zdarzenie. Podstawowa wersja systemu składa się z następujących
 elementów:
@@ -183,35 +183,35 @@ elementów:
 Interfejs graficzny został napisany w~języku~C z~wykorzystaniem
 technologi CGI\footnote{{\em Common Gateway Interface} --
   znormalizowany interfejs służący do komunikacji pomiędzy serwerem
-  www, a~zewnętrznymi programami. Inerfejs ten jest wykorzystywany do
-  generowania stron internetowych na żadanie klienta. Zewnętrzny
-  program generuje stronę w~języku html, a~następnie serwer przesyła
+  www, a~zewnętrznymi programami. Interfejs ten jest wykorzystywany do
+  generowania stron internetowych na żądanie klienta. Zewnętrzny
+  program generuje stronę w~języku HTML, a~następnie serwer przesyła
   ją do klienta. Szczegółowy opis można znaleźć w XXX}. Jego wygląd
 jest zgodny z~standardami z~lat 90. Klasyczna strona WWW bez
 dynamicznie zmieniającej się treści. Dane odświeżane są na żądanie
 klienta, lub co określony czas. Wykorzystana technologia zakłada
-przesyłanie za każdym razem całego dokumentu html do klienta,
+przesyłanie za każdym razem całego dokumentu HTML do klienta,
 w~związku z~czym generowany jest nadmierny ruch sieciowy. Widok
-użytkownika składa sie z~kliku części. Po lewej stronie widoczne jest
+użytkownika składa się z~kliku części. Po lewej stronie widoczne jest
 klasyczne menu, umożliwiające użytkownikowi wybór treści. Na górze
 strony natomiast znajduje się podsumowanie aktualnego stanu
-monitorowanych urządzeń i~usług. Centralną częśc okna zajmuje pulpit,
-który prezentuje uzytkownikowi treść wybraną wcześniej
+monitorowanych urządzeń i~usług. Centralną część okna zajmuje pulpit,
+który prezentuje użytkownikowi treść wybraną wcześniej
 z~menu. Interfejs użytkownika umożliwia podgląd aktualnego stanu usług
 oraz urządzeń. Informacja ta może być wyświetlana w~formie listy
 zawierającej urządzenie i~usługi, lub w~postaci mapy sieci, która
 pozwala na monitorowanie stanu urządzenia w~korelacji z~jego logicznym
 umieszczeniem w~strukturze sieciowej. Możliwe jest również
-przeglądanie histori awarii oraz prostych wykresów zależności stanu
+przeglądanie historii awarii oraz prostych wykresów zależności stanu
 urządzenia lub usługi w~zadanym przedziale czasu. Dostęp do interfejsu
 chroniony jest przy pomocy autoryzacji uwierzytelnienia http. Możliwe
 jest definiowanie wielu użytkowników, jednak tylko z~poziomu
-urządzenia na którym uruchomiony jest system monitorujacy. Należy
+urządzenia na którym uruchomiony jest system monitorujący. Należy
 zauważyć również, że wszyscy użytkownicy posiadają takie same
 uprawnienia do wyświetlania danych oraz zarządzania.
 
 %referencja do tutoriala o pluginach
-Rdzeń monitorujący został zaiplmenetowany w~języku C. Jest to centrum
+Rdzeń monitorujący został zaimplementowany w~języku C. Jest to centrum
 całego systemu, gdyż zajmuje się on przetwarzaniem wszystkich
 bieżących danych monitorowania, a~następnie składowaniem ich
 w~plikach. Ta cześć systemu jest odpowiedzialna za wykonywanie
@@ -223,11 +223,11 @@ wtyczek\footnote{Należy zwrócić uwagę na różne znaczenie słów wtyczka
   (ang. {\em Plugin}) oraz dodatek (ang. {\em Addon}). }, czyli
 programów służących do monitorowania podstawowych usług oraz
 parametrów urządzeń. Dostępna jest bardzo duża liczba wtyczek, dzięki
-czemu system Nagios moze monitorować w~sposób aktywny wszystkie
-podstawowe parametry lub usługi. System umożliwa również monitorowanie
+czemu system Nagios może monitorować w~sposób aktywny wszystkie
+podstawowe parametry lub usługi. System umożliwia również monitorowanie
 dowolnych usług w~sposób pasywny.
 
-System posiada rozbudowane możliwosci monitorowania
+System posiada rozbudowane możliwości monitorowania
 rozproszonego. Niestety, do wykonania znacznej części z~tych
 konfiguracji potrzebne są elementy systemu, które są dystrybuowane za
 opłatą. Istnieją również darmowe dodatki, które pozwalają na
@@ -249,45 +249,49 @@ i~urządzeń co przodek.
 
 %refererencja do agavi http://www.agavi.org/ no i do Ajaxa
 System Icinga został wyposażony w zupełnie nowy interfejs
-graficzny. Został on zaimplementowany w jezyku PHP przy użyciu
-szkieletu aplikacji agavi. Jest on zatem oparty na technologii Ajax,
-dzięki której komunikacja z~użytkownikiem, nie opera się na
-przesyłaniu całych stron w jezyku html, lecz na realizacji żądań
-generowanych poprzez język skryptowy wykonywany po stronie
-użytkownika. Dzięki zastosowaniu tej technologi, proces wyświetlania
-strony zużywa mniejszą część pasma, a~serwer został odciążony. Nowy
-interfejs użytkownika jest w~pełni dynamiczny, składa się on
-z~rozszrzalnego menu po lewej stronie oraz pulpitów użytkownika
-w~centralnej cześci. Możliwe jest otwieranie wielu pulpitów oraz
-wyświetlanie poszczególnych informacji w~osobnych oknach, które można
-swobodnie przemieszczać w~obszarze strony. Znacznej zmianie uległ
-również model bezpieczeństwa. W~nowym interfejsie graficznym, każdy
-użytkownik, posiada swój zestaw zdefiniowanych uprawnień. Oznacza to,
-że możliwe jest ograniczenie użytkownikowi dostępu do danych
-o~oknkretnej usłudzie lub zabronić wykonywania niektórych czynności
-administracyjnych. Zarządzanie użytkownikami oraz ich uprawnieniami
-możliwe jest również z~poziomu graficznego interfejsu użytkownika, co
-znacząco podosi wygodę użytkowania systemu.
+graficzny\footnote{Skorzystanie z nowego interfejsu wymaga użycia
+  modułu IDOUtils oraz bazy danych. Możliwe jest wykorzystanie również
+  klasycznego interfejsu, który nie posiada takich wymagań.}. Został
+on zaimplementowany w języku PHP przy użyciu szkieletu aplikacji
+agavi. Jest on zatem oparty na technologii Ajax, dzięki której
+komunikacja z~użytkownikiem, nie opera się na przesyłaniu całych stron
+w języku HTML, lecz na realizacji żądań generowanych poprzez język
+skryptowy wykonywany po stronie użytkownika. Dzięki zastosowaniu tej
+technologi, proces wyświetlania strony zużywa mniejszą część pasma,
+a~serwer został odciążony. Nowy interfejs użytkownika jest w~pełni
+dynamiczny, składa się on z~rozszerzalnego menu po lewej stronie oraz
+pulpitów użytkownika w~centralnej części. Możliwe jest otwieranie
+wielu pulpitów oraz wyświetlanie poszczególnych informacji w~osobnych
+oknach, które można swobodnie przemieszczać w~obszarze
+strony. Znacznej zmianie uległ również model bezpieczeństwa. W~nowym
+interfejsie graficznym, każdy użytkownik, posiada swój zestaw
+zdefiniowanych uprawnień. Oznacza to, że możliwe jest ograniczenie
+użytkownikowi dostępu do danych o~konkretnej usłudze lub zabronić
+wykonywania niektórych czynności administracyjnych. Zarządzanie
+użytkownikami oraz ich uprawnieniami możliwe jest również z~poziomu
+graficznego interfejsu użytkownika, co znacząco podnosi wygodę
+użytkowania systemu.
 
 Kolejną istotną różnicą, jest zmiana architektury systemu. System
-Nagios posiada budowę monolityczną, a~współpraca pomiedzy
+Nagios posiada budowę monolityczną, a~współpraca pomiędzy
 poszczególnymi jego komponentami odbywa się w~sposób bardzo zawiły
 i~niejednorodny. System Icinga wprowadził natomiast budowę
 modularną. Wszystkie możliwe komponenty systemu zostały wyodrębnione,
-a~do swobodnej komunikacji pomędzi nimi zdefiniowano wygodne API. Taka
-budowa umożliwia przedewszystki rozmieszczenie poszczególnych
-komponentów systemu na różnych fizycznych maszynach, co w~przypadku
-duzych sieci moze spowodować znaczący wzrost wydajnośći
-i~niezawodnosci. Dostarczenie jednolitego REST API\footnote{dodac
-  notke o tym} umożliwia również prostsze tworzenie dodatków
-rozbudowujacych możliwosci systemu.  W~systemie Icinga rozbudowano
-także możliwosci współpracy z~bazą danych. System ten umożliwa
-współpracę, już nie tylko z~bazą MySQL, lecz również z~bazami
-PostgreSQL czy też z~systemem zarządzania bazą danych firmy
-Oracle. Możliwość wykorzystania bazy danych Oracle, jest bardzo
-istotna, jeśli dane dotyczące pomiarów muszą być przechowywane przez
-długi czas, lub jeśli monitorowana infrastruktura jest bardzo
-rozbudowana.
+a~do swobodnej komunikacji pomiędzy nimi zdefiniowano wygodne
+API. Taka budowa umożliwia przede wszystkim rozmieszczenie
+poszczególnych komponentów systemu na różnych fizycznych maszynach, co
+w~przypadku dużych sieci może spowodować znaczący wzrost wydajności
+i~niezawodności. Dostarczenie jednolitego REST API\footnote{ang. {\em
+    Representational state transfer} -- lekka metoda przesyłania
+  danych pomiędzy klientem a serwerem.} umożliwia
+również prostsze tworzenie dodatków rozbudowujących możliwości
+systemu.  W~systemie Icinga rozbudowano także możliwości współpracy
+z~bazą danych. System ten umożliwia współpracę, już nie tylko z~bazą
+MySQL, lecz również z~bazami PostgreSQL czy też z~systemem zarządzania
+bazą danych firmy Oracle. Możliwość wykorzystania bazy danych Oracle,
+jest bardzo istotna, jeśli dane dotyczące pomiarów muszą być
+przechowywane przez długi czas, lub jeśli monitorowana infrastruktura
+jest bardzo rozbudowana.
 
 System Icinga, nie tylko umożliwia rozmieszczenie modułów na różnych
 fizycznych maszynach, lecz również umożliwia wiele innych
@@ -296,7 +300,7 @@ rozproszonego. Szczególnie wartą zauważenia jest konfiguracja,
 w~której występuje wiele równorzędnych instancji rdzenia
 monitorującego, natomiast wszystkie współpracują używając jednej bazy
 danych. Centralna baza danych stanowi źródło danych dla interfejsu
-graficznego. Taka konfiguracja umożliwa monitorowanie bardzo rozległej
+graficznego. Taka konfiguracja umożliwia monitorowanie bardzo rozległej
 lub wielosegmentowej infrastruktury. Należy również nadmienić, iż
 wszystkie elementy niezbędne do konfiguracji takiego rozwiązania są
 darmowe.
@@ -304,14 +308,14 @@ darmowe.
 \section[Podsumowanie][Podsumowanie]{Podsumowanie}
 
 Współczesne systemy monitoringu, są bardzo bogato wyposażone
-i~posiadają szereg zaawansowanych możliwosci. Każdy z~systemów oferuje
+i~posiadają szereg zaawansowanych możliwości. Każdy z~systemów oferuje
 unikalny zestaw rozwiązań, które z~pewnością mogą zostać wykorzystane
 w~wielu instytucjach. Porównując wszystkie omówione systemy, należy
 zwrócić szczególną uwagę, na różnice w~ich możliwych zastosowaniach
 docelowych.
 
 Systemy, takie jak Cacti zaliczane są do grupy systemów
-analiztycznych. Ich celem jest zatem zapewnienie możliwości
+analitycznych. Ich celem jest zatem zapewnienie możliwości
 gromadzenia oraz analizy danych. Zbierane dane mają charakter
 pojedynczych, dokładnych wartości, na podstawie których prezentowane
 są użytkownikowi odpowiednie wykresy. Niestety ze względu na sposób
@@ -331,10 +335,10 @@ monitorowania gromadzone są również dane szczegółowe. Ich
 przetwarzaniem nie zajmują się już jednak same systemy monitorowania,
 lecz liczne dodatki do nich. Możliwe jest zatem rozbudowanie systemu
 tego typu, o~dodatkowe elementy, które pozwolą uzyskać system
-hybrydowy. System taki bedzie mógł pełnić rolę zarówno systemu
+hybrydowy. System taki będzie mógł pełnić rolę zarówno systemu
 dostepnościowego jak i analitycznego.
 
-Wybierając system monitorujący, nalezy zatem dokonać szczegółowej
+Wybierając system monitorujący, należy zatem dokonać szczegółowej
 analizy wymagań stawianych przed systemem. Szczegółowe porównanie
 wszystkich przedstawionych systemów monitorowania zawarto
 w~\ref{tab:PorownanieSys}.
@@ -365,7 +369,7 @@ w~\ref{tab:PorownanieSys}.
   \raggedright{Ta}k & \raggedright{Ta}k \tabularnewline 
   \hline
 
-  \raggedright{Podglad danych historycznych} &\raggedright{Tak} &
+  \raggedright{Podgląd danych historycznych} &\raggedright{Tak} &
   \raggedright{Tak, przez dodatek} & \raggedright{Tak, przez dodatek}
   \tabularnewline
   \hline
@@ -430,7 +434,7 @@ w~\ref{tab:PorownanieSys}.
   \tabularnewline
   \hline
 
-  \raggedright{Definiowanie uprawnień dla uzytkowników} & \raggedright{Tak, przez interfejs graficzny} &
+  \raggedright{Definiowanie uprawnień dla użytkowników} & \raggedright{Tak, przez interfejs graficzny} &
   \raggedright{Nie} & \raggedright{Tak, przez interfejs graficzny}
   \tabularnewline
   \hline
@@ -467,7 +471,7 @@ w~\ref{tab:PorownanieSys}.
   \hline
 
   \raggedright{Dostępność} & \raggedright{Darmowy} &
-  \raggedright{Częściowo darmowy, wiele płatnych elementów i~funkcjonalnosci} & \raggedright{Darmowy}
+  \raggedright{Częściowo darmowy, wiele płatnych elementów i~funkcjonalności} & \raggedright{Darmowy}
   \tabularnewline
   \hline
 
@@ -479,7 +483,7 @@ w~\ref{tab:PorownanieSys}.
 \end{longtable}
 
 Przedstawione systemy monitorujące w~znacznym stopniu zaspokajają
-zaporzebowanie rynku na systemy monitorowania. Pojawia się jednak
+zapotrzebowanie rynku na systemy monitorowania. Pojawia się jednak
 pewna nisza związana z~monitorowaniem urządzeń mobilnych. Zadanie to
 nie jest trywialne i~wymaga obecności dodatkowych mechanizmów zarówno
 na urządzeniu mobilnym, jak i~w~innych elementach systemu. Żaden
