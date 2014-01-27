@@ -5,14 +5,14 @@
 
 \subsection[Opis architektury][Opis architektury]{Opis architektury}
 
-Logiczna architektura programu została przedstawiona w
-\ref{sec:ProjModOdb}. Fizyczna struktura programu została utworzona z
-użyciem biblioteki Qt jako podstawowego szkieletu
-aplikacji. Wykorzystano równiez biblioteki boost oraz Crypto++. Moduł
+Logiczna architektura programu została przedstawiona
+w~\ref{sec:ProjModOdb}. Fizyczna struktura programu została utworzona
+z~użyciem biblioteki Qt jako podstawowego szkieletu
+aplikacji. Wykorzystano również biblioteki boost oraz Crypto++. Moduł
 ten przeznaczony jest, podobnie jak system monitorujący Icinga dla
-komputerów pracujących pod kontrolą systemu operacyjnego Linux i jest
+komputerów pracujących pod kontrolą systemu operacyjnego Linux i~jest
 uruchamiany jako samodzielny serwis. Fizyczna struktura programu
-składa się z następujących elementów:
+składa się z~następujących elementów:
 
 \begin{description}
 \item[Szkielet programu] Zawiera on elementy programu, konieczne do
@@ -22,52 +22,53 @@ składa się z następujących elementów:
 \item[Moduł kryptograficzny] Dostarcza on implementacji funkcji
   kryptograficznych, wymaganych podczas komunikacji z klientem
   mobilnym. Zawiera on zarówno algorytmy asymetryczne, konieczne do
-  inicjalizacji kryptografi symetrycznej, jak i algorytmy symetryczne,
+  inicjalizacji kryptografii symetrycznej, jak i~algorytmy symetryczne,
   służące do przesyłania danych.
 \item[Moduł autoryzacji klienta] Zawiera on implementację algorytmów
   uwierzytelnienia klienta.
 \item[Moduł komunikacji z użyciem TCP] Dostarcza on implementację
-  protokołu komunikacyjnego używanego do komunikacji z klientem.
-\item[Moduł logowania] Pozwala na przekazywanie wiadomości z dowolnych
-  miejsc znajdujących się w innych modułach. Wiadomość ta może
-  zawierać informacje o zaistaniałym błędzie, lub innym zdarzeniu
-  wymagającym poinformowania użytkownika.
+  protokołu komunikacyjnego używanego do komunikacji z~klientem.
+\item[Moduł logowania] Pozwala na przekazywanie użytkownikowi
+  komunikatów z~dowolnych miejsc znajdujących się w~innych
+  modułach. Wiadomość ta może zawierać informacje o~zaistniałym
+  błędzie, lub innym zdarzeniu wymagającym poinformowania użytkownika.
 \end{description}
 
 %rysunek o wspolpracy tych elementow
 
-Odwzorowanie podstawowych elementów struktury logicznej w fizyczną
-znajduje się w szkielecie aplikacji. Pozostałe elementy programu
-zostały zaprojektowane jako moduły pomocniczne świadczące dobrze
-zdefiniowane usługi.  Szczególnym przykładem tego usługowego
-charakteru pozostałych modułów może być moduł kryptograficzny i moduł
-autoryzacji klienta. Udostępniają one generyczne interfejsy dostępu do
-swoich usług dla pozostałych modułów. Szczegóły implementacyjne są
-natomiast zamknięte wewnątrz modułów. Typ faktyczny obiektu
-udostępnianego poprzez generyczny interfejs jest w bardzo wielu
-przypadkach determinowany dopiero na etapie konfiguracji
-programu. Ponadto liczba klas znajdujących się w tych modułach może
-znacząco rosnąć, gdyż jednym z wymagań było zapewnienie możliwości
-definiowania nowych algorytmów kryptograficznych jak i algorytmów
-uwierzytelnienia klienta. W celu zapewnienia możliwości wybrania typu
-faktycznego obiektu na podstawie danych wykorzystano wzorzec
-projektowy fabryki\footnote{Wzorzec ten został szczegółowo opisany w
-  XXX}.  Każdy z omawiancy modułów posiada swojego zarządcę. Dostępne
-w module obiekty muszą zostać zarejestrowane u swojego
-zarządcy. Pozostałe moduły uzyskują instancje tych obiektów, poprzez
-zarządcę, który na podstawie przekazancyh danych określa typ faktyczny
-obiektu. Jeśli dany typ jest dostępny, zostanie on wówczas przekazany
-wywołującemu i będzie on mógł uzywać go poprzez dostarczony generyczny
-interfejs. Logiczna struktura tych modułów wymaga zapewnienia, że w
-programie istnieje tylko jeden obiekt zarządcy. W tym celu został
-wykorzystany wzorzec projektowyo nazwie signleton.  Zastosowanie
-wzorca projektowego fabryki pozwala pozostałym modułom, na korzystanie
-z obiektów, których typ faktyczny jest nieznany w trakcie kompilacji
-programu oraz w trakcie ich implementacji. 
+Odwzorowanie podstawowych elementów struktury logicznej w~fizyczną ma
+miejsce w~szkielecie aplikacji. Pozostałe elementy programu zostały
+zaprojektowane jako moduły pomocnicze świadczące dobrze zdefiniowane
+usługi. Szczególnym przykładem, tego usługowego charakteru pozostałych
+modułów, może być moduł kryptograficzny i~moduł autoryzacji
+klienta. Udostępniają one generyczne interfejsy dostępu do swoich
+usług dla pozostałych modułów. Szczegóły implementacyjne są natomiast
+zamknięte wewnątrz modułów. Typ faktyczny obiektu udostępnianego
+poprzez generyczny interfejs jest w~bardzo wielu przypadkach
+determinowany dopiero na etapie konfiguracji programu. Ponadto liczba
+klas znajdujących się w~tych modułach może znacząco rosnąć. Jednym z
+wymagań było zapewnienie możliwości definiowania nowych algorytmów
+kryptograficznych jak i~algorytmów uwierzytelnienia klienta. W~celu
+zapewnienia możliwości wybrania typu faktycznego obiektu na podstawie
+danych wykorzystano wzorzec projektowy fabryki\footnote{Wzorzec ten
+  został szczegółowo opisany w XXX}.  Każdy z~omawianych modułów
+posiada swojego zarządcę. Dostępne w~module obiekty muszą zostać
+zarejestrowane u~swojego zarządcy. Pozostałe moduły uzyskują instancje
+tych obiektów, poprzez zarządcę, który na podstawie przekazanych
+danych określa typ faktyczny obiektu. Jeśli dany typ jest dostępny,
+zostanie on wówczas przekazany wywołującemu i~będzie on mógł używać go
+poprzez dostarczony generyczny interfejs. Logiczna struktura tych
+modułów wymaga zapewnienia, że w~programie istnieje tylko jedna
+instancja obiektu danego zarządcy. W~tym celu został wykorzystany
+wzorzec projektowy nazwie singleton. Zastosowanie wzorca projektowego
+fabryki pozwala pozostałym modułom, na korzystanie z obiektów, których
+typ faktyczny jest nieznany w~trakcie implementacji oraz kompilacji
+programu.
 
-W celu konfuguracji programu wykorzystano zewnętrzny plik w formacie
-XML. Umożliwaia to zmianę ustawień programu bez konieczności jego
-ponownej komilacji. Plik konfuguracyjny składa się z czterech zasadniczych sekcji:
+W celu konfiguracji programu wykorzystano zewnętrzny plik w formacie
+XML. Umożliwia to zmianę ustawień programu bez konieczności jego
+ponownej kompilacji. Plik konfiguracyjny składa się z~czterech
+zasadniczych sekcji:
 
 \begin{description}
 \item[Sekcja dostawców danych] zawiera dane dostawców, którzy mają
@@ -77,7 +78,7 @@ ponownej komilacji. Plik konfuguracyjny składa się z czterech zasadniczych sek
 \item[Sekcja odbiorców danych] zawiera dane odbiorców danych, którzy
   mają zostać uruchomieni podczas startu programu. Umożliwia
   przekazanie dodatkowych informacji do obiektu odbiorcy danych,
-  takich jak ścieżka do pliku do którego nalezy zapisywać dane. 
+  takich jak ścieżka do pliku do którego należy zapisywać dane. 
 \item[Sekcja definicji klientów] zawiera definicję klientów oraz grup
   klientów. Każda definicja klienta składa się z następujących sekcji:
   \begin{description}
@@ -89,87 +90,90 @@ ponownej komilacji. Plik konfuguracyjny składa się z czterech zasadniczych sek
     klienta.
   \end{description}
 \item[Sekcja definicji ścieżek danych] zawiera definicję ścieżek
-  danych w programie. Pozwala na definiowanie, do którego odbiorcy
+  danych w~programie. Pozwala na definiowanie, do którego odbiorcy
   danych mają trafić dane odebrane od wskazanego klienta.
 \end{description}
 
 Podczas uruchamiania programu, plik konfiguracyjny zostaje przeczytany
-oraz sprawdzony pod kątem poprawności zarówno składniowej jak i
-syntaktycznej. Niestety, ponieważ obiekty odbiekty dostawców oraz
-odbiorców danych dostarczane są z zewnętrz, prawidłowość ich ustawień
-nie moze być sprawdzana na tym samym etapie. Jest to wykonywane
-dopiero w trakcie inicjalizacji danego obiektu. Należy zatem zawsze po
-pomyślnej analizie pliku konfiguracyjnego sprawdzić zawartość pliku
-dziennika wykonania programu.
+oraz sprawdzony pod kątem poprawności zarówno składniowej jak
+i~semantycznej. Obiekty obiekty obiekty dostawców, odbiorców oraz
+algorytmów uwierzytelnienia dostarczane są przez zewnętrznych
+programistów, zatem prawidłowość ich ustawień nie może być sprawdzana
+na tym samym etapie. Jest to wykonywane dopiero w~trakcie
+inicjalizacji danego obiektu. Należy zatem zawsze po pomyślnej
+analizie pliku konfiguracyjnego sprawdzić zawartość pliku dziennika
+wykonania programu.
 
 \subsection[Szkielet programu][Szkielet programu]{Szkielet programu}
 
 Moduł ten zawiera podstawowe komponenty programu. Zawarto tutaj
-wszystkie czynności przygotowawcze związane z wczytaniem konfiguracji
-oraz obiektów wynikających z niej. Ponadto w module tym znajdują sie
-definicję podstawowych bytów logicznych programu. W zależności od
-pełnionej funkcji można wyróżnić następujące grupy obiektów:
+wszystkie czynności przygotowawcze związane z~wczytaniem konfiguracji
+oraz utworzeniem obiektów wynikających z~niej. Ponadto w~module tym
+znajdują się definicję podstawowych bytów logicznych
+programu. W~zależności od pełnionej funkcji można wyróżnić następujące
+grupy obiektów:
 
 \begin{description}
 \item[Grupa obiektów konfiguracyjnych] zawiera wszystkie obiekty
-  używane zarówno do wczytania parametrów uruchomienia programu z
+  używane zarówno do wczytania parametrów uruchomienia programu z~
   linii poleceń, jak również obiekty odpowiedzialne za dostarczenie do
   programu konfiguracji zawartej w pliku.
 \item[Grupa obiektów producentów danych] zawiera generyczny interfejs
-  producenta danych oraz fabrykę, umożliwającą uzyskiwanie obiektów z tej
-  grupy, a także definicję dostępnych producentów danych.
+  producenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
+  z~tej grupy, a~także definicję dostępnych producentów danych.
 \item[Grupa obiektów konsumentów danych] zawiera generyczny interfejs
-  konsumenta danych oraz fabrykę, umożliwającą uzyskiwanie obiektów z tej
-  grupy, a także definicję dostępnych konsumentów danych.
-\item[Grupa obiektów filtrujacych] zawiera obiekty pozwalające na
+  konsumenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
+  z~tej grupy, a~także definicję dostępnych konsumentów danych.
+\item[Grupa obiektów filtrujących] zawiera obiekty pozwalające na
   kontrolę danych otrzymywanych od klienta
 \item[Grupa obiektów kanału komunikacyjnego] zawiera obiekty powiązane
-  z kanałem komunikacyjnym pomiędzy producentami danych, a ich
+  z~kanałem komunikacyjnym pomiędzy producentami danych, a~ich
   konsumentami. Zawiera również mechanizmy formatowania danych oraz
-  bufory przeznaczone na dane oczekujace na przekazanie.
+  bufory przeznaczone na dane oczekujące na przekazanie.
 \item[Grupa obiektów zarządzających] zawiera zarządce programu oraz
   obiekty pomocnicze. Wykonywane są tutaj wszelkie czynności, które
-  nalezy wykonać w trakcie uruchamiania programu, a także tworzenie
-  oraz niszczenie obiektów główych implementujących elementy logiczne
+  należy wykonać w~trakcie uruchamiania programu, a~także tworzenie
+  oraz niszczenie obiektów implementujących elementy logiczne
   programu.
 \end{description}
 
 Głównym członkiem grupy obiektów konfiguracyjnych jest parser pliku
 konfiguracyjnego. Ponieważ plik konfiguracyjny posiada strukturę pliku
-XML możliwe było wykorzystanie czytelnika strumienia xml z biblioteki
+XML możliwe było wykorzystanie czytelnika strumienia XML z~biblioteki
 Qt. Klasa ta zapewnia generację znaczników oraz sprawdzanie
-poprawności składniowej czytanago dokumentu. Umożliwiło to
+poprawności składniowej czytanego dokumentu. Umożliwiło to
 implementację prostego parsera rekursywnie zstępującego, który zajmuje
 się jedynie sprawdzaniem poprawności logicznej znaczników. Ze względu
-na strukturę plików XML, nie jest możliwa pełna bierząca kontrola
-danych w nim zawartych. Konieczne jest zatem wczytanie pliku
-konfiguracyjnego i odwzorowanie go w struktórach danych, a następnie
+na strukturę plików XML, nie jest możliwa pełna bieżąca kontrola
+danych w~nim zawartych. Konieczne jest zatem wczytanie pliku
+konfiguracyjnego i~odwzorowanie go w~strukturach danych, a~następnie
 wykonanie sprawdzenia spójności oraz poprawności tych danych. Obiekt
-parsera konfiguracji jest również globalnym obiektem
-konfiguracyjnym. W obiekcie tym znajdują się wszystkie ustawienia oraz
-definicje wszystkich obiektów logicznych programu.
+parsera konfiguracji jest również globalnym obiektem udostępniającym
+parametry konfiguracji. W~obiekcie tym znajdują się wszystkie
+ustawienia oraz definicje wszystkich obiektów logicznych programu.
 
-Grupa obiektów producentów danych składa się z dwóch głównych
-elementów. Pierwszym z nich jest klasa implementująca wzorzec
+Grupa obiektów producentów danych składa się z~dwóch głównych
+elementów. Pierwszym z~nich jest klasa implementująca wzorzec
 fabryki. Pozwala ona pozostałym obiektom na uzyskiwanie instancji
 obiektu dostawcy danych, bez konieczności znania jego typu faktycznego
-w trakcie pisania kodu czy też kompilacji. Drugim z elementów jest
+w~trakcie pisania kodu czy też kompilacji. Drugim z~elementów jest
 generyczny interfejs dostawcy danych, który musi być implementowany
 przez każdego dostawcę. Interfejs ten pozwala na wykonywanie
-wszystkich niezbędnych operacji między innymina przekazanie instancji
-klasy dodatkowych danych potrzebnych do inicjalizacji takich jak adres
-sieciowy czy numer portu. Należy również nadmienić, że konieczne było
-również dostarczenie odpowiedniego mechanizmu pozwalającego
-programiście na rejestrację nowego typu faktycznego obiektu bez
-konieczności ingerencji w inne pliki źródłowe. W celu ułatwienia tego
+wszystkich niezbędnych operacji. Między innymi na przekazanie
+konkretnej instancji klasy dodatkowych danych inicjujących takich jak
+adres sieciowy czy numer portu. Należy również nadmienić, że konieczne
+było również dostarczenie odpowiedniego mechanizmu rejestracji
+definiowanych obiektów w~fabryce. Istotne jest, aby umożliwić
+programiście rejestrację nowego typu faktycznego obiektu bez
+konieczności ingerencji w~inne pliki źródłowe. W~celu ułatwienia tego
 procesu zostało opracowane makro, które dzięki wykorzystaniu szablonów
-dokonuje automatycznej rejestracji nowego typu faktycznego obiektu w
-fabryce. Dzięki jego wykorzystaniu programista, podczas dodawania
+dokonuje automatycznej rejestracji nowego typu faktycznego obiektu
+w~fabryce. Dzięki jego wykorzystaniu programista, podczas dodawania
 nowego dostawcy danych musi zapewnić jedynie deklarację oraz definicję
 nowego typu. Warto zauważyć, że sposób implementacji tego makra
-pozwala na umieszczenie go w pliku nagłówkowym, który jest włączany do
-wielu jednostek translacji i nie powoduje to błędów kompilacji ani
-błędów funkcjonowania procesu rejestracji.
+pozwala na umieszczenie definicji nowego typu w~pliku nagłówkowym,
+który jest włączany do wielu jednostek translacji i nie powoduje to
+błędów kompilacji ani błędów funkcjonowania procesu rejestracji.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
@@ -182,74 +186,75 @@ DATA_PROVIDER(NazwaTypu, NazwaRejestrowana)
 \end{minipage}
 \vspace{0.5cm}
 
-W ramach tej grupy obiektów dostarczono również referencyjną
-implementację dostawcy o nazwie typu DefaultTcpProvider. Stanowi on
-implementację omówionego wcześniej protokółu komunikacyjnego. W celu
-zapewnienia lepszej wydajności logika funkcjonawania tego dostawcy
+W~ramach tej grupy obiektów dostarczono również referencyjną
+implementację dostawcy o~nazwie typu DefaultTcpProvider. Stanowi on
+implementację omówionego wcześniej protokółu komunikacyjnego. W~celu
+zapewnienia lepszej wydajności, logika funkcjonowania tego dostawcy
 została przeniesiona do osobnego wątku programu. Aby zapewnić
-elastycznosci wykorzystania tago obiektu możliwewe jest definiowanie z
-poziomu konfiguracyjnego zarówno adresu IP i portu wykorzystywanego
-przez ten obiekt, jak również wskazania pliku zawierającego klucz
-prywatny.
+elastyczności wykorzystania tego obiektu możliwe jest definiowanie
+z~poziomu pliku konfiguracyjnego zarówno adresu IP i~portu
+wykorzystywanego przez ten obiekt, a~także wskazanie pliku
+zawierającego klucz prywatny.
 
-Grupa obiektów konsumentów danych posiada analigiczną budowę co grupa
+Grupa obiektów konsumentów danych posiada analogiczną budowę jak grupa
 producentów danych. Zapewnia ona zarówno fabrykę konsumentów danych
-jak i generyczny interfejs konsumenta. Rejestracja obiektów w fabryce
-odbywa się również przy użyciu analogicznego makra. W ramach tej grupy
-obiektów dostarczone implementację dwóch konsumentów danych. Pierwszy
-z konsumentów o nazwie typu ToScreenPrinter, spełnia jedynie funkcję
+jak i~generyczny interfejs konsumenta. Rejestracja obiektów w~fabryce
+odbywa się również przy użyciu analogicznego makra. W~ramach tej grupy
+obiektów dostarczono implementację dwóch konsumentów danych. Pierwszy
+z~nich o~nazwie typu ToScreenPrinter, spełnia jedynie funkcję
 kontrolną. Wszystkie dane, które do niego trafią są natychmiast
-wypisywane w dzienniku wykonania programu. Dostawca typu
-ToIcingaWriter odpowiedzialny jest za przekazywanie wszystkich danych
-do pliku komend zewnętrznych systemu Icinga. Możliwa jest zmiana
-ścieżki pliku komend zewnętrznych systemu Icinga poprzez plik
-konfiguracyjny.
+wypisywane w~dzienniku wykonania programu. Dostawca typu
+ToIcingaWriter odpowiedzialny jest natomiast za przekazywanie
+wszystkich danych do pliku komend zewnętrznych systemu Icinga. Możliwa
+jest zmiana ścieżki pliku komend zewnętrznych systemu Icinga poprzez
+plik konfiguracyjny.
 
 Grupa obiektów filtracji pozwala na kontrolę danych otrzymywanych od
-klienta. Każdy klient posiada zdefiniowany w pliku konfiguracyjnym
-zbiór urządzeń i usług o których informacje może przesyłać. Obiekty z
-tej grupy pobierają z parsera wspomniane zbiory i dokonują kontroli
-każdego wpisu dziennika otrzymanego od klienta. Jeśli klienta nadesłał
-dane dotyczące urządzenia lub usługi do których nie ma on uprawnien,
-nie będzie możliwe przekazanie ich do konsumentów.
+klienta. Każdy klient posiada zdefiniowany w~pliku konfiguracyjnym
+zbiór urządzeń i~usług o~których informacje może przesyłać. Obiekty
+z~tej grupy pobierają z~analizatora składniowego wspomniane zbiory
+i~dokonują kontroli każdego wpisu dziennika otrzymanego od
+klienta. Jeśli klienta nadesłał dane dotyczące urządzenia lub usługi
+do których nie ma on uprawnień, nie będzie możliwe przekazanie ich do
+konsumentów.
 
 Grupa obiektów kanału komunikacyjnego odpowiedzialna jest za
 niezawodne przekazanie danych od dostawcy danych do konsumentów według
-reguł zdefiniowanych w pliku konfiguracyjnym. Zapewnienie
+reguł zdefiniowanych w~pliku konfiguracyjnym. Zapewnienie
 niezawodności zostało osiągnięte poprzez implementację bufora kołowego
 wewnątrz pliku. Każdy dostawca danych posiada swój plik bufora. Na
 początku tego pliku zapisane są położenia miejsca przeznaczonego do
 czytania oraz miejsca przeznaczonego do pisania. Dane, które logicznie
-znajdują się pomiędzy miejscem do czytania, a miejscem do pisania są
-to dane, które zostały odebrane od klienta lecz nie zostały
-dostarczone jeszcze do konsumentów. Pomyślnie zweryfikowana przez
-obiekty filtrujące porcja danych przekazywana jest z użyciem kanału
-komunikacyjnego do konsumentów danych. Operacja ta odbywa się w dwóch
-etapach. Pierwszy etap dokunuje zapisu danych do pliku bufora. Jeśli
-aktualnie nie ma żadnych danych oczekujących na przekazanie do
-konsumentów, nowa porcja dancyh jest niezwłoczenie dostarczana do
+znajdują się pomiędzy miejscem do czytania, a~miejscem do pisania są
+to dane, które zostały odebrane od klienta lecz nie zostały jeszcze
+dostarczone do konsumentów. Pomyślnie zweryfikowana przez obiekty
+filtrujące porcja danych przekazywana jest z~użyciem kanału
+komunikacyjnego do konsumentów danych. Operacja ta odbywa się w~dwóch
+etapach. Pierwszy etap dokonuje zapisu danych do pliku bufora. Jeśli
+aktualnie nie ma żadnych danych oczekujących na przetworzenie przez
+konsumentów, nowa porcja danych jest niezwłocznie dostarczana do
 odpowiednich obiektów. Jeśli istnieją porcje danych, które oczekują na
 zapisanie dane zostaną zapisane do pliku i dostarczone, po danych,
 które nadeszły przed nimi. Należy zwrócić uwagę, że dane zapisywane są
 na dysku tylko raz, niezależnie od liczby dostawców do których powinny
 one zostać dostarczone.
 
-Głównym przedstawiciem grupy obiektów zarządzających jest klasa główna
-programu. Ponieważ program został napisany zgodnie z metodyką
-obiektową cała logika wykonania programu została również zamknięta w
-klasie co uprościło funkcję główną programu do minumum. Klasa ta
-odpowiedzialna jest za przebieg całosci programu. Pierwszą operacją
-wykonywaną przez tą klase jest odnalezienie pliku konfiguracyjnego i
-zlecenie jego wczytania przez parser konfiguracji. Na podstawie
-informacji uzyskanych w wyniku wykonania analizy pliku
-konfiguracyjnego klasa główna programu pobiera z odpowiendich fabryk
-wszystkie obiekty producentów oraz konsumentów zdefiniowanych w pliku
-konfiguracyjnym oraz przekazuje im odpowiednie parametry
-inicjalizacyjne. Klasa ta jest również odpowiedzialna za prawidłową
-deinicjalizację oraz destrukcję wszystkich obiektów. Ponadto nalezy
-zauważyć, że omawiany program funkcjonuje jako serwis systemowy, zatem
-konieczne jest również wykonanie w tej klasie wszystkich czynności
-zalecanych przy uruchamianiu takich serwisów.
+Głównym przedstawicielem grupy obiektów zarządzających jest klasa główna
+programu. Program został napisany zgodnie z~metodyką obiektową zatem
+cała logika wykonania programu została również zamknięta w~klasie co
+uprościło funkcję główną programu do minimum. Klasa ta odpowiedzialna
+jest za przebieg całości programu. Pierwszą operacją wykonywaną przez
+tą klasę jest odnalezienie pliku konfiguracyjnego i~zlecenie jego
+wczytania przez parser konfiguracji. Na podstawie informacji
+uzyskanych w~wyniku analizy pliku konfiguracyjnego klasa główna
+programu pobiera z~odpowiednich fabryk wszystkie obiekty producentów
+oraz konsumentów zdefiniowanych w~pliku konfiguracyjnym oraz
+przekazuje im odpowiednie parametry inicjalizacyjne. Klasa ta jest
+również odpowiedzialna za prawidłową deinicjalizację oraz destrukcję
+wszystkich obiektów. Ponadto należy zauważyć, że omawiany program
+funkcjonuje jako serwis systemowy, zatem konieczne jest również
+wykonanie w~tej klasie wszystkich czynności zalecanych przy
+uruchamianiu takich serwisów.
 
 \subsection[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
 
@@ -266,150 +271,148 @@ schematów algorytmów:
 
 Każdy ze schematów posiada zdefiniowany generyczny
 interfejs. Dostarczanie implementacji danego schematu
-kryptograficznego odbywa się w sposób analogiczny do dostarczania
+kryptograficznego odbywa się w~sposób analogiczny do dostarczania
 implementacji dostawców danych. Wszystkie implementacje algorytmów
-zostają zarejestrowane w fabryce kryptograficznej, która umożliwia
-uzyskiwanie obiektu o typie określanym na podstawie danych, a nie kodu
-programu.
+zostają zarejestrowane w~fabryce kryptograficznej, która umożliwia
+uzyskiwanie obiektu o~typie określanym na podstawie danych na przykład
+odebranych od klienta..
 
 % biblio do CBC i AESA
-W ramach tej pracy dostarczono implementację kilku algorytmów, które
-były konieczne do zaimplementowania protokołu komunikacyjnego. Jako
-algorytm symetryczny dostarczona została implementacja algorytmu AES
+W~ramach tej pracy dostarczono kilku algorytmów, które były konieczne
+do zaimplementowania protokołu komunikacyjnego. Jako algorytm
+symetryczny dostarczona została implementacja algorytmu AES
 pracującego w trybie wiązania bloków zaszyfrowanych. Protokół
-komunikacyjny wymagał dostarczenia również implementacji
-asymetrycznego algorytmu RSA. W module zdefiniowano również klasę
-implementującą generyczny interfejs funkcji skrótu, która dostarcza
-funkcjonalnosci algorytmu SHA-2 o długosci skrótu 256 bitów. Jeden z
-etapów protokołu komunikacyjnego wymagał równiez dostarczenia
-algorytmu podpisu cyfrowego opartego na algorytmie RSA.
+komunikacyjny wymagał dostarczenia również asymetrycznego algorytmu
+RSA. W module zdefiniowano ponadto klasę implementującą generyczny
+interfejs funkcji skrótu, która dostarcza funkcjonalności algorytmu
+SHA-2 o długości skrótu 256 bitów. Jeden z etapów protokołu
+komunikacyjnego wymagał również dostarczenia algorytmu podpisu
+cyfrowego opartego na algorytmie RSA.
 
 Do implementacji wszystkich algorytmów została wykorzystana biblioteka
-Crypto++. Jest to popularna biblioteka napisana w jezyku C++, która w
-obiektowy sposób udostępnia algorytmy kryptograficzne. 
+Crypto++. Jest to popularna biblioteka o otwartych źródłach napisana w
+języku C++, która w obiektowy sposób udostępnia algorytmy
+kryptograficzne.
 
 \subsection[Moduł uwierzytelnienia][Moduł uwierzytelnienia klienta]{Moduł uwierzytelnienia klienta}
 
 Moduł posiada architekturę typową dla modułów usługowych. Głównym
-elementem jest klasa implementujaca wzorzec fabryki oraz generyczny
-interfejs pozwalający na wykorzystywanie obiektów uzyskanych z
-fabryki. 
+elementem jest klasa implementująca wzorzec fabryki oraz generyczny
+interfejs pozwalający na wykorzystywanie obiektów uzyskanych
+z~fabryki.
 
-Interfejs zdefiniowany dla alggorytmów uwierzytelnienia został
-zaprojektowany z wykorzystaniem mechanizmu sygnałów i slotów z
-biblioteki Qt. Użycie tego mechanizmu pozwala na znacznie bardziej
-wydajne wykorzystanie zasobów, gdyż w czasie gdy klient przetwarza
-żadanie związanie z uwierzytelnieniem wątek serwera nie musi być w tym
-czasie bezczynny lecz może przetwarzać żądania pochodzące od innych
-klientów. Definicja interfejsu pozwala również na przekazanie do niego
-dodatkowych ustawień pochodzących z pliku konfiguracyjnego. Każdy
-algorytm uwierzytelnienia powinien po zakończeniu sukcesem lub porażką
-procesu uwierzytelnienia klienta wykonać emisję sygnału z interfejsu
-algorytmu wraz z rezultatem procesu autoryzacji.
+Interfejs zdefiniowany dla algorytmów uwierzytelnienia został
+zaprojektowany z~wykorzystaniem mechanizmu sygnałów i~slotów
+z~biblioteki Qt. Użycie tego mechanizmu pozwala na znacznie bardziej
+wydajne wykorzystanie zasobów. Przykładem takiej optymalizacji może być
+czas gdy klient przetwarza żądanie związanie z uwierzytelnieniem wątek
+serwera nie musi być wtedy bezczynny lecz może przetwarzać żądania
+pochodzące od innych klientów. Definicja interfejsu pozwala również na
+przekazanie do niego dodatkowych ustawień pochodzących z~pliku
+konfiguracyjnego. Każdy algorytm uwierzytelnienia powinien po
+zakończeniu sukcesem lub porażką procesu uwierzytelnienia klienta
+wykonać emisję sygnału z~interfejsu algorytmu wraz z~rezultatem
+procesu autoryzacji.
 
-Zapewnienie niezależnosci implementacji algorytmów uwierzytelnienia od
+Zapewnienie niezależności implementacji algorytmów uwierzytelnienia od
 wykorzystywanej aktualnie metody komunikacji wymagało zdefiniowania
-generycznego interfejsu komunikacyjnego, który moze byc wykorzystywany
+generycznego interfejsu komunikacyjnego, który może być wykorzystywany
 przez implementacje poszczególnych algorytmów. Implementacja tego
 interfejsu powinna być dostarczona przez moduł, który jest aktualnie
-wykorzystywany w programie do komunikacji z klientem.
+wykorzystywany w~programie do komunikacji z~klientem.
 
-W ramach pracy zostały również zaimplementowane dwa moduły
-uwierzytelnienia klienta. Pierwszy z nich nosi nazwę AlwaysAllow i
-jest to tak zwane uwierzytelnienie puste, czyli zakończone sukcesem
+W~ramach pracy zostały również zaimplementowane dwa moduły
+uwierzytelnienia klienta. Pierwszy z nich nosi nazwę AlwaysAllow
+i~jest to tak zwane uwierzytelnienie puste, czyli zakończone sukcesem
 dla każdego klienta. Drugi moduł - LoginPass jest to prosta metoda
-uwierzytelnienia oparta na pobraniu od klienta loginu oraz hasła i
-porównanie go z danymi dostarczonymi w pliku konfiguracyjnym. Każdy
-klient posiada w pliku konfiguracyjnym listę dostępnych dla niego
-algorytmów uwierzytelnienia wraz z danymi jakie powinny być przekazane
-do tego algorytmu, aby zapewnić pozytywne wykonanie procesu. Nalezy
-pamiętać, że zaimplementowane algorytmy uwierzytelnienia stanową
-jedynie przykład i nie powinny być wykorzystywane w systemie
-produkcyjnym, poniważ wszystkie hasła oraz nazwy użytkowników
-przechowywane są jawnym tekstem w pliku konfiguracyjnym.
+uwierzytelnienia oparta na pobraniu od klienta loginu oraz hasła
+i~porównanie go z~danymi dostarczonymi w~pliku konfiguracyjnym. Każdy
+klient posiada w~pliku konfiguracyjnym listę dostępnych dla niego
+algorytmów uwierzytelnienia wraz z~danymi jakie powinny być
+przekazane, aby zapewnić pozytywne wykonanie procesu. Należy zwrócić
+uwagę, że zaimplementowane algorytmy uwierzytelnienia stanową jedynie
+przykład i~nie powinny być wykorzystywane w~systemie produkcyjnym,
+ponieważ wszystkie hasła oraz nazwy użytkowników przechowywane są
+jawnym tekstem w pliku konfiguracyjnym.
 
 \subsection[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
 
-Moduł ten zawiera implementację protokołu komunikacyjnego opisanego w
-\ref{sec:ProtKom}. W celu umożliwienia łatwej modyfikacji oraz
-mozłiwosci ponownego wykorzystania elementów skłądowych całego
-protokołu jego implementacja została rozdzelona zgodnie z warstwami
-oraz czynnościami wykonywanymi w poszczególnych warstwach.
+Moduł ten zawiera implementację protokołu komunikacyjnego opisanego
+w~\ref{sec:ProtKom}. Inicjacja każdej z~warstw protokołu została
+zaimplementowana dedykowanej klasie lub jeśli proces inicjacji złożony
+był z~kilku rozdzielnych logicznie elementów, każdy element został
+zaimplementowany w~osobnej klasie. W~celu umożliwienia każdej z~warstw
+protokołu korzystanie z~usług warstw niższych w~sposób generyczny
+wykorzystany został wzorzec dekoratora.
 
-Inicjacja każdej z warstw protokołu została zaimplementowana
-dedykowanej klasie lub jeśli proces inicjacji złożony był z kilku
-rozdzielnych logicznie elementów, każdy element został
-zaimplementowany w osobnej klasie. W celu umożliwienia każdej z warstw
-protokołu korzystanie z usług warstw niższych w sposób generyczny
-wykorzystany został wzorzec dekoratora. 
-
-W celu wykorzystania wzorca dekoratora zdefiniowano generyczny
-interfejs pozwalający na odczytanie oraz zapisanie komunikato
-niezależnie od liczby warstw znajdujących się poniżej. Klasą prostą w
-tym przypadku jest klasa zawierająca implementację warstwy formowania
+Aby wykorzystać wzorzec dekoratora zdefiniowano generyczny interfejs
+pozwalający na odczytanie oraz zapisanie komunikatu niezależnie od
+liczby warstw znajdujących się poniżej. Klasą prostą w tym przypadku
+jest klasa zawierająca implementację warstwy formowania
 wiadomości. Klasa ta została oparta na implementacji gniazd TCP
-pochodzącej z biblioteki Qt. Klasami dekorującymi natomiast są klasy
-zapewniające szyfrowanie oraz dołaczanie skrótu wiadomosci.
+pochodzącej z~biblioteki Qt. Klasami dekorującymi natomiast są klasy
+zapewniające szyfrowanie oraz dołączanie skrótu wiadomości.
 
 %diagram z tymi klasami
 
-Wykorzystanie wzorca dekoratora pozwoli w przyszłosci na łatwą
+Wykorzystanie wzorca dekoratora pozwoli w~przyszłości na łatwą
 modyfikację protokołu komunikacyjnego np. poprzez dodanie dodatkowej
 warstwy. Ponadto wprowadzenie jednolitego interfejsu pozwoliło na
-zachowanie prostoty i jednolitości implementacji poszczególnych warstw
+zachowanie prostoty i~jednolitości implementacji poszczególnych warstw
 protokołu komunikacyjnego.
 
-Moduł ten został zaimplementowaniu przy użyciu licznych mechanizmów z
-biblioteki Qt. Przede wszystkim wykorzystany został moduł sieciowy
+Moduł ten został zaimplementowaniu przy użyciu licznych mechanizmów
+z~biblioteki Qt. Przede wszystkim wykorzystany został moduł sieciowy
 wspomnianej biblioteki. Dzięki jego użyciu uzyskano dostęp do
-generycznej implementacji serwera TCP, a także gniazd. Szkielet
+generycznej implementacji serwera TCP, a~także gniazd. Szkielet
 aplikacji Qt pozwolił na wygodną implementację asynchronicznej
-komunikacji z użyciem gniazd TCP przy pomocy standardowego dla tego
-szkieletu mechanizmu sygnałów i slotów. Dzięki temu uzyskano w
-przejrzysty i wydajny kod, który pozwala na obsługę wielu klientów w
-jednym wątku.
+komunikacji z~użyciem gniazd TCP przy pomocy standardowego dla tego
+szkieletu mechanizmu sygnałów i~slotów. Dzięki temu uzyskano
+przejrzysty i~wydajny kod, który pozwala na obsługę wielu klientów
+w~jednym wątku.
 
 \subsection[Moduł logowania][Moduł logowania]{Moduł logowania}
 
-Omawiany program wykonywany jest bez interakcji z
-użytkownikiem. Funkcjonuje on jako serwis systemowy. Docelowo będzie
-on wykonywany na serwerze, poza sesją jakiegokolwiek użytkownika. W
-trakcie wykonania programu mogą się zdarzyć sytuacje wymagające
-poinformowania użytkownika o ich wystąpieniu. Znaczna część z tych
-informacji stanowi jedynie zapis wykonania programu, jednak mogą
-występować również informacje o sytuacjach krytycznych, o których
+Omawiany program wykonywany jest bez interakcji
+z~użytkownikiem. Funkcjonuje on jako serwis systemowy. Docelowo będzie
+on wykonywany na serwerze, poza sesją jakiegokolwiek
+użytkownika. W~trakcie wykonania programu mogą się zdarzyć sytuacje
+wymagające poinformowania użytkownika o~ich wystąpieniu. Znaczna część
+z~tych informacji stanowi jedynie zapis wykonania programu, jednak
+mogą występować również informacje o sytuacjach krytycznych, o których
 użytkownik musi zostać powiadomiony. Konieczne było zatem dostarczenie
-możliwości przekazywania takich informacji z wielu modułów do jednego,
-wspólnego miejsca.
+możliwości przekazywania takich informacji z~wielu modułów do jednego,
+wspólnego miejsca, które stanowi dziennik wykonania programu.
 
-Każdy moduł posiada możliwosc przekazywania użytkownikowi wiadomości o
-różnym priorytecie. Dozwolone są następujące priorytety:
+Każdy moduł posiada możliwość przekazywania użytkownikowi wiadomości
+o~różnym priorytecie. Dozwolone są następujące priorytety:
 
 \begin{description}
-\item[FATAL] najwyższy prioorytet, wiadomość zawiera komunikat o
-  błędzie, który uniemożliwia dalsza pracę programu
-\item[ERROR] komunikat zawiera informacje o błędzie, który uniemożliwia
-  wykonanie pewnej ścieżki programu
-\item[WARNING] komunikat zawiera ostrzeżenie o nietypowej sytuacji
+\item[FATAL] najwyższy priorytet, wiadomość zawiera komunikat
+  o~błędzie, który uniemożliwia dalsze wykonanie programu
+\item[ERROR] komunikat zawiera informacje o~błędzie, który
+  uniemożliwia wykonanie pewnej ścieżki programu
+\item[WARNING] komunikat zawiera ostrzeżenie o~nietypowej sytuacji
 \item[DEBUG] komunikat zawiera treść pomocną podczas wyszukiwania błędów
 \item[INFO] komunikat zawiera jedynie treści informacyjne
 \end{description}
 
 Podczas kompilacji ustalany jest minimalny priorytet wiadomości, które
-ma być przekazywana użytkownikowi. Wszystkie wiadomości o priorytecie
-niższym niż ustalony, nie zostaną zapisane. Ponadto dzięki użyciu
-mechanizmów opartych o szablony wszystkie komunikaty o priorytecie
-niższym zostaną rozwinięte do wywołania funkcji pustej, która może
-zostać w łatwy sposób zoptymalizowana przez kompilator.
+mają być przekazywane użytkownikowi. Wszystkie wiadomości
+o~priorytecie niższym niż ustalony, nie zostaną zapisane. Ponadto
+dzięki użyciu mechanizmów opartych o~szablony wszystkie komunikaty
+o~priorytecie niższym zostaną rozwinięte do wywołania funkcji
+pustej. Wywołanie takie zostanie z bardzo dużym prawdopodobieństwem
+zoptymalizowane przez kompilator.
 
-Przekazanie użytkownikowi komunikatu w wielu sytuacjach może nieść
-zbyt mało informacji. W celu umożliwienia przekazania dodatkowych
-informacji bez konieczności pisania nadmiernie dużej ilości komend
-przy każdym komunikacie, opracowana została makrodefinicja, która do
-każdego komunikatu dołączy aktualny stempel czasu, nazwę pliku w
-którym znajduje się komunikat, a także nazwę funkcji oraz numer
-linii. Ponadto komunikat nie musi się składać jedynie z tekstu lecz
-można go formować w taki sam sposób jak pisać do strumienia.
+Przekazanie użytkownikowi treści komunikatu w~wielu sytuacjach może
+nieść zbyt mało informacji. W~celu umożliwienia przekazania
+dodatkowych informacji bez konieczności pisania nadmiernej liczby
+komend przy każdym komunikacie, opracowana została makrodefinicja,
+która do każdego komunikatu dołączy aktualny stempel czasu, nazwę
+pliku w~którym znajduje się komunikat, a~także nazwę funkcji oraz
+numer linii. Ponadto komunikat nie musi się składać jedynie z tekstu
+lecz można go formować w~taki sam sposób jak pisać do strumienia.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
@@ -431,15 +434,14 @@ LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 \end{minipage}
 \vspace{0.5cm}
 
-Ponieważ program nie jest przypisany do żadnego z wirtualnych
-terminali nie ma możliwości przekazywania wiadomości na
-konsole. Konieczne jest zatem utworzenie pliku do którego zapisywane
-będą komunikaty. Należy zwrócić uwagę, że program jako serwis
-systemowy uruchomiony będzie z znacznie ograniczonymi prawami, aby
-podnieść poziom bezpieczeństwa serwera. W związku z pozyższym jedynym
-miejscem, co do którego można założyć, ze program będzie miał dostęp
-jest katalog plików tymczasowych. Każde uruchomienie programu powoduje
-zatem utworzenie w tym katalogu pliku składającego sie z nazwy
-programu oraz stempla czasu zawierającego czas jego uruchomienia.
-
-\section[Konfiguracja systemu][Konfiguracja systemu]{Konfiguracja systemu}
+Ponieważ program nie jest przypisany do żadnego z~wirtualnych
+terminali nie ma możliwości przekazywania wiadomości na standardowe
+wyjście lub wyjście błędów. Konieczne jest zatem utworzenie pliku, do
+którego zapisywane będą komunikaty. Należy zwrócić uwagę, że program
+jako serwis systemowy uruchomiony będzie ze znacznie ograniczonymi
+prawami, aby podnieść poziom bezpieczeństwa serwera. W~związku
+z~powyższym jedynym miejscem, co do którego można założyć, że program
+będzie miał dostęp jest katalog plików tymczasowych. Każde
+uruchomienie programu powoduje zatem utworzenie w~tym katalogu pliku
+składającego się z~nazwy programu oraz stempla czasu zawierającego
+czas jego uruchomienia.
