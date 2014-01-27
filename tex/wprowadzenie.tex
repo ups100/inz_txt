@@ -1,15 +1,15 @@
 \chapter{Wprowadzenie}
 
 Komputer stał się nieodzowną częścią współczesnej kultury. Praktycznie
-każde gospodarstwo domowe posiada komputer wraz z~dostępem do internet
-u. Urządzenia będące w~posiadaniu prywatnych właścicieli, bardzo
-często są wykorzystywane do rozrywki lub innych czynności, których
-niewykonanie nie pociąga za sobą żadnych konsekwencji. Znaczna jednak
-część urządzeń znajduje się w posiadaniu dużych firm oraz ośrodków
-badawczych. Komputery te zazwyczaj są połączone ze sobą w~sieć
-prywatną - intranet. Do ich połączenia konieczna jest zarówno
+każde gospodarstwo domowe posiada komputer wraz z~dostępem do
+internetu. Urządzenia będące w~posiadaniu prywatnych właścicieli,
+bardzo często są wykorzystywane do rozrywki lub innych czynności,
+których niewykonanie nie pociąga za sobą żadnych konsekwencji. Znaczna
+jednak część urządzeń znajduje się w~posiadaniu dużych firm oraz
+ośrodków badawczych. Komputery te zazwyczaj są połączone ze sobą
+w~sieć prywatną - intranet. Do ich połączenia konieczna jest zarówno
 rozbudowana struktura okablowania jak i~zestaw urządzeń
-sieciowych. Wykorzystanie komputerów pozwala firmą na przyśpieszenie
+sieciowych. Wykorzystanie komputerów pozwala firmom na przyśpieszenie
 prac, przez co ich zysk znacząco wzrasta. Brak możliwości używania
 komputera, lub komunikacji poprzez infrastrukturę sieciową, niesie za
 sobą poważne straty finansowe. Konieczne jest zatem zapewnienie
@@ -19,25 +19,24 @@ potrzebna.
 Urządzenia elektroniczne posiadają ograniczoną trwałość, przez co
 istnieje niezerowe prawdopodobieństwo awarii każdego z~elementów sieci
 firmowej. Ponadto należy pamiętać, iż na urządzeniach uruchamiane jest
-oprogramowanie, które w~znaczącej większości nie jest pozbawione
-błędów. Za awarię w danym systemie należy zatem uznać, nie tylko
-fizyczne uszkodzenie urządzenia, lecz także sytuacje, w~której
-użytkownik zostaje pozbawiony dostępu do danej aplikacji. Warto
-również zauważyć, że użytkownik oczekuje od danej aplikacji
-dostarczenia usług o~odpowiednim poziomie. Zatem należy również uznać,
-za awarię, sytuację, gdy usługi świadczone użytkownikowi nie są na
-satysfakcjonującym poziomie.
+oprogramowanie, które może zawierać błędy. Za awarię w~danym systemie
+należy zatem uznać, nie tylko fizyczne uszkodzenie urządzenia, lecz
+także sytuacje, w~której użytkownik zostaje pozbawiony dostępu do
+danej aplikacji. Warto również zauważyć, że użytkownik oczekuje od
+danej aplikacji dostarczenia usług o~odpowiednim poziomie. Zatem
+należy również uznać, za awarię, sytuację, gdy usługi świadczone
+użytkownikowi nie są na satysfakcjonującym poziomie.
 
 Użytkownik końcowy bardzo często nie jest w~stanie udzielić
-precyzyjnej informacji o~usterce, którą może on obserwować. Bardzo
-popularna jest sytuacja, w której użytkownik zgłasza, że nie działa
-aplikacja z~której korzysta, natomiast faktyczną przyczyną błędu jest
-awaria bazy danych lub komunikacji pomiędzy nimi. Indywidualna
-diagnoza przy każdej awarii jest czasochłonna przez co czas do jej
-usunięcia wydłuża się, powodując straty finansowe. Od wielu lat w celu
+precyzyjnej informacji o~usterce, której doświadczył. Bardzo popularna
+jest sytuacja, w której użytkownik zgłasza, że nie działa aplikacja
+z~której korzysta, natomiast faktyczną przyczyną błędu jest awaria
+bazy danych lub komunikacji sieciowej. Indywidualna diagnoza przy
+każdej awarii jest czasochłonna, przez co czas do jej usunięcia
+wydłuża się, powodując straty finansowe. Od wielu lat w~celu
 optymalizacji wykrywania i~obsługi awarii stosuje się systemy
-monitorujące, które przedstawiają administratorowi w~wygodny sposób
-stan wszystkich urządzeń oraz usług.
+monitorujące, które przedstawiają administratorowi w~przejrzysty
+sposób stan wszystkich urządzeń oraz usług.
 
 Zadaniem systemu monitorującego jest śledzenie stanu danego urządzenia
 i~przedstawianie go administratorowi poprzez czytelny interfejs
@@ -49,70 +48,71 @@ zużycie prądu. Można wyróżnić dwa podstawowe rodzaje monitorowania:
 
 \begin{description}
 \item[Monitorowanie aktywne] rodzaj monitorowania, w~którym system
-  monitorujący cyklicznie wykonuje sprawdzenie danego urządzenia lub
-  usługi
+  monitorujący cyklicznie wykonuje sprawdzenie styanu danego
+  urządzenia lub usługi
 \item[Monitorowanie pasywne] rodzaj monitorowanie, w~którym status
   usługi lub urządzenia zgłaszany jest przez program zewnętrzny do
   systemu monitorującego
 \end{description}
 
-Każdy z~sposobów monitorowania ma zarówno swoje wady i~zalety. Wybór
-metody monitorowania, zależy zatem od charakterystyki wartości, którą
-monitorujemy. Jeśli wartość podlega, nieregularnym i~krótkotrwałym
-zmianom stosuje się monitorowanie pasywne, aby nie było możliwe
-pominięcie owego zdarzenia. Natomiast jeśli dana wartość posiada
+Każdy ze~sposobów monitorowania ma zarówno swoje wady i~zalety. Wybór
+metody monitorowania, zależy zatem od charakterystyki monitorowanej
+wartości. Jeśli parametr podlega, nieregularnym i~krótkotrwałym
+zmianom, a każda z nich powinna być odnotowana stosuje się
+monitorowanie pasywne. Natomiast jeśli dana wartość posiada
 charakterystykę zmieniającą się w~sposób ciągły, należy korzystać
 wtedy z monitorowania aktywnego, które dokonuje próbkowania danej
 wartości w~określonych odstępach czasu.
 
-Sieci bardzo dużych przedsiębiorstw, nie posiadają płaskiej
-struktury. Ze względów bezpieczeństwa bardzo często składa się ona
-z~sieci wirtualnych, czy wręcz odizolowanych od siebie
+Sieci bardzo dużych przedsiębiorstw, posiadają budowę
+wielosegmentową. Ze względów bezpieczeństwa bardzo często składa się
+ona z~sieci wirtualnych, czy wręcz odizolowanych od siebie
 podsieci. Ponadto sieci przedsiębiorstwa bardzo często zawierają
 zapory ogniowe, które filtrują ruch pomiędzy sieciami. Ze względu na
 fragmentacje sieci często nie jest możliwe zastosowanie prostego
 systemu monitorowania opisanego wcześniej. Konieczne jest zatem użycie
-rozproszonego systemu monitorowania.
+systemu rozproszonego.
 
 Najprostszą realizacją rozproszonego systemu monitorowania jest użycie
 monitorowania pasywnego do monitorowania wszystkich urządzeń i~usług,
 które nie są widoczne z~sieci w~której uruchomiony jest system
-monitorujący. Niestety wymaga to zmian w konfiguracji wszystkich
+monitorujący. Niestety wymaga to zmian w~konfiguracji wszystkich
 urządzeń i~uruchomienia na nim dodatkowego oprogramowania. Takie
 zmiany mogą nie być możliwe, na prostych urządzeniach, których
-kontrola odbywa się poprzez predefiniowany system producenta.
+kontrola odbywa się poprzez preinstalowany system producenta. 
 
 Możliwa jest również konfiguracja, wieloinstancyjnego systemu
 monitorowania. W~każdej odizolowanej komórce sieci należy umieścić
-instancję systemu, która będzie zbierała dane z~tej komórki sieci,
-zarówno w sposób aktywny jak i~pasywny. Po wstępnym przetworzeniu
-takich danych muszą one zostać zsynchronizowane pomiędzy instancjami,
-a~następnie umieszczone w~instancji nadrzędnej lub innym miejscy
-docelowym. Rozwiązanie to posiada liczne zalety i~jest bardzo często
-stosowane. Dodatkowo niektóre z~systemów umożliwiają wymianę danych
-pomiędzy instancjami bez konieczności istnienia wyróżnionej instancji
-nadrzędnej.
+instancję systemu, która będzie zbierała dane z~tej komórki
+sieci. Monitorowanie danego fragmentu infrastruktury może się odbywać
+zarówno w~sposób aktywny jak i~pasywny. Po wstępnym przetworzeniu
+takich danych, muszą one zostać zsynchronizowane pomiędzy instancjami,
+a~następnie umieszczone w~instancji nadrzędnej lub innym zbiorczym
+miejscu docelowym. Rozwiązanie to posiada liczne zalety i~jest bardzo
+często stosowane. Dodatkowo niektóre z~systemów umożliwiają wymianę
+danych pomiędzy instancjami bez konieczności istnienia wyróżnionej
+instancji nadrzędnej.
 
-Przedstawienie danych bieżących administratorowi jest często
-niewystarczające. Precyzyjna diagnoza awarii w~możliwe krótkim czasie
-od jej wystąpienia jest bardzo ważna. Jednak istotna jest również
+Przedstawienie administratorowi danych bieżących jest często
+niewystarczaje. Precyzyjna diagnoza awarii w~możliwe krótkim czasie od
+jej wystąpienia jest bardzo ważna. Jednak istotna jest również
 możliwość analizy historycznych awarii, aby umożliwić wykrycie
-potencjalnej awarii jeszcze przed jej wystąpieniem. Są dostępne na
+potencjalnej awarii jeszcze przed jej wystąpieniem. Dostępne są na
 rynku systemy, które pozwalają na gromadzenie danych o~odczytach
 w~bazach danych. Kolejnym krokiem może być analiza takiej bazy danych
 z~wykorzystaniem systemu eksperckiego, który wykaże odpowiednie
-zależności i~na tej podstawie możliwe będzie wykrycie awarii jeszcze
-przed jej wystąpieniem.
+zależności i~na tej podstawie umożliwi wykrycie potencjalnej awarii
+jeszcze przed jej wystąpieniem.
 
 Współczesne korporacje posiadają nie tylko rozbudowaną infrastrukturę
 sieciową, lecz również bardzo dużą liczbę urządzeń mobilnych takich
 jak laptopy, tablety czy inne urządzenia specyficzne dla danej
 firmy. Bardzo często okazuje się, że poprawne działanie tych urządzeń
-wpływa znacząco na efektywność pracy, osób, które ich
+wpływa znacząco na efektywność pracy osób, które ich
 używają. Monitorowanie takiego urządzenie jest zadaniem
 nietrywialnym. Należy pamiętać, iż urządzenie mobilne może nie mieć
 chwilowej możliwości komunikacji z~systemem monitorującym. Jeśli
-przerwy w łączności występują stosunkowo często, to w~przypadku braku
+przerwy w~łączności występują stosunkowo często, to w~przypadku braku
 późniejszej synchronizacji danych można doprowadzić, do fałszywych
 predykcji systemu eksperckiego. Aby tego uniknąć konieczne jest
 zapewnienie dostarczenia wyników wszystkich pomiarów do systemu, kiedy
@@ -133,18 +133,20 @@ rozbudowę popularnego systemu monitorowania, aby umożliwić
 monitorowanie przy jego użyciu zarówno urządzeń statycznych jak
 i~mobilnych.
 
-Układ tej pracy jest następujący. Rozdział~\ref{chap:Systemy}
-zawiera opis oraz porównanie dostępnych na rynków systemów
-monitorowania oraz wykazuje ich braki. W~rozdziale XXX zdefiniowano
-wymagania dla całego systemu monitorowania i~na ich podstawie wybrano
-system, który podlegać będzie modyfikacjom. Rozdział XXX zawiera opis
-systemu Icinga, który wybrano do rozbudowy, oraz wykazuje jakie
-wymagania nie zostały przez ten system spełnione. W rozdziale XXX
-przedstawiono opracowany projekt systemu monitorowania, zgodnego
-z~przedstawionymi wymaganiami. Rozdział XXX natomiast zawiera opis
-wykonanej implementacji oraz zaprojektowanego protokołu
-komunikacyjnego. W~rozdziale XXX zawarto opis przebiegu testowania
-wykonanego systemu, a~także przedstawiono sprawozdanie z~jego
-użytkowania. Rozdział XXX natomiast, zawiera podsumowanie niniejszej
+Układ tej pracy jest następujący. Rozdział~\ref{chap:Systemy} zawiera
+opis oraz porównanie dostępnych na rynków systemów
+monitorowania. W~rozdziale \ref{chap:Wymagania} przedstawiono
+problematykę monitorowania klienta statycznego oraz mobilnego. Ponadto
+po wykonaniu analizy, przedstawiono wymaganie jakie są stawiane przed
+systemem kompleksowego monitorowania przedsiębiorstwa. Rozdział
+\ref{chap:Icinga} zawiera opis szczegółowy opis systemu Icinga na
+bazie którego budowany jest projektowany system. W rozdziale
+\ref{chap:ProjektSystemu} przedstawiono projekt systemu monitorowania,
+zgodnego z~przedstawionymi wymaganiami. Rozdział
+\ref{chap:Implementacja} zawiera natomaist opis wykonanej w~ramach
+nieniejszej pracy implementacji systemu monitorowania. W~rozdziale
+\ref{chap:Testy} zawarto opis przebiegu testowania wykonanego systemu,
+a~także przedstawiono sprawozdanie z~jego użytkowania. Rozdział
+\ref{chap:Podsumowanie} natomiast, zawiera podsumowanie niniejszej
 pracy, a~także wskazuje potencjalne możliwości rozwoju wykonanego
 systemu.
