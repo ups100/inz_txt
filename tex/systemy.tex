@@ -12,26 +12,27 @@ kategorie:
 \item Systemu analityczne
 \end{itemize}
 
-Systemy monitorujące w~których główny nacisk jest położony na
-zapewnienie ciągłej dostępności monitorowanych usług. Systemy te
-wspierają administratora w~codziennych zadaniach, poprzez nieustanne
-monitorowanie aktualnego stanu sieci. Narzędzia te są wykorzystywane
-przede wszystkim do szybkiego powiadamiania oraz lokalizacji awarii.
+Systemy monitorujące w~których główny nacisk położony jest na
+zapewnienie ciągłej dostępności monitorowanych usług nazywane są
+systemami dostępnościowymi. Wspierają one administratora
+w~codziennych zadaniach, poprzez nieustanne monitorowanie aktualnego
+stanu sieci. Narzędzia te są wykorzystywane przede wszystkim do
+szybkiego powiadamiania oraz lokalizacji awarii.
 
 Systemy analityczne, w~kontekście monitorowania infrastruktury
 sieciowej, to systemy, które są nastawione na zbieranie i~analizę
 posiadanych danych. Tego typu systemy nie są zazwyczaj wykorzystywane
-do powiadamiania czy lokalizacji awarii, ich zadaniem jest
-przede wszystkim gromadzenie danych dotyczących zużycia poszczególnych
+do powiadamiania czy lokalizacji awarii. Ich zadaniem jest przede
+wszystkim gromadzenie danych dotyczących zużycia poszczególnych
 zasobów, czy też wskaźników jakości poszczególnych usług. Systemy tego
 typu posiadają zazwyczaj bardzo rozbudowane narzędzia służące do
 generacji i~analizy wykresów na podstawie zebranych wcześniej danych.
 
-W ostatnich latach można zauważyć wzrost popularności rozwiązań
+W~ostatnich latach można zauważyć wzrost popularności rozwiązań
 hybrydowych. Pozwalają one na kompleksowe zarządzanie infrastrukturą
 sieciową. Dzięki zastosowaniu takiego systemu administrator uzyskuje
-jeden interfejs, w którym może zarówno śledzić bieżący stan sieci
-i~diagnozować awarie, jak również prowadzić analizę danych
+jeden uniwersalny interfejs. Możliwy jest w nim zarówno pogląd
+bieżącego stan sieci i~diagnoza awarii, jak i~analiza danych
 historycznych.
 
 Przechowywanie danych zgromadzonych podczas monitorowania może odbywać
@@ -40,7 +41,8 @@ jeszcze 5 lat temu były płaskie pliki zawierające zgromadzone
 dane. Rozwiązanie tego typu jest bardzo uciążliwe, a~sprawne
 zarządzanie zgromadzonymi danymi wymaga dużego wkładu pracy własnej
 administratora. Obecnie rozpowszechniają się techniki przechowywania
-zebranych danych w~oparciu o~bazy danych. Współcześnie używane typy baz danych to:
+zebranych danych w~oparciu o~bazy danych. Współcześnie używane typy
+baz danych to:
 
 \begin{itemize}
 \item Relacyjne bazy danych
@@ -54,15 +56,15 @@ której gromadzone są wyniki wraz z~upływem czasu rośnie. Powoduje to
 zwiększenie zajętości przestrzeni dyskowej, a~także wpływa na czas
 wykonywania operacji. Dane są przechowywane w~bazie do czasu, gdy
 użytkownik jawnie je usunie. Pozwala to na przeglądanie dowolnie
-długiego okresu historii, bez utraty dokładności, a także na
+długiego okresu historii, bez utraty dokładności, a~także na
 dynamiczne zarządzanie czasem przechowywania danych.
 
 Cykliczne bazy danych posiadają natomiast stały, definiowany podczas
-tworzenia rozmiar. Rozmiar ten określa o liczbę porcji danych jaka
-może być przechowywana w bazie. Jeśli rozmiar bazy przekroczy rozmiar
+tworzenia rozmiar. Rozmiar ten określa liczbę porcji danych jaka może
+być przechowywana w~bazie. Jeśli rozmiar bazy przekroczy rozmiar
 zadany przy tworzeniu, wykonywana jest konsolidacja danych. Polega ona
 na wyliczeniu zadanych wartości w~odpowiednich przedziałach
-i~zachowanie ich w~pojedynczych rekordach, a~usunięcie dokładnych
+i~zachowanie ich w~pojedynczych rekordach, oraz usunięcie dokładnych
 danych. Możliwe są trzy typy konsolidacji danych, minimum, średnia
 oraz maksimum. Rozmiar bazy danych jest definiowany w~chwili jej
 tworzenia i~późniejsza modyfikacja tego rozmiaru nie jest już
@@ -73,9 +75,13 @@ historycznych.
 
 Każdy typ systemu, jak i~rodzaj bazy danych posiada swoje
 zastosowanie. Należy zatem rozważnie zdefiniować wymagania jakie
-stawia się przed systemem. Po dokonaniu ich analizy i~analizy
-możliwości konkretnego systemu dokonać wyboru systemu, który system
-najlepiej spełnia przedstawione wymagania.
+stawia się przed systemem. Precyzyjne sformułowanie wymagań oraz
+dokładna analiza możliwości każdego z~systemów zapewni wybór narzędzia
+dostosowanego do potrzeb. Możliwa jest jednak sytuacja, w~której żaden
+z~dostępnych systemów, nie będzie spełniał wszystkich stawianych
+wymagań. Konieczne jest w takiej sytuacji podjęcie wysiłku modyfikacji
+systemu spełniającego najwięcej wymagań, lub zaprojektowanie oraz
+implementacja takiego systemu od podstaw.
 
 \subsection[Cacti][System monitorowania Cacti]{System monitorowania Cacti}
 
