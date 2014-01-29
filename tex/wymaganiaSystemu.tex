@@ -42,42 +42,51 @@ podstawowe konfiguracje monitorowania rozproszonego:
   dane.
 \end{itemize}
 
-%dorzucic tu jakies rysunki
+\begin{figure}[h]
+\label{fig:PorPasIRozp}
+  \caption{Monitoring pasywny oraz rozproszony. Kolor czerwony -
+    monitorowanie aktywne, niebieski - monitorowanie pasywne, czarny -
+    komunikacja wewnętrzna systemu.}
+\makebox[\textwidth]{%
+\includegraphics[width=0.49\textwidth]{img/pasywne}
+\hfill    
+\includegraphics[width=0.49\textwidth]{img/rozproszone}
+}\\[0.1cm]
+\end{figure}
 
-Użycie monitorowania pasywnego dla wszystkich usług jest bardzo nie
-wygodnie i~jednocześnie utrudnia konfiguracje, a~także pozbawia
-administratora możliwosci używania niektórych mechanizmów dostępnych
-wyłącznie dla urządzeń monitorowanych aktywnie. Ponadto wyniki
-sprawdzeń pasywnych nie są akumulowane, lecz wysyłane odrazu po ich
-uzyskaniu. Oznacza to, że jeśli pojawi się chwilowy brak połączenia
-z~serwerem, to wpisy dziennika zostaną zgubione. W~przypadku, gdy
-jedynym celem systemu jest monitorowanie dostępności danej usługi
-zewnętrznej serwera, a~nie jego parametrów wewnętrznych jest to jednak
-błąd pomijalny. Błąd ten staje się jednak istotny, gdy jednym z~zadań
-systemu, jest gromadzenie i~analiza danych
-historycznych. Wieloinstancyjny system minitorujący wymaga
-zdecydowanie więcej zasobów jednak pozwala na osiągnięcie znacznie
-wygodniejszego i~bardziej niezawodnego systemu. Ponadto dzięki takiej
-konfiguracji nie ma potrzeby ingerencji w monitorowane serwery co
-redukuje ich obciążenie, a~także zwiększa bezpieczeństwo. Warto
-również wspomnieć, że na przykład system Icinga, daje możliwość
-integracji wielu instancji jądra monitorującego, przy pomocy wspólnej
-bazy danych. Dzięki temu administrator danej sieci ma możliwość
-monitorowania i kofigurowania wielu instancji przy pomocy wspólnego
-interfejsu. Niestety w systemie Nagios rozwiązanie to zaliczane jest
-do cześci korporacyjnej tego systemu, przez co posiada zamknięte
-źródła i jego wykorzystanie wymaga zakupu licencji. Rozwiązania oparte
-na istnieniu jednej centralnej instancji jądra systemu monitorujacego,
-do której przesyłane są, gdy jest to możliwe odczyty wykonane przez
-inne instancje, są zazwyczaj darmowe lecz wymagają dodatkowej
-instancji, zajmującej sie agregacją danych. Nalezy również zwrócić
-uwagę, iż niektóre sytemy jak Cacti nie posiadają w~ogóle możliwosći
-rozproszonego monitorowania.
+Wizualizację obu konfiguracji podstawowych przedstawiono
+na~\ref{fig:PorPasIRozp}. Użycie monitorowania pasywnego dla
+wszystkich usług jest bardzo nie wygodnie i~jednocześnie utrudnia
+konfiguracje, a~także pozbawia administratora możliwosci używania
+niektórych mechanizmów dostępnych wyłącznie dla urządzeń
+monitorowanych aktywnie. Ponadto wyniki sprawdzeń pasywnych nie są
+akumulowane, lecz wysyłane odrazu po ich uzyskaniu. Oznacza to, że
+jeśli pojawi się chwilowy brak połączenia z~serwerem, to wpisy
+dziennika zostaną zgubione. W~przypadku, gdy jedynym celem systemu
+jest monitorowanie dostępności danej usługi zewnętrznej serwera, a~nie
+jego parametrów wewnętrznych jest to jednak błąd pomijalny. Błąd ten
+staje się jednak istotny, gdy jednym z~zadań systemu, jest gromadzenie
+i~analiza danych historycznych. Wieloinstancyjny system minitorujący
+wymaga zdecydowanie więcej zasobów jednak pozwala na osiągnięcie
+znacznie wygodniejszego i~bardziej niezawodnego systemu. Ponadto
+dzięki takiej konfiguracji nie ma potrzeby ingerencji w monitorowane
+serwery co redukuje ich obciążenie, a~także zwiększa
+bezpieczeństwo. Warto również wspomnieć, że na przykład system Icinga,
+daje możliwość integracji wielu instancji jądra monitorującego, przy
+pomocy wspólnej bazy danych. Dzięki temu administrator danej sieci ma
+możliwość monitorowania i kofigurowania wielu instancji przy pomocy
+wspólnego interfejsu. Niestety w systemie Nagios rozwiązanie to
+zaliczane jest do cześci korporacyjnej tego systemu, przez co posiada
+zamknięte źródła i jego wykorzystanie wymaga zakupu
+licencji. Rozwiązania oparte na istnieniu jednej centralnej instancji
+jądra systemu monitorujacego, do której przesyłane są, gdy jest to
+możliwe odczyty wykonane przez inne instancje, są zazwyczaj darmowe
+lecz wymagają dodatkowej instancji, zajmującej sie agregacją
+danych. Nalezy również zwrócić uwagę, iż niektóre sytemy jak Cacti nie
+posiadają w~ogóle możliwosći rozproszonego monitorowania.
 
 \section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
 mobilnych]{Monitorowanie rozproszone klientów mobilnych}
-
-%\section[Charakterystyka problemu][Charakterystyka problemu]{Charakterystyka problemu}
 
 Rosnąca w~ostatnich latach popularność technologii mobilnych
 przyczyniła się do pojawienia się w~firmach bardzo dużej liczby
@@ -170,7 +179,7 @@ systemu. Wszystkie wymagania stawiane przed omawianym systemem zostały
 zebrane w \ref{tab:Wymagania}.
 
 \begin{longtable}[c]{|c||p{3.5cm}|p{9cm}|}
-\caption[Wymagania systemu monitorowania klienta mobilnego]{\raggedleft{Wymagania systemu monitorowania klienta mobilnego}} \label{tab:Wymagania} \\ 
+\caption{Wymagania systemu monitorowania klienta mobilnego} \label{tab:Wymagania} \\ 
   \hline
   Kod & \multicolumn{1}{c|}{Nazwa} & \multicolumn{1}{c|}{Opis} \tabularnewline
   \hline \hline
@@ -274,7 +283,6 @@ darmowych systemów monitorowania. Na podstawie analizy systemów
 monitorujacych dostępnych na rynku, dokonanej w~\ref{chap:Systemy},
 został wybrany system monitorujący Icinga.
 
-%link do wykorzystania icingi w cernie
 Wybór ten podyktowany jest wieloma zaletami tego systemu. Przede
 wszystkim, nalezy zauważyć przemyślaną architekturę. Ponieważ posiada
 on budowę modularną, możliwe jest jego instalowanie na wielu odrębnych
@@ -290,7 +298,9 @@ szczególne uznanie zasługuje również rozbudowana i~na bieżąco
 aktualizowana dokumentacja projektu. Najważniejszą z~zalet jest jednak
 popularność tego systemu wśród administratorów. Dowodem popularności
 i~wiarygodności systemu Icinga może być jego zastosowanie w~ośrodku
-badań Europejskiej Organizacji Badań Jądrowych CERN.
+badań Europejskiej Organizacji Badań Jądrowych CERN\footnote{Szerszy
+  opis zastosowania systemu Icinga w tej organizacji można znaleźć
+  w~\cite{www:IcingaCern}.}.
 
 Rdzeń monitorujący systemu Icinga jest przeznaczony dla systemu Linux,
 jednak możliwe jest uruchomienie go na większości systemów z~rodziny

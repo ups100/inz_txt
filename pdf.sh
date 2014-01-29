@@ -3,8 +3,8 @@
 # wygenerowanie pierwszego pliku aux
 # pdflatex-file-line-error-style -output-directory=tmp -aux-directory=tmp -include-directory=tex tex/main.tex
 # pdflatex-file-line-error-style -output-directory=tmp -aux-directory=tmp -include-directory=tex tex/main.tex
-pdflatex -file-line-error-style tex/main.tex
-pdflatex -file-line-error-style tex/main.tex
+pdflatex -file-line-error-style --shell-escape tex/main.tex
+pdflatex -file-line-error-style --shell-escape tex/main.tex
 # tworzenie odwo³añ do bibliografii
 bibtex -min-crossrefs -1 main
 #bibtex -min-crossrefs -1 bk
@@ -15,9 +15,9 @@ bibtex -min-crossrefs -1 main
 #makeindex *.idx -o main.ind
 # aktualizacja aux
 # pdflatex-file-line-error-style -output-directory=tmp -aux-directory=tmp -include-directory=tex tex/main.tex
-pdflatex -file-line-error-style tex/main.tex
+pdflatex -file-line-error-style --shell-escape tex/main.tex
 # stworzenie poprawnych odnosników
 # pdflatex-file-line-error-style -output-directory=tmp -aux-directory=tmp -include-directory=tex tex/main.tex
-pdflatex -file-line-error-style tex/main.tex
+pdflatex -file-line-error-style --shell-escape tex/main.tex
 # i interaktywny pdf gotowy
 mv main.pdf kopasiak_msc.pdf

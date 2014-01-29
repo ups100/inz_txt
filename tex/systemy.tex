@@ -85,39 +85,51 @@ implementacja takiego systemu od podstaw.
 
 \subsection[Cacti][System monitorowania Cacti]{System monitorowania Cacti}
 
-%dodac do bibliografii http://oss.oetiker.ch/rrdtool/
 Jest to system monitorujący, rozwijany przez The Cacti Group
 Inc. i~dystrybuowany na licencji~GPL\footnote{ ang. {\em General
     Public License} - popularna licencja oprogramowania o~otwartych
-  źródłach. Treść licencji można znaleźć w XXX}. System bazuje na
-narzędziu RRDtool. Jest to narzędzie, które pozwala na wykorzystanie
-cyklicznej bazy danych do składowania pomiarów wartości w zadanym
-przedziale czasowym. Ponadto narzędzie dostarcza funkcji do generacji
-wykresów w~kilku formatach. Dzięki wykorzystaniu wspomnianego
-narzędzia system ma bardzo prostą budowę i~składa się z~następujących
-elementów:
+  źródłach. Treść licencji można znaleźć w~\cite{www:GPLv2}.}. System
+bazuje na narzędziu RRDtool. Jest to narzędzie, które pozwala na
+wykorzystanie cyklicznej bazy danych do składowania pomiarów wartości
+w zadanym przedziale czasowym. Ponadto dostarcza ono funkcji do
+generacji wykresów w~kilku formatach. Dokładny opis wszystkich
+możliwosći RRDTool można znaleźć w~\cite{www:RRDtool}. Dzięki
+wykorzystaniu wspomnianego narzędzia system ma bardzo prostą budowę
+i~składa się z~następujących elementów:
 
 \begin{itemize}
 \item interfejs użytkownika,
 \item dostawca danych.
 \end{itemize}
 
-%dodać zdjęcie interface
 Interfejs użytkownika został napisany w~języku PHP. Do jego działania
-niezbędny jest serwer http np. Apache. Z~poziomu interfejsu
-użytkownika możliwa jest graficzna konfiguracja całego
-systemu. Interfejs posiada klasyczna budowę. Składa się on
-z~jednokolorowego paska menu, w~którym zawarte są odnośniki do
-poszczególnych podstron oraz z~pulpitu, na którym wyświetlane są
-wybrane dane. Interfejs umożliwia graficzne przedstawienie wyników
-w~postaci wykresów. Format wykresu może być definiowany bezpośrednio
-przez użytkownika, lub można skorzystać z~bogatej biblioteki gotowych
-szablonów. Dostęp do interfejsu zabezpieczony jest poprzez mechanizm
-uwierzytelnienia użytkownika systemu monitorującego. Możliwe jest
-definiowanie wielu użytkowników oraz ich uprawnienia. Każdy użytkownik
-ma możliwość definiowania własnego zestawu wykresów oraz pulpitów.
+niezbędny jest serwer http np. Apache. Rysunek
+\ref{fig:CactiInterface} przedstawia przykładową podstronę systemu
+Cacti. Z~poziomu interfejsu użytkownika możliwa jest graficzna
+konfiguracja całego systemu. Interfejs posiada klasyczna
+budowę. Składa się on z~jednokolorowego paska menu, w~którym zawarte
+są odnośniki do poszczególnych podstron oraz z~pulpitu, na którym
+wyświetlane są wybrane dane. Interfejs umożliwia graficzne
+przedstawienie wyników w~postaci wykresów. Format wykresu może być
+definiowany bezpośrednio przez użytkownika, lub można skorzystać
+z~bogatej biblioteki gotowych szablonów. Dostęp do interfejsu
+zabezpieczony jest poprzez mechanizm uwierzytelnienia użytkownika
+systemu monitorującego. Możliwe jest definiowanie wielu użytkowników
+oraz ich uprawnienia. Każdy użytkownik ma możliwość definiowania
+własnego zestawu wykresów oraz pulpitów.
 
-%bibliografia snmp
+%czy trzeba dawać to do źródel?
+\begin{figure}[h]
+\label{fig:CactiInterface}
+\caption{Interfejs użytkownika systemu Cacti.}
+\begin{center}
+\makebox[\textwidth]{%
+\includegraphics[width=1\textwidth]{img/cacti.png}
+}\\[0.1cm]
+\end{center}
+\end{figure}
+
+
 Dostawca danych jest to element systemu, który jest odpowiedzialny za
 faktyczne wykonywanie sprawdzeń danej wartości i~przekazywanie ich do
 narzędzia RRDTool. System umożliwia wybór jednego z~dwóch dostawców
@@ -127,7 +139,7 @@ przy pomocy protokołu SNMP\footnote{ {\em Simple Network Management
     Protocol} -- protokół zarządzania urządzeniami sieciowymi
   i~uzyskiwania informacji o~ich stanie. Zorganizowany w~formie
   drzewa, gdzie każdy liść posiada globalnie unikalny identyfikator
-  o~ściśle określonym znaczeniu. Szeroko opisany w XXX}. Skrypt
+  o~ściśle określonym znaczeniu. Szeroko opisany w \cite{www:SNMP}.}. Skrypt
 cmd.php przeznaczony jest do monitorowania jedynie niewielkich
 sieci. Ze względów wydajnościowych, nie jest możliwe wykorzystanie go
 do monitorowania rozległej infrastruktury.
@@ -149,7 +161,8 @@ rozproszony. Oznacza to, iż administrator musi zmienić konfigurację
 sieci, tak aby jeden serwer miał dostęp do każdego urządzenia, lub
 konfigurować i~zarządzać osobną instancją w~każdym serwerze. Jest to
 bardzo niewygodne i~wręcz uniemożliwia monitorowania rozległych sieci
-przy pomocy Cacti.
+przy pomocy Cacti\footnote{Więcej informacji na temat systemu
+  monitorowania Cacti można znaleźć w~\cite{www:Cacti}.}.
 
 \subsection[Nagios][System monitorowania Nagios]{System monitorowania Nagios}
 
@@ -184,15 +197,13 @@ elementów:
 \item Rdzeń monitorujący
 \end{itemize}
 
-%odnosnik do CGI
-%foto interface
 Interfejs graficzny został napisany w~języku~C z~wykorzystaniem
 technologi CGI\footnote{{\em Common Gateway Interface} --
   znormalizowany interfejs służący do komunikacji pomiędzy serwerem
   www, a~zewnętrznymi programami. Interfejs ten jest wykorzystywany do
   generowania stron internetowych na żądanie klienta. Zewnętrzny
   program generuje stronę w~języku HTML, a~następnie serwer przesyła
-  ją do klienta. Szczegółowy opis można znaleźć w XXX}. Jego wygląd
+  ją do klienta. Szczegółowy opis można znaleźć w~\cite{www:CGI}}. Jego wygląd
 jest zgodny z~standardami z~lat 90. Klasyczna strona WWW bez
 dynamicznie zmieniającej się treści. Dane odświeżane są na żądanie
 klienta, lub co określony czas. Wykorzystana technologia zakłada
@@ -216,7 +227,17 @@ urządzenia na którym uruchomiony jest system monitorujący. Należy
 zauważyć również, że wszyscy użytkownicy posiadają takie same
 uprawnienia do wyświetlania danych oraz zarządzania.
 
-%referencja do tutoriala o pluginach
+%czy prawa autorskie?
+\begin{figure}[h]
+\label{fig:NagiosInterface}
+\caption{Interfejs użytkownika systemu Nagios.}
+\begin{center}
+\makebox[\textwidth]{%
+\includegraphics[width=1\textwidth]{img/nagios.jpg}
+}\\[0.1cm]
+\end{center}
+\end{figure}
+
 Rdzeń monitorujący został zaimplementowany w~języku C. Jest to centrum
 całego systemu, gdyż zajmuje się on przetwarzaniem wszystkich
 bieżących danych monitorowania, a~następnie składowaniem ich
@@ -230,17 +251,35 @@ wtyczek\footnote{Należy zwrócić uwagę na różne znaczenie słów wtyczka
 programów służących do monitorowania podstawowych usług oraz
 parametrów urządzeń. Dostępna jest bardzo duża liczba wtyczek, dzięki
 czemu system Nagios może monitorować w~sposób aktywny wszystkie
-podstawowe parametry lub usługi. System umożliwia również monitorowanie
-dowolnych usług w~sposób pasywny.
+podstawowe parametry lub usługi. Możliwe jest również definiowanie
+własnych wtyczek, które będą sprawdzały stany pewnych specyficznych
+dla danej sieci parametrów. W~celu zapewnienia poprawnego
+funkcjonowania całego systemu, konieczne jest, aby dodatkowe wtyczki
+spełniały wymagania opisane w~\cite{www:NagiosPluginsTutorial}. System
+umożliwia również monitorowanie dowolnych usług w~sposób
+pasywny. Programy dostarczające odczytów pasywnych również są
+zobowiązane do przestrzegania wcześniej wspomnianych zasad.
+
+\begin{figure}[h]
+\label{fig:NagiosInterface}
+\caption{Interfejs użytkownika systemu Icinga.}
+\begin{center}
+\makebox[\textwidth]{%
+\includegraphics[width=1\textwidth]{img/icinga.png}
+}\\[0.1cm]
+\end{center}
+\end{figure}
 
 System posiada rozbudowane możliwości monitorowania
 rozproszonego. Niestety, do wykonania znacznej części z~tych
 konfiguracji potrzebne są elementy systemu, które są dystrybuowane za
 opłatą. Istnieją również darmowe dodatki, które pozwalają na
 przechowywanie zgromadzonych danych zarówno w~bazie relacyjnej jak
-i~cyklicznej. Możliwa jest również częściowa integracja systemu Nagios
-z~dodatkami lub systemami, które pozwalają na wizualizacje
-zgromadzonych danych.
+i~cyklicznej. Możliwa jest również częściowa integracja systemu
+Nagios\footnote{Szczegółowe informacje na temat rozszerzania
+  funkcjonalnosci oraz samego systemu można znaleźć
+  w~\cite{www:Nagios}.}  z~dodatkami lub systemami, które pozwalają na
+wizualizacje zgromadzonych danych.
 
 \subsection[Icinga][System monitorowania Icinga]{System monitorowania Icinga}
 \label{subsec:Icinga}
@@ -253,30 +292,34 @@ systemu Nagios mogą być wykorzystane w~systemie Icinga. Pozyskano temu
 bardzo dużą bazę wtyczek, co umożliwia monitorowanie tych samych usług
 i~urządzeń co przodek.
 
-%refererencja do agavi http://www.agavi.org/ no i do Ajaxa
 System Icinga został wyposażony w zupełnie nowy interfejs
 graficzny\footnote{Skorzystanie z nowego interfejsu wymaga użycia
   modułu IDOUtils oraz bazy danych. Możliwe jest wykorzystanie również
   klasycznego interfejsu, który nie posiada takich wymagań.}. Został
 on zaimplementowany w języku PHP przy użyciu szkieletu aplikacji
-agavi. Jest on zatem oparty na technologii Ajax, dzięki której
-komunikacja z~użytkownikiem, nie opera się na przesyłaniu całych stron
-w języku HTML, lecz na realizacji żądań generowanych poprzez język
-skryptowy wykonywany po stronie użytkownika. Dzięki zastosowaniu tej
-technologi, proces wyświetlania strony zużywa mniejszą część pasma,
-a~serwer został odciążony. Nowy interfejs użytkownika jest w~pełni
-dynamiczny, składa się on z~rozszerzalnego menu po lewej stronie oraz
-pulpitów użytkownika w~centralnej części. Możliwe jest otwieranie
-wielu pulpitów oraz wyświetlanie poszczególnych informacji w~osobnych
-oknach, które można swobodnie przemieszczać w~obszarze
-strony. Znacznej zmianie uległ również model bezpieczeństwa. W~nowym
-interfejsie graficznym, każdy użytkownik, posiada swój zestaw
-zdefiniowanych uprawnień. Oznacza to, że możliwe jest ograniczenie
-użytkownikowi dostępu do danych o~konkretnej usłudze lub zabronić
-wykonywania niektórych czynności administracyjnych. Zarządzanie
-użytkownikami oraz ich uprawnieniami możliwe jest również z~poziomu
-graficznego interfejsu użytkownika, co znacząco podnosi wygodę
-użytkowania systemu.
+agavi\footnote{{\em Agavi } -- szkielet aplikacji języka PHP5
+  pozwalający na łatwą realizację funkcjonalnośći zgodne z modelem
+  programowym Model-Widok-Kontroler. Szerszy opis znajduje się na
+  stronie domowej projektu: \cite{www:Agavi}}. Jest on zatem oparty na
+technologii Ajax, dzięki której komunikacja z~użytkownikiem, nie opera
+się na przesyłaniu całych stron w~języku HTML, lecz na realizacji
+żądań generowanych poprzez język skryptowy wykonywany po stronie
+użytkownika. Dzięki zastosowaniu tej technologi, proces wyświetlania
+strony zużywa mniejszą część pasma, a~serwer został odciążony. Nowy
+interfejs użytkownika jest w~pełni dynamiczny, składa się on
+z~rozszerzalnego menu po lewej stronie oraz pulpitów użytkownika
+w~centralnej części. Możliwe jest otwieranie wielu pulpitów oraz
+wyświetlanie poszczególnych informacji w~osobnych oknach, które można
+swobodnie przemieszczać w~obszarze strony. Przykładowy pulpit dostępny
+dla użytkownika został przedstawiony na
+\ref{fig:IcingaInterface}.Znacznej zmianie uległ również model
+bezpieczeństwa. W~nowym interfejsie graficznym, każdy użytkownik,
+posiada swój zestaw zdefiniowanych uprawnień. Oznacza to, że możliwe
+jest ograniczenie użytkownikowi dostępu do danych o~konkretnej usłudze
+lub zabronić wykonywania niektórych czynności
+administracyjnych. Zarządzanie użytkownikami oraz ich uprawnieniami
+możliwe jest również z~poziomu graficznego interfejsu użytkownika, co
+znacząco podnosi wygodę użytkowania systemu.
 
 Kolejną istotną różnicą, jest zmiana architektury systemu. System
 Nagios posiada budowę monolityczną, a~współpraca pomiędzy
@@ -289,15 +332,15 @@ poszczególnych komponentów systemu na różnych fizycznych maszynach, co
 w~przypadku dużych sieci może spowodować znaczący wzrost wydajności
 i~niezawodności. Dostarczenie jednolitego REST API\footnote{ang. {\em
     Representational state transfer} -- lekka metoda przesyłania
-  danych pomiędzy klientem a serwerem.} umożliwia
-również prostsze tworzenie dodatków rozbudowujących możliwości
-systemu.  W~systemie Icinga rozbudowano także możliwości współpracy
-z~bazą danych. System ten umożliwia współpracę, już nie tylko z~bazą
-MySQL, lecz również z~bazami PostgreSQL czy też z~systemem zarządzania
-bazą danych firmy Oracle. Możliwość wykorzystania bazy danych Oracle,
-jest bardzo istotna, jeśli dane dotyczące pomiarów muszą być
-przechowywane przez długi czas, lub jeśli monitorowana infrastruktura
-jest bardzo rozbudowana.
+  danych pomiędzy klientem a~serwerem.} umożliwia również prostsze
+tworzenie dodatków rozbudowujących możliwości systemu.  W~systemie
+Icinga rozbudowano także możliwości współpracy z~bazą danych. System
+ten umożliwia współpracę, już nie tylko z~bazą MySQL, lecz również
+z~bazami PostgreSQL czy też z~systemem zarządzania bazą danych firmy
+Oracle. Możliwość wykorzystania bazy danych Oracle, jest bardzo
+istotna, jeśli dane dotyczące pomiarów muszą być przechowywane przez
+długi czas, lub jeśli monitorowana infrastruktura jest bardzo
+rozbudowana.
 
 System Icinga, nie tylko umożliwia rozmieszczenie modułów na różnych
 fizycznych maszynach, lecz również umożliwia wiele innych
