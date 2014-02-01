@@ -1,17 +1,15 @@
 \chapter{Projekt systemu}
 \label{chap:ProjektSystemu}
 
-\section[Podział na moduły][Podział na moduły]{Podział na moduły}
-
 Brak dostępnego na rynku systemu wspierającego monitorowanie klienta
 mobilnego powoduje konieczność opracowania nowego rozwiązania, które
 spełni wszystkie wymagania opisane w~\ref{chap:Wymagania}. Opracowanie
 od podstaw nowego systemu monitorowania, wymaga bardzo dużych nakładów
-pracy. Na rynku obecne są systemy monitorowania klienta statycznego
-spełniające znaczną część wymagań. Implementacja zatem nowego systemu
-monitorowania jest nieuzasadniona ekonomicznie oraz merytorycznie. Na
-podstawie wyników analizy dostępnych na rynku systemów podjęto
-decyzję, aby wykorzystać system monitorowania Icinga.
+pracy. Na rynku obecne są systemy monitorowania klienta statycznego,
+które spełniają znaczną część wymagań. Implementacja nowego systemu
+monitorowania jest zatem nieuzasadniona ekonomicznie oraz
+merytorycznie. Na podstawie wyników analizy dostępnych na rynku
+systemów podjęto decyzję, aby wykorzystać system monitorowania Icinga.
 
 Zastosowanie systemu Icinga pozwala na uzyskanie niskim nakładem
 pracy, wielu funkcjonalności niezbędnych w~projektowanym
@@ -72,7 +70,16 @@ spowodowało konieczność zaprojektowania i~implementacji nowego
 narzędzia, które jest wolne od ograniczeń poprzednika. Powyższe
 czynniki determinują w~znacznym stopniu architekturę system. W~celu
 zapewnienia elastyczności projektowanego systemu zastosowano budowę
-modularną. System monitorowania składa się z~następujących modułów:
+modularną. Schemat współpracy poszczególnych modułów został
+przedstawiony na \ref{fig:archCalosci}. System monitorowania składa się
+z~następujących modułów:
+
+\begin{figure}[h]
+  \caption{Schemat logiczny projektowanego systemu.}
+  \label{fig:archCalosci}
+  \centering
+\includegraphics[width=0.8\textwidth]{img/archCalosci}
+\end{figure}
 
 \begin{description}
 \item[Moduł podstawowy] Zawiera wszystkie instancje rdzenia
@@ -84,7 +91,7 @@ modularną. System monitorowania składa się z~następujących modułów:
 
 \item[Moduł odbioru danych] Składa się on z~programu, który zapewnia
   odbiór danych od klienta mobilnego przy zachowaniu wszystkich
-  wymagań zarówno w kwestii bezpieczeństwa jak
+  wymagań zarówno w~kwestii bezpieczeństwa jak
   i~funkcjonalności. Ponadto moduł ten odpowiedzialny jest za
   przekazywanie odebranych danych do pozostałych elementów zgodnie
   ze~zdefiniowaną w~systemie polityka.
@@ -95,8 +102,6 @@ modularną. System monitorowania składa się z~następujących modułów:
   komunikacyjnego dla danej platformy w~celu przekazania zebranych
   danych do pozostałych modułów systemu.
 \end{description}
-%rysunek jak te moduły wyglądaja
-
 
 \section[Projekt modułu podstawowego][Projekt modułu podstawowego]{Projekt modułu podstawowego}
 
@@ -140,6 +145,13 @@ strukturze. W~skład tej konfiguracji wchodzą:
 \item interfejs icinga-web
 \end{itemize}
 
+\begin{figure}[ht]
+\centering
+  \caption{Schemat zalecanej konfiguracji systemu.}
+  \label{fig:modulPodstawowy}
+\includegraphics[width=1\textwidth]{img/modulPodstawowy}
+\end{figure}
+
 Minimum wymaganym do funkcjonowania tej konfiguracji jest jedna
 instancja rdzenia monitorującego. Będzie ona monitorowała zarówno
 infrastrukturę statyczną jak i~przetwarzała dane od klienta
@@ -169,7 +181,6 @@ danych z~której korzysta interfejs użytkownika.
 
 \section[Protokół komunikacyjny][Protokół komunikacyjny]{Protokół komunikacyjny}
 \label{sec:ProtKom}
-\subsection[Architektura][Architektura]{Architektura}
 
 Wymagania przedstawione w~\ref{chap:Wymagania} definiują bardzo wiele
 cech systemu, które muszą być zapewnione poprzez użycie odpowiedniego
@@ -209,7 +220,7 @@ ze stron komunikujących się przy użyciu protokołu znajduje się na
 urządzeniu mobilnym przez co należy ograniczyć narzut wprowadzany
 przez użycie tego protokołu.
 
-%bibliografia do ssl
+%bibliografia do ssl // ksiazka z terenu poludniowego
 Spośród bezpiecznych protokołów komunikacyjnych rozpowszechnionych na
 rynku najbliższym spełnienia wszystkich wymagań jest protokół Secure
 Socket Layer - SSL. Jest to protokół warstwy prezentacji, który
@@ -316,7 +327,16 @@ problemu, gdyż zmiana klucza publicznego w~projektowanym systemie jest
 sytuacją niezwykle rzadką. Ponieważ szyfrowanie asymetryczne wymaga
 znacznie większego narzutu obliczeniowego jest ono używane tylko
 w~trakcie nawiązywania połączenia. Właściwy transport danych
-szyfrowany jest przy pomocy uzgodnionego klucza symetrycznego.
+szyfrowany jest przy pomocy uzgodnionego klucza
+symetrycznego. W~poniższym omówieniu protokołu, a~także na diagramach,
+w~celu uproszczenia pominięto fakt istnienia limitu czasu oczekiwania
+oraz możliwość rozłaczenia w~dowolnym momencie. Obie te sytuacje
+powodują zakończenie działania i~zgłoszenie błędu warstwie
+wyższej. Uproszczona wersja maszyny stanowej procesu incjalizacji
+komunikacji w~tej warswie po stronie serwera znajduje się na
+\ref{fig:kryptoSerwer}, a po stronie klienta \ref{fig:kryptoKlient}.
+
+
 
 Komunikacja z~użyciem tej warstwy możliwa jest dopiero po wykonaniu
 inicjalizacji. Proces inicjalizacji rozpoczyna się od negocjacji
@@ -342,6 +362,13 @@ od wybranej wersji protokołu komunikacyjnego.
 \end{tabular}
 \end{table}
 
+\begin{figure}[h]
+  \caption{Maszyna stanów warstwy kryptograficznej po stronie serwera.}
+  \label{fig:kryptoSerwer}
+  \centering
+\includegraphics[width=1\textwidth]{img/kryptoSerwer}
+\end{figure}
+
 W~zaproponowanej w~tej pracy wersji protokołu kolejnym etapem
 inicjalizacji połączenia jest uwierzytelnienie serwera połączone
 z~przedstawieniem klienta. Etap ten rozpoczyna się od przesłania przez
@@ -360,6 +387,13 @@ wiadomości, która została przesłana do serwera. Jeśli podpis jest
 zgodny oznacza to, że urządzenie z którym nastąpiło połączenie jest
 posiadaczem odpowiedniego klucza prywatnego, czyli upoważnione przez
 administratora do odbierania danych pochodzących od tego klienta.
+
+\begin{figure}[h]
+  \caption{Maszyna stanów warstwy kryptograficznej po stronie klienta.}
+  \label{fig:kryptoKlient}
+  \centering
+\includegraphics[width=1\textwidth]{img/kryptoKlient}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -466,7 +500,7 @@ rozpoczyna się proces uwierzytelnienia.
 \begin{table}[H]
 \centering
 \caption{Struktura komunikatu żądania algorytmu uwierzytelnienia }
-\begin{tabular}{|p{4cm}|p{6cm}|}
+\begin{tabular}{|p{5cm}|p{6cm}|}
 \hline
 \raggedright{Kod CHOSEN\_AUTH\_MODULE} & Nazwa algorytmu uwierzytelnienia\\
 \hline
@@ -483,9 +517,28 @@ konieczność wykonania sprawdzenia, czy klient posiada zdefiniowane
 miejsca do których może przekazywać swoje dane. W przypadku braku
 takiego miejsca, aby dane nie zostały utracone do klienta wysyłany
 jest komunikat negatywnego potwierdzenia, a~połączenie jest
-zamykane. Jeśli co najmniej jedno miejsce docelowe zostało zdefiniowane
-do klienta wysyłany jest komunikat informujący o~oczekiwaniu na
-przesłanie danych, co kończy proces inicjalizacji.
+zamykane. Jeśli co najmniej jedno miejsce docelowe zostało
+zdefiniowane do klienta wysyłany jest komunikat informujący
+o~oczekiwaniu na przesłanie danych, co kończy proces
+inicjalizacji. Przebieg omówionego procesu inicjalizacji oraz
+pozostałych elementów protokołu po stronie serwera przedstawia
+\ref{fig:transportSerwer}, natomiast po stronie klient
+\ref{fig:transportKlient}.
+
+
+\begin{figure}[ht]
+  \caption{Maszyna stanów warstwy transportu pomiarów po stronie serwera.}
+  \label{fig:transportSerwer}
+  \centering
+\includegraphics[width=1\textwidth]{img/transpSerwer}
+\end{figure}
+
+\begin{figure}[ht]
+  \caption{Maszyna stanów warstwy transportu pomiarów po stronie klienta.}
+  \label{fig:transportKlient}
+  \centering
+\includegraphics[width=1\textwidth]{img/transpKlient}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -616,7 +669,6 @@ mobilny posiadał możliwość definiowania metod uwierzytelnienia. Należy
 również zapewnić możliwość weryfikacji tożsamości serwera, z~którym
 nawiązuje się połączenie.
 
-%dodać referencje do pracy kubika
 W~ramach systemu monitorowania możliwe jest funkcjonowanie wielu
 instancji modułu mobilnego. Instancje te mogą być uruchomione na
 bardzo wielu platformach. W~chwili pisania tej pracy nie znaleziono na
@@ -627,7 +679,7 @@ niniejszej pracy. Podczas okresu testowania wykonanego systemu
 wykorzystano moduł mobilny, przeznaczony dla platformy Android. Został
 on zaprojektowany i~zaimplementowany przez Pana Marcina
 Kubika. Szczegółowy opis tej implementacji klienta mobilnego można
-znaleźć w [praca\_kubika].
+znaleźć w~\cite{book:pracaKubika}.
 
 \section[Projekt modułu odbiorczego][Projekt modułu odbiorczego]{Projekt modułu odbiorczego}
 \label{sec:ProjModOdb}
