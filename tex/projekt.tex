@@ -220,12 +220,12 @@ ze stron komunikujących się przy użyciu protokołu znajduje się na
 urządzeniu mobilnym przez co należy ograniczyć narzut wprowadzany
 przez użycie tego protokołu.
 
-%bibliografia do ssl // ksiazka z terenu poludniowego
 Spośród bezpiecznych protokołów komunikacyjnych rozpowszechnionych na
 rynku najbliższym spełnienia wszystkich wymagań jest protokół Secure
-Socket Layer - SSL. Jest to protokół warstwy prezentacji, który
-pozwala na bezpieczny transport strumienia danych. Protokół
-wykorzystuje zarówno kryptografię symetryczną jak
+Socket Layer - SSL\footnote{Szczegółowy opis protokołu można znaleźć
+  w~\cite[148-155]{book:kryptografia}.}. Jest to protokół warstwy
+prezentacji, który pozwala na bezpieczny transport strumienia
+danych. Protokół wykorzystuje zarówno kryptografię symetryczną jak
 i~asymetryczną. Kryptografia asymetryczna wykorzystywana jest do
 uwierzytelnienia serwera i~opcjonalnie klienta przy pomocy
 certyfikatów nadawanych przez centra certyfikacji. Model
@@ -298,8 +298,6 @@ Długość danych & Dane\\
 \end{tabular}
 \end{table}
 
-%rysunek z maszyna stanowa
-
 \subsection[Warstwa kryptograficzna][Warstwa kryptograficzna]{Warstwa kryptograficzna}
 
 Warstwa ta jest odpowiedzialna za zapewnienie poufności oraz
@@ -335,8 +333,6 @@ powodują zakończenie działania i~zgłoszenie błędu warstwie
 wyższej. Uproszczona wersja maszyny stanowej procesu incjalizacji
 komunikacji w~tej warswie po stronie serwera znajduje się na
 \ref{fig:kryptoSerwer}, a po stronie klienta \ref{fig:kryptoKlient}.
-
-
 
 Komunikacja z~użyciem tej warstwy możliwa jest dopiero po wykonaniu
 inicjalizacji. Proces inicjalizacji rozpoczyna się od negocjacji
@@ -735,9 +731,18 @@ komunikacyjnego, aby możliwe było gwarantowanie, że dane, które do
 niego zostały przekazane będą dostarczone do wskazanych
 odbiorców. Odbiorca danych jest to element programu odpowiedzialny za
 odpowiednie formowanie danych oraz przekazanie ich do modułu
-podstawowego.
+podstawowego. Dzięki możliwości dostarczania danych do wielu
+odbiorców, możliwe jest nie tylko przekazywanie danych do systemu
+monitorującego lecz również wykonywanie np. kopi zapasowej otrzymanych
+danych. Przykłądowy schemat logiczny dla dwóch dostawców danych oraz
+trzech konsumentów został przedstawiony na \ref{fig:odbiorczy}
 
-%tutaj rysunek tego jak to dziala
+\begin{figure}[ht]
+  \caption{Diagram architektury modułu odbiorczego}
+  \label{fig:odbiorczy}
+  \centering
+\includegraphics[width=0.7\textwidth]{img/odbiorczy}
+\end{figure}
 
 Wymagania przedstawione w~\ref{chap:Wymagania} wymuszają umożliwienie
 dodawania nowych algorytmów zarówno kryptograficznych jak i~algorytmów
