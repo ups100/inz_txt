@@ -1,8 +1,6 @@
 \chapter{Dostępne systemy monitorujące}
 \label{chap:Systemy}
 
-\section[Przegląd systemów][Przegląd systemów dostępnych na rynku]{Przegląd systemów dostępnych na rynku}
-
 Na rynku dostępnych jest wiele bardzo różnych systemów
 monitorujących. Narzędzia z~tej grupy możemy podzielić na dwie
 kategorie:
@@ -85,7 +83,7 @@ wymagań. Konieczne jest w~takiej sytuacji podjęcie wysiłku modyfikacji
 systemu spełniającego najwięcej wymagań, lub zaprojektowanie oraz
 implementacja takiego systemu od podstaw.
 
-\subsection[Cacti][System monitorowania Cacti]{System monitorowania Cacti}
+\section[Cacti][System monitorowania Cacti]{System monitorowania Cacti}
 
 Jest to system monitorujący, rozwijany przez The Cacti Group
 Inc. i~dystrybuowany na licencji~GPL\footnote{ ang. {\em General
@@ -166,7 +164,7 @@ bardzo niewygodne i~wręcz uniemożliwia monitorowania rozległych sieci
 przy pomocy Cacti\footnote{Więcej informacji na temat systemu
   monitorowania Cacti można znaleźć w~\cite{www:Cacti}.}.
 
-\subsection[Nagios][System monitorowania Nagios]{System monitorowania Nagios}
+\section[Nagios][System monitorowania Nagios]{System monitorowania Nagios}
 
 System Nagios został opublikowany w~1999 na licencji GPL. System od
 niemal 15 lat jest ciągle rozwijany i~udoskonalany, zarówno przez
@@ -273,7 +271,7 @@ Nagios\footnote{Szczegółowe informacje na temat rozszerzania
   w~\cite{www:Nagios}.}  z~dodatkami lub systemami, które pozwalają na
 wizualizacje zgromadzonych danych.
 
-\subsection[Icinga][System monitorowania Icinga]{System monitorowania Icinga}
+\section[Icinga][System monitorowania Icinga]{System monitorowania Icinga}
 \label{subsec:Icinga}
 
 System Icinga powstał w~2009 roku jako klon (ang. {\em fork}) systemu
@@ -314,7 +312,7 @@ możliwe jest również z~poziomu graficznego interfejsu użytkownika, co
 znacząco podnosi wygodę użytkowania systemu.
 
 \begin{figure}[h]
-\label{fig:NagiosInterface}
+\label{fig:IcingaInterface}
 \caption{Interfejs użytkownika systemu Icinga.}
 \begin{center}
 \makebox[\textwidth]{%
@@ -395,7 +393,7 @@ wszystkich przedstawionych systemów monitorowania zawarto
 w~\ref{tab:PorownanieSys}.
 
 \begin{longtable}[c]{|p{4.5cm}||p{3cm}|p{3cm}|p{3cm}|}
-  \caption[Porównanie systemów monitorowania]{Porównanie systemów monitorowania} \label{tab:PorownanieSys} \\
+  \caption{Porównanie systemów monitorowania} \label{tab:PorownanieSys} \\
   \hline \multicolumn{1}{|c||}{Nazwa systemu} &
   \multicolumn{1}{c|}{Cacti} & \multicolumn{1}{c|}{Nagios} &
   \multicolumn{1}{c|}{Icinga} \tabularnewline \hline \hline
@@ -516,7 +514,7 @@ w~\ref{tab:PorownanieSys}.
   \tabularnewline
   \hline
 
-  \raggedright{Możliwość monitorowania klienta mobilnego} & \raggedright{Nie} &
+  \raggedright{Możliwość monitorowania urządzenia mobilnego} & \raggedright{Nie} &
   \raggedright{Nie} & \raggedright{Nie}
   \tabularnewline
   \hline
