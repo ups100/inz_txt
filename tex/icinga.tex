@@ -51,7 +51,6 @@ znaku znajdują się dane wydajnościowe w~formacie klucz=wartość,
 przeznaczone do analizy przez zewnętrzne programy np. do generacji
 wykresów. Znak~| oraz druga grupa nie są obowiązkowe.
 
-%referencja do tutoriala z lista komend
 System Icinga umożliwia również monitorowanie w~sposób
 pasywny. Dostarczanie wyników sprawdzenia pasywnego odbywa się poprzez
 plik komend zewnętrznych. Plik komend zewnętrznych jest to potok
@@ -118,7 +117,6 @@ następujące systemy zarządzania bazą danych:
 \item Oracle.
 \end{itemize}
 
-%odwołanie do schematu bazy danych
 W~celu zapewnienia funkcjonalności omawianego komponentu, konieczne
 jest utworzenie bazy danych o~odpowiednim schemacie, który został
 opisany w~\cite[669-750]{www:IcingaDoc}. Udostępnione zostały również
@@ -170,7 +168,7 @@ możliwe jest użycie gniazd protokołu Unix\footnote{ and. {\em Unix
   internetowej.}. Najpopularniejszy sposób użycia został przedstawiony
 schematycznie na~\ref{fig:IDOUtils}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Schemat wykorzystania IDOUtils w systemie Icinga.}
   \label{fig:IDOUtils}
 \includegraphics[width=1\textwidth]{img/idoutils}
@@ -246,7 +244,7 @@ rezultatów pomiarów i~w~bazie danych zapamiętywane są pochodzące
 z~tych rezultatów dane w~postaci numerycznej. Typowy przepływ danych
 został przedstawiony na~\ref{fig:inGraphFlow}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Typowy przepływ danych przy wykorzystaniu dodatku inGraph.}
   \label{fig:inGraphFlow}
 \includegraphics[width=1\textwidth]{img/ingraphFlow}
@@ -275,7 +273,7 @@ danych. Przykładowe wykresy wygenerowany przy pomocy dodatku inGraph
 można zobaczyć na \ref{fig:inGraph}. Szczególną uwagę warto zwrócić na
 szare pola reprezentujące minimum oraz maksimum w~danym przedziale.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Interfejs dodatku inGraph.}
   \label{fig:inGraph}
 \includegraphics[width=1\textwidth]{img/ingraph.png}
@@ -308,7 +306,7 @@ system Icinga. Dodatek ten składa się z~dwóch modułów:
   systemu monitorującego.
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Schemat działania dodatku NSCA.}
   \label{fig:nsca}
 \includegraphics[width=1\textwidth]{img/nsca}
@@ -600,7 +598,7 @@ pozwoli na ataki innych, być może słabiej zabezpieczonych urządzeń
 znajdujących się w~sieci. Schemat opisanej konfiguracji przedstawiono
 na \ref{fig:icingaMini}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Schemat minimalnej konfiguracji systemu Icinga.}
   \label{fig:icingaMini}
 \includegraphics[width=1\textwidth]{img/icingaMini}
@@ -640,7 +638,7 @@ umieszczenie rdzenia monitorującego razem z~monitorowaną
 infrastrukturą za zaporą ogniową, co ogranicza możliwości ingerencji
 w~system monitorowania i~infrastrukturę sieciową.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Schemat podstawowej konfiguracji systemu Icinga.}
   \label{fig:icingaBase}
 \includegraphics[width=1\textwidth]{img/icingaBase}
@@ -683,7 +681,7 @@ z~użyciem send\_nsca do instancji centralnej, w~której następuje
 odpowiednie przetwarzanie. Schemat współpracy poszczególnych elementów
 systemu w tej konfiguracji zawarto na \ref{fig:rozpNSCA}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Schemat konfiguracji rozproszonej z~instancją centralną.}
   \label{fig:rozpNSCA}
 \includegraphics[width=1\textwidth]{img/icingaNSCA}
@@ -701,9 +699,9 @@ wspólnej bazie danych z~której korzysta interfejs icinga-web. Dzięki
 wykorzystaniu nowego interfejsu możliwe jest równoczesna prezentacja
 wyników monitorowania pochodzących od wielu instancji, przy użyciu
 jednego interfejsu. Logiczny schemat tej konfiguracji przedstawiono na
-\ref{fig:ropzFull}.
+\ref{fig:rozpFull}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
   \caption{Schemat konfiguracji rozproszonej ze~wspólną bazą danych.}
   \label{fig:rozpFull}
@@ -747,7 +745,7 @@ gdy będzie to możliwe dane do instancji nadrzędnej, która będzie
 prowadziła analizę otrzymanych danych. Schemat tej konfiguracji został
 przedstawiony na \ref{fig:mobilnyInstancja}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \caption{Monitoring klienta mobilnego w~konfiguracji ze~wspólną bazą
     danych.}
@@ -755,7 +753,7 @@ przedstawiony na \ref{fig:mobilnyInstancja}.
 \includegraphics[width=0.75\textwidth]{img/mobilnyWspBaza}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \caption{Monitoring klienta mobilnego w~konfiguracji z~instancją
     nadrzędną.}

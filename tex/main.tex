@@ -22,14 +22,15 @@
 \usepackage{geometry}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
-% \usepackage{t1enc}
-% \usepackage[pdftex, bookmarks]{hyperref}
-\usepackage[pdftex, bookmarks=false]{hyperref}
-\def\url#1{{ \tt #1}}
-
 \usepackage{listings}
 \usepackage{float}
 \restylefloat{table}
+%\usepackage{t1enc}
+%\usepackage[pdftex, bookmarks]{hyperref}
+\usepackage[pdftex, bookmarks]{hyperref}
+\def\url#1{{ \tt #1}}
+
+
 
 % marginesy
 \textwidth\paperwidth
@@ -210,7 +211,7 @@ framerule=0.1pt,
 
 % \bibliography{bib/verificard,bib/jml,bib/daikon}
 %\bibliography{bib/daikon,bib/statistics,bib/other}
-\bibliography{bib/www}
+\bibliography{bib/www,bib/books}
 \end{document}
 
 % ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:

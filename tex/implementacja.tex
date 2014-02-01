@@ -118,9 +118,9 @@ grupy obiektów:
   używane zarówno do wczytania parametrów uruchomienia programu z~
   linii poleceń, jak również obiekty odpowiedzialne za dostarczenie do
   programu konfiguracji zawartej w pliku.
-\item[Grupa obiektów producentów danych] zawiera generyczny interfejs
+\item[Grupa obiektów producentów danych] \raggedright{zawiera generyczny interfejs
   producenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
-  z~tej grupy, a~także definicję dostępnych producentów danych.
+  z~tej grupy, a~także definicję dostępnych producentów danych.}
 \item[Grupa obiektów konsumentów danych] zawiera generyczny interfejs
   konsumenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
   z~tej grupy, a~także definicję dostępnych konsumentów danych.
@@ -177,7 +177,7 @@ błędów kompilacji ani błędów funkcjonowania procesu rejestracji.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[language=c++, caption=Definicja dostawcy danych]
+\begin{lstlisting}[language=c++, caption=Definicja dostawcy danych, linewidth=10cm]
 DATA_PROVIDER(NazwaTypu, NazwaRejestrowana)
 {
   //deklaracja metod
@@ -416,7 +416,7 @@ lecz można go formować w~taki sam sposób jak pisać do strumienia.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[language=c++ , caption=Przykładowe wypisanie komunikatu]
+\begin{lstlisting}[language=c++, breaklines=true, linewidth=0.99\textwidth, caption=Przykładowe wypisanie komunikatu]
 
 LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 
@@ -426,7 +426,7 @@ LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[caption=Format komunikatu przekazywanego użytkownikowi]
+\begin{lstlisting}[linewidth=0.99\textwidth, caption=Format komunikatu przekazywanego użytkownikowi]
 
 [stempel czasu][poziom][plik][funkcja][linia]:komunikat123
 
