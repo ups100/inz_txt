@@ -1,12 +1,27 @@
 \chapter{System monitorowania Icinga}
 \label{chap:Icinga}
 
+W~rozdziale \ref{chap:Systemy} została przeprowadzona analiza
+dostępnych na ryku systemów monitorowania. Na jej podstawie dokonano
+wyboru systemu Icinga jako podstawy do budowy systemu uwzględniającego
+wymagania dotyczące klienta mobilnego. System monitorujący jest bytem
+złożonym. Można w~nim wyróżnić część podstawową która stanowi szkielet
+i~pozwala na funkcjonowanie głównych mechanizmów. Ponadto, w~celu
+umożliwienia dostosowania systemu do indywidualnych potrzeb opracowany
+został szereg dodatków, czyli narzędzi pozwalających na rozszerzanie
+funkcjonalności programu. Mnogość dostępnych elementów przekłada się
+również na duży zbiór dostępnych konfiguracji. Rozdział ten zawiera
+opis podstawowych elementów systemu oraz wybranego podzbioru dodatków,
+które są istotne w~kontekście tej pracy. Zawarto tutaj również opis
+kilku wybranych konfiguracji, które potwierdzają elastyczność
+wybranego systemu monitorowania.
+
 \section[Opis systemu][Opis systemu]{Opis systemu}
 
 System Icinga powstał jako klon systemu Nagios. Zachowana została
-kompatybilność wsteczna przez co możliwe jest używanie dodatków oraz
-wtyczek przeznaczonych dla systemu Nagios. Podstawowa konfiguracja
-systemu Icinga składa się dwóch modułów:
+kompatybilność wsteczna przez co możliwe jest używanie dodatkowego
+oprogramowania przeznaczonego dla systemu Nagios. Podstawowa
+konfiguracja systemu Icinga składa się dwóch modułów:
 
 \begin{itemize}
 \item Rdzeń monitorujący
@@ -18,16 +33,33 @@ zadań należy przede wszystkim monitorowanie usług i~urządzeń zgodnie
 z~ustawieniami zawartymi w~plikach konfiguracyjnych. System posiada
 możliwość monitorowania zarówno aktywnego jak
 i~pasywnego. Monitorowanie aktywne wykonywane jest przy pomocy
-zewnętrznych programów lub skryptów nazywanych wtyczkami. Każda usługa
-oraz urządzenia posiada zdefiniowaną komendę sprawdzającą która
-definiuje jaką wtyczkę należy uruchomić oraz jakie dane do niej
-przekazać. Każda wtyczka posiada zdefiniowany zestaw danych
-wejściowych, które odpowiadają jej opcjom konfiguracyjnym. Po
-zakończeniu pomiaru wtyczka przekazuje dane o~jego wynikach do systemu
+zewnętrznych programów lub skryptów nazywanych wtyczkami. Dostępny
+jest bardzo bogaty zestaw wtyczek przeznaczony do monitorowania
+standardowych usług sieciowych. Ponadto wtyczką może być dowolny
+program lub skrypt, którego zachowanie będzie zgodne z~zaleceniami
+opisanymi w \cite{www:NagiosPluginsTutorial}. Administrator podczas
+konfiguracji systemu wykonywanej poprzez pliki konfiguracyjne musi
+zdefiniować jakie urządzanie mają być monitorowane. Każde z urządzeń
+może mieć zdefiniowany zestaw usług, które mają być na nim
+monitorowane. Przykładowy system monitorowania został przedstawiony
+jest na \ref{fig:schematIcingi}.
+
+\begin{figure}[ht]
+  \caption{Schemat przykładowego systemu monitorowania opartego na
+    systemie Icinga.}
+  \label{fig:schematIcingi}
+\includegraphics[width=1\textwidth]{img/schematIcingi}
+\end{figure}
+
+
+Sprawdzenie stanu odbywa się poprzez wykonanie komendy zdefiniowanej
+przez administratora. Komenda ta zawiera uruchomienie wybranej przez
+administratora wtyczki z~odpowiednimi parametrami. Po zakończeniu
+pomiaru wtyczka przekazuje dane o~jego wynikach do systemu
 monitorującego. Przekazanie to odbywa się dwiema drogami. Pierwsza
 z~nich to wartość zwrócona z~programu, która determinuje w~jakim
 stanie znajduje się urządzenie lub usługa. Zwrócona wartość powinna
-być jedną z następujących:
+być jedną z~następujących:
 
 \begin{description}
 \item[0] OK, wtyczka mogła wykonać sprawdzenie i~usługa lub urządzenie
@@ -40,6 +72,7 @@ być jedną z następujących:
   względu na dostarczenie nie prawidłowych parametrów wywołania lub
   niskopoziomowego błędu systemu.
 \end{description}
+
 
 Większość wtyczek dokonuje pewnych pomiarów, dlatego każde ich
 wykonanie gromadzi zdecydowanie więcej danych niż można przekazać
@@ -283,18 +316,24 @@ szare pola reprezentujące minimum oraz maksimum w~danym przedziale.
 \section[Dodatek NSCA][Dodatek NSCA]{Dodatek NSCA}
 \label{sec:NSCA}
 
-\subsection[Opis dodatku NSCA][Opis dodatku NSCA]{Opis dodatku NSCA}
-
 NSCA - Nagios Service Check Acceptor jest to dodatek do systemów
-monitorujących opartych o~system Nagios, więc również systemu
-Icinga. Pozwala on na wykorzystanie mechanizmów pasywnego
-monitorowania z~systemu innego niż ten na którym uruchomione jest
-oprogramowanie monitorujące. Program ten został napisany w~całości
-w~języku~C i~wydany na licencji pozwalającej na wgląd do kodu
+monitorujących z rodziny Nagios, więc również systemu Icinga. Pozwala
+on na wykorzystanie mechanizmów pasywnego monitorowania z~systemu
+innego niż ten na którym uruchomione jest oprogramowanie
+monitorujące. Program ten został napisany w~całości w~języku~C
+i~wydany na licencji pozwalającej na wgląd do kodu
 źródłowego. Wykorzystuje on plik zewnętrznych komend i~nie integruje
 się z~rdzeniem monitorującym. Dzięki temu możliwe jest jego
-wykorzystanie zarówno w~systemie Nagios jak i~jego klonach takich jak
-system Icinga. Dodatek ten składa się z~dwóch modułów:
+wykorzystanie go w wielu konfiguracjach bez konieczności ingerencji
+w~system monitorujacy.
+
+\subsection[Opis dodatku NSCA][Opis dodatku NSCA]{Opis dodatku NSCA}
+
+Dodatek NSCA definiuje protokół przekazywania danych z zdalnej
+lokalizacji, do systemu, na którym uruchomiony jest rdzeń
+sprawdzający. Schemat działania systemu wykorzystującego dodatek NSCA
+został przedstawiony na \ref{fig:nsca}. Implementacja dodatku składa
+się z~dwóch modułów:
 
 \begin{itemize}
 \item moduł wysyłający (send\_nsca) służący do wysyłania wyników
@@ -576,7 +615,6 @@ Liczba obliczeń & Prawdopodobieństwo \\
 
 \section[Konfiguracje rozproszone][Podstawowe konfiguracje rozproszone]{Podstawowe konfiguracje rozproszone}
 
-%obrazek do tego
 Podstawowa konfiguracja systemu monitorującego Icinga składa się
 jedynie z~rdzenia monitorującego oraz klasycznego interfejsu
 użytkownika. W~tej konfiguracji, zarówno ustawienia systemu
@@ -623,7 +661,6 @@ elementów:
 \item interfejs graficzny
 \end{itemize}
 
-%obrazek o co kaman
 Logiczny schemat konfiguracji został przedstawiony na
 \ref{fig:icingaBase}. Dzięki modularnej budowie całego systemu możliwe
 jest umieszczenie każdego z~wymienionych elementów na osobnym
