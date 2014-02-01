@@ -1,9 +1,7 @@
 \chapter{Implementacja}
 \label{chap:Implementacja}
 
-\section[Moduł odbiorczy][Moduł odbiorczy]{Moduł odbiorczy}
-
-\subsection[Opis architektury][Opis architektury]{Opis architektury}
+\section[Opis architektury][Opis architektury]{Opis architektury}
 
 Logiczna architektura programu została przedstawiona
 w~\ref{sec:ProjModOdb}. Fizyczna struktura programu została utworzona
@@ -104,7 +102,7 @@ inicjalizacji danego obiektu. Należy zatem zawsze po pomyślnej
 analizie pliku konfiguracyjnego sprawdzić zawartość pliku dziennika
 wykonania programu.
 
-\subsection[Szkielet programu][Szkielet programu]{Szkielet programu}
+\section[Szkielet programu][Szkielet programu]{Szkielet programu}
 
 Moduł ten zawiera podstawowe komponenty programu. Zawarto tutaj
 wszystkie czynności przygotowawcze związane z~wczytaniem konfiguracji
@@ -256,7 +254,7 @@ funkcjonuje jako serwis systemowy, zatem konieczne jest również
 wykonanie w~tej klasie wszystkich czynności zalecanych przy
 uruchamianiu takich serwisów.
 
-\subsection[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
+\section[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
 
 Moduł ten dostarcza pozostałym elementom programu implementacji
 algorytmów kryptograficznych. Dostępne są implementacje następujących
@@ -294,7 +292,7 @@ Crypto++. Jest to popularna biblioteka o otwartych źródłach napisana w
 języku C++, która w obiektowy sposób udostępnia algorytmy
 kryptograficzne.
 
-\subsection[Moduł uwierzytelnienia][Moduł uwierzytelnienia klienta]{Moduł uwierzytelnienia klienta}
+\section[Moduł uwierzytelnienia][Moduł uwierzytelnienia klienta]{Moduł uwierzytelnienia klienta}
 
 Moduł posiada architekturę typową dla modułów usługowych. Głównym
 elementem jest klasa implementująca wzorzec fabryki oraz generyczny
@@ -335,7 +333,7 @@ przykład i~nie powinny być wykorzystywane w~systemie produkcyjnym,
 ponieważ wszystkie hasła oraz nazwy użytkowników przechowywane są
 jawnym tekstem w pliku konfiguracyjnym.
 
-\subsection[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
+\section[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
 
 Moduł ten zawiera implementację protokołu komunikacyjnego opisanego
 w~\ref{sec:ProtKom}. Inicjacja każdej z~warstw protokołu została
@@ -371,7 +369,7 @@ szkieletu mechanizmu sygnałów i~slotów. Dzięki temu uzyskano
 przejrzysty i~wydajny kod, który pozwala na obsługę wielu klientów
 w~jednym wątku.
 
-\subsection[Moduł logowania][Moduł logowania]{Moduł logowania}
+\section[Moduł logowania][Moduł logowania]{Moduł logowania}
 
 Omawiany program wykonywany jest bez interakcji
 z~użytkownikiem. Funkcjonuje on jako serwis systemowy. Docelowo będzie
@@ -416,7 +414,9 @@ lecz można go formować w~taki sam sposób jak pisać do strumienia.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[language=c++, breaklines=true, linewidth=0.99\textwidth, caption=Przykładowe wypisanie komunikatu]
+  \begin{lstlisting}[language=c++, breaklines=true,
+    linewidth=0.99\textwidth, caption=Przykładowe wypisanie
+    komunikatu]
 
 LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 
