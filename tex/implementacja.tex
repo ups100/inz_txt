@@ -1,6 +1,19 @@
 \chapter{Implementacja}
 \label{chap:Implementacja}
 
+W rozdziale \ref{chap:ProjektSystemu} przedstawiono projekt systemu
+monitorowania uwzględniającego wymagania przedstawione
+w~\ref{chap:Wymagania}. Jest to zatem projekt kompleksowego systemu,
+który pozwoli na monitorowanie zarówno klientów mobilnych jak
+i~statycznych. W~chwili pisania tej pracy na rynku dostępne było
+jedynie oprogramowanie potrzebne, aby zapewnić funkcjonalność modułowi
+podstawowemu. W~obec tego konieczne było zaimplementowanie zarówno
+modułu odbiorczego jak i~modułu mobilnego. Rozdział ten zawiera opis
+wykonanej w~ramach tej pracy implementacji modułu
+odbiorczego. Szczegółowy projekt, a~także opis implementacji modułu
+mobilnego dla platformy Android został przedstawiony
+w~\cite{book:pracaKubika}.
+
 \section[Opis architektury][Opis architektury]{Opis architektury}
 
 Logiczna architektura programu została przedstawiona
@@ -49,21 +62,23 @@ wymagań było zapewnienie możliwości definiowania nowych algorytmów
 kryptograficznych jak i~algorytmów uwierzytelnienia klienta. W~celu
 zapewnienia możliwości wybrania typu faktycznego obiektu na podstawie
 danych wykorzystano wzorzec projektowy fabryki\footnote{Wzorzec ten
-  został szczegółowo opisany w XXX}.  Każdy z~omawianych modułów
-posiada swojego zarządcę. Dostępne w~module obiekty muszą zostać
-zarejestrowane u~swojego zarządcy. Pozostałe moduły uzyskują instancje
-tych obiektów, poprzez zarządcę, który na podstawie przekazanych
-danych określa typ faktyczny obiektu. Jeśli dany typ jest dostępny,
-zostanie on wówczas przekazany wywołującemu i~będzie on mógł używać go
-poprzez dostarczony generyczny interfejs. Logiczna struktura tych
-modułów wymaga zapewnienia, że w~programie istnieje tylko jedna
-instancja obiektu danego zarządcy. W~tym celu został wykorzystany
-wzorzec projektowy nazwie singleton. Zastosowanie wzorca projektowego
-fabryki pozwala pozostałym modułom, na korzystanie z obiektów, których
-typ faktyczny jest nieznany w~trakcie implementacji oraz kompilacji
-programu.
+  został szczegółowo opisany w~\cite[101-109]{book:wzorce}.}.  Każdy
+z~wspomnianych modułów posiada swojego zarządcę. Dostępne w~module
+obiekty muszą zostać zarejestrowane u~swojego zarządcy. Pozostałe
+moduły uzyskują instancje tych obiektów, poprzez zarządcę, który na
+podstawie przekazanych danych określa typ faktyczny obiektu. Jeśli
+dany typ jest dostępny, zostanie on wówczas przekazany wywołującemu
+i~będzie on mógł używać go poprzez dostarczony generyczny
+interfejs. Logiczna struktura tych modułów wymaga zapewnienia, że
+w~programie istnieje tylko jedna instancja obiektu danego
+zarządcy. W~tym celu został wykorzystany wzorzec projektowy o nazwie
+singleton\footnote{Szczegółowe omówienie wzorca singleton można
+  znaleźć w~\cite[130-138]{book:wzorce}.}. Zastosowanie wzorca
+projektowego fabryki pozwala pozostałym modułom, na korzystanie z
+obiektów, których typ faktyczny jest nieznany w~trakcie implementacji
+oraz kompilacji programu.
 
-W celu konfiguracji programu wykorzystano zewnętrzny plik w formacie
+W~celu konfiguracji programu wykorzystano zewnętrzny plik w~formacie
 XML. Umożliwia to zmianę ustawień programu bez konieczności jego
 ponownej kompilacji. Plik konfiguracyjny składa się z~czterech
 zasadniczych sekcji:
@@ -94,13 +109,40 @@ zasadniczych sekcji:
 
 Podczas uruchamiania programu, plik konfiguracyjny zostaje przeczytany
 oraz sprawdzony pod kątem poprawności zarówno składniowej jak
-i~semantycznej. Obiekty obiekty obiekty dostawców, odbiorców oraz
-algorytmów uwierzytelnienia dostarczane są przez zewnętrznych
-programistów, zatem prawidłowość ich ustawień nie może być sprawdzana
-na tym samym etapie. Jest to wykonywane dopiero w~trakcie
-inicjalizacji danego obiektu. Należy zatem zawsze po pomyślnej
-analizie pliku konfiguracyjnego sprawdzić zawartość pliku dziennika
-wykonania programu.
+i~semantycznej. Obiekty dostawców, odbiorców oraz algorytmów
+uwierzytelnienia dostarczane są przez zewnętrznych programistów, zatem
+prawidłowość ich ustawień nie może być sprawdzana na tym samym
+etapie. Jest to wykonywane dopiero w~trakcie inicjalizacji danego
+obiektu. Należy zatem zawsze po pomyślnej analizie pliku
+konfiguracyjnego sprawdzić zawartość pliku dziennika wykonania
+programu. 
+
+Definicje klientów znajdujące się w pliku konfiguracyjnym są
+nie zbędne dla zapewnienia bezpieczeństwa całego systemu. Moduł
+odbiorczy pozwoli na zalogowanie się jedynie klienta, który został
+zdefiniowany w konfiguracji. Według wymagań konieczne jest zapewnienie
+niezależności algorytmów uwierzytelnienia klienta od pozostałych
+elementów. Definicja każdego klienta zawiera zatem listę modułów
+uwierzytelnienia, których dany klient moze używać. Program zapewnia
+równiez kontrolę przesyłanych danych zatem konieczne jest również
+określenie listy dozwolonych urządzeń i usług, o których dany klient
+moze przesyłać informacje.
+
+Jednym z wielu wymagań stawianych na etapie projektowania systemu było
+zapewnienie mozliwości przekazywania danych pochodzących od klinta
+mobilnego do wielu miejsc docolewych takich jak systemy monitorujące
+czy bazy danych. Polityka dostarczania danych jest zdecydowanie
+elementem konfiguracyjnym i nie powinna być ona zaszyta w
+implementacji programu. W wykonanym programie logika przekazywania
+danych definiowana jest w programie poprzez sekcję definicji ścieżek
+danych. Sekcja ta pozwala na definiowanie w jakie miejsca powinny
+zostać przekazane dane na podstawie klienta, który te dane przysłał
+oraz dostawcy, który te dane odebrał.
+
+Przeniesienie znacznej cześci logiki programu do pliku
+konfiguracyjnego maiało znaczący wpływ na architekturę
+rozwiązania. Program stanowi jedynie zbiór elementów, z których przy
+pomocy pliku konfiguracyjnego składa się w pełni funkcjonalny moduł.
 
 \section[Szkielet programu][Szkielet programu]{Szkielet programu}
 
@@ -135,6 +177,9 @@ grupy obiektów:
   programu.
 \end{description}
 
+\subsubsection[Grupa obiektów konfiguracyjnych][Grupa obiektów
+konfiguracyjnych]{Grupa obiektów konfiguracyjnych}
+
 Głównym członkiem grupy obiektów konfiguracyjnych jest parser pliku
 konfiguracyjnego. Ponieważ plik konfiguracyjny posiada strukturę pliku
 XML możliwe było wykorzystanie czytelnika strumienia XML z~biblioteki
@@ -149,6 +194,9 @@ wykonanie sprawdzenia spójności oraz poprawności tych danych. Obiekt
 parsera konfiguracji jest również globalnym obiektem udostępniającym
 parametry konfiguracji. W~obiekcie tym znajdują się wszystkie
 ustawienia oraz definicje wszystkich obiektów logicznych programu.
+
+\subsubsection[Grupa obiektów producentów danych][Grupa obiektów
+producentów danych]{Grupa obiektów producentów danych}
 
 Grupa obiektów producentów danych składa się z~dwóch głównych
 elementów. Pierwszym z~nich jest klasa implementująca wzorzec
@@ -194,6 +242,9 @@ z~poziomu pliku konfiguracyjnego zarówno adresu IP i~portu
 wykorzystywanego przez ten obiekt, a~także wskazanie pliku
 zawierającego klucz prywatny.
 
+\subsubsection[Grupa obiektów konsumentów danych][Grupa obiektów
+konsumentów danych]{Grupa obiektów konsumentów danych}
+
 Grupa obiektów konsumentów danych posiada analogiczną budowę jak grupa
 producentów danych. Zapewnia ona zarówno fabrykę konsumentów danych
 jak i~generyczny interfejs konsumenta. Rejestracja obiektów w~fabryce
@@ -207,14 +258,25 @@ wszystkich danych do pliku komend zewnętrznych systemu Icinga. Możliwa
 jest zmiana ścieżki pliku komend zewnętrznych systemu Icinga poprzez
 plik konfiguracyjny.
 
+\subsubsection[Grupa obiektów filtracji][Grupa obiektów
+filtracji]{Grupa obiektów filtracji}
+
 Grupa obiektów filtracji pozwala na kontrolę danych otrzymywanych od
-klienta. Każdy klient posiada zdefiniowany w~pliku konfiguracyjnym
-zbiór urządzeń i~usług o~których informacje może przesyłać. Obiekty
-z~tej grupy pobierają z~analizatora składniowego wspomniane zbiory
-i~dokonują kontroli każdego wpisu dziennika otrzymanego od
+klienta, a także na pobierani informacji o danym kliencie. Podstawowym
+elementej tej grupy jest fizyczne odwzorowanie bytu klienta w
+odpowiednią klasę. Pozwala to na uzyskiwanie przez inne moduły w
+prosty sposób wszystkich niezbędnych infrormacji na temat
+obsługiwanego klienta. Każdy klient posiada zdefiniowany w~pliku
+konfiguracyjnym zbiór urządzeń i~usług o~których informacje może
+przesyłać. Obiekty z~tej grupy, które są odpowiedzialne za kontrolę
+odbieranych danych, pobierają z~analizatora składniowego wspomniane
+zbiory i~dokonują kontroli każdego wpisu dziennika otrzymanego od
 klienta. Jeśli klienta nadesłał dane dotyczące urządzenia lub usługi
 do których nie ma on uprawnień, nie będzie możliwe przekazanie ich do
 konsumentów.
+
+\subsubsection[Grupa obiektów kanału komunikacyjnego][Grupa obiektów
+kanału komunikacyjnego]{Grupa obiektów kanału komunikacyjnego}
 
 Grupa obiektów kanału komunikacyjnego odpowiedzialna jest za
 niezawodne przekazanie danych od dostawcy danych do konsumentów według
@@ -232,33 +294,47 @@ etapach. Pierwszy etap dokonuje zapisu danych do pliku bufora. Jeśli
 aktualnie nie ma żadnych danych oczekujących na przetworzenie przez
 konsumentów, nowa porcja danych jest niezwłocznie dostarczana do
 odpowiednich obiektów. Jeśli istnieją porcje danych, które oczekują na
-zapisanie dane zostaną zapisane do pliku i dostarczone, po danych,
+zapisanie dane zostaną zapisane do pliku i~dostarczone, po danych,
 które nadeszły przed nimi. Należy zwrócić uwagę, że dane zapisywane są
-na dysku tylko raz, niezależnie od liczby dostawców do których powinny
-one zostać dostarczone.
+na dysku tylko raz, niezależnie od liczby konsumentów do których
+powinny one zostać dostarczone. Ponadto dostawca danych uzyskuje
+potwierdzenie zapisania danych po zakończeniu pierwszego etapu ich
+obługi czyli już po zapisaniu do pliku bufora. Oznacza to, że dostawcy
+danych są w~znacznym stopniu niezależni od konsumentów danych. Pozwala
+to skrócić do minimum czas oczekiwania klienta mobilnego pomiędzy
+wysłaniem danych, a~uzyskaniem potwierdzenia o~ich przetworzeniu.
 
-Głównym przedstawicielem grupy obiektów zarządzających jest klasa główna
-programu. Program został napisany zgodnie z~metodyką obiektową zatem
-cała logika wykonania programu została również zamknięta w~klasie co
-uprościło funkcję główną programu do minimum. Klasa ta odpowiedzialna
-jest za przebieg całości programu. Pierwszą operacją wykonywaną przez
-tą klasę jest odnalezienie pliku konfiguracyjnego i~zlecenie jego
-wczytania przez parser konfiguracji. Na podstawie informacji
-uzyskanych w~wyniku analizy pliku konfiguracyjnego klasa główna
-programu pobiera z~odpowiednich fabryk wszystkie obiekty producentów
-oraz konsumentów zdefiniowanych w~pliku konfiguracyjnym oraz
-przekazuje im odpowiednie parametry inicjalizacyjne. Klasa ta jest
+\subsubsection[Grupa obiektów zarządzających][Grupa obiektów
+zarządzających]{Grupa obiektów zarządzających}
+
+Głównym przedstawicielem grupy obiektów zarządzających jest klasa
+główna programu. Program został napisany zgodnie z~metodyką obiektową
+zatem cała logika wykonania programu została również zamknięta
+w~klasie co uprościło funkcję główną programu do minimum. Klasa ta
+odpowiedzialna jest za przebieg całości programu. Pierwszą operacją
+wykonywaną przez tą klasę jest odnalezienie pliku konfiguracyjnego
+i~zlecenie jego wczytania przez parser konfiguracji. Na podstawie
+informacji uzyskanych w~wyniku analizy pliku konfiguracyjnego klasa
+główna programu pobiera z~odpowiednich fabryk wszystkie obiekty
+producentów oraz konsumentów zdefiniowanych w~pliku
+konfiguracyjnym. Po uzyskaniu obiektów następuje ich inicjalizacja na
+podstawie danych wczytanych z pliku konfiguracyjnego. Klasa ta jest
 również odpowiedzialna za prawidłową deinicjalizację oraz destrukcję
 wszystkich obiektów. Ponadto należy zauważyć, że omawiany program
 funkcjonuje jako serwis systemowy, zatem konieczne jest również
 wykonanie w~tej klasie wszystkich czynności zalecanych przy
-uruchamianiu takich serwisów.
+uruchamianiu takich serwisów. Całość programu została napisane zgodnie
+z~paradygmatem zdarzeniowym. Oznacza to, że po wykonaniu inicjalizacji
+program zawiesza swoje wykonanie do czasu otrzymania jakiegoś
+zdarzenia, na które powinien on zareagować. Użycie biblioteki Qt w
+znaczny sposób uprościło oczekiwanie na zdarzenia dzięki mozliwości
+użycia pętli zdarzeń z tej biblioteki.
 
 \section[Moduł kryptograficzny][Moduł kryptograficzny]{Moduł kryptograficzny}
 
 Moduł ten dostarcza pozostałym elementom programu implementacji
-algorytmów kryptograficznych. Dostępne są implementacje następujących
-schematów algorytmów:
+algorytmów kryptograficznych. Dostępne są generyczne interfejsy do
+następujących schematów algorytmów:
 
 \begin{itemize}
 \item szyfrowanie symetrycznych,
@@ -267,29 +343,36 @@ schematów algorytmów:
 \item podpis cyfrowy.
 \end{itemize}
 
-Każdy ze schematów posiada zdefiniowany generyczny
-interfejs. Dostarczanie implementacji danego schematu
-kryptograficznego odbywa się w~sposób analogiczny do dostarczania
-implementacji dostawców danych. Wszystkie implementacje algorytmów
-zostają zarejestrowane w~fabryce kryptograficznej, która umożliwia
-uzyskiwanie obiektu o~typie określanym na podstawie danych na przykład
-odebranych od klienta..
+Dostarczanie implementacji danego schematu kryptograficznego odbywa
+się w~sposób analogiczny do dostarczania implementacji dostawców
+danych. Wszystkie implementacje algorytmów zostają zarejestrowane
+w~fabryce kryptograficznej, która umożliwia uzyskiwanie obiektu
+o~typie określanym na podstawie danych na przykład odebranych od
+klienta.
 
 % biblio do CBC i AESA
 W~ramach tej pracy dostarczono kilku algorytmów, które były konieczne
 do zaimplementowania protokołu komunikacyjnego. Jako algorytm
 symetryczny dostarczona została implementacja algorytmu AES
-pracującego w trybie wiązania bloków zaszyfrowanych. Protokół
-komunikacyjny wymagał dostarczenia również asymetrycznego algorytmu
-RSA. W module zdefiniowano ponadto klasę implementującą generyczny
+pracującego w~trybie wiązania bloków zaszyfrowanych. Omawiany tryb
+pracy algorytmu powoduje powstanie zależności pomiędzy kolejnymi
+blokami. Oznacza to, że manipulacja jednym blokiem powoduje zmiany
+wartości odszyfrowanych w~tym bloku i~każdym następnym. Zastosowanie
+tego trybu w~implementowanym protokole komunikacyjnym pozwala na
+zagwarantowanie, że sekwencja wiadomości otrzymywanych od klienta nie
+została zmieniona\footnote{Samo wykorzystanie trybu CBC nie daje
+  gwarancji ale w protokole komunikacyjnym użyto również
+  funkcji skrótu, przez co możliwe jest jej udzielenie.}. Protokół
+komunikacyjny wymagał również dostarczenia asymetrycznego algorytmu
+RSA. W~module zdefiniowano ponadto klasę implementującą generyczny
 interfejs funkcji skrótu, która dostarcza funkcjonalności algorytmu
-SHA-2 o długości skrótu 256 bitów. Jeden z etapów protokołu
+SHA-2 o~długości skrótu 256 bitów. Jeden z~etapów protokołu
 komunikacyjnego wymagał również dostarczenia algorytmu podpisu
 cyfrowego opartego na algorytmie RSA.
 
 Do implementacji wszystkich algorytmów została wykorzystana biblioteka
-Crypto++. Jest to popularna biblioteka o otwartych źródłach napisana w
-języku C++, która w obiektowy sposób udostępnia algorytmy
+Crypto++. Jest to popularna biblioteka o~otwartych źródłach napisana
+w~języku~C++, która w~obiektowy sposób udostępnia algorytmy
 kryptograficzne.
 
 \section[Moduł uwierzytelnienia][Moduł uwierzytelnienia klienta]{Moduł uwierzytelnienia klienta}
@@ -302,15 +385,18 @@ z~fabryki.
 Interfejs zdefiniowany dla algorytmów uwierzytelnienia został
 zaprojektowany z~wykorzystaniem mechanizmu sygnałów i~slotów
 z~biblioteki Qt. Użycie tego mechanizmu pozwala na znacznie bardziej
-wydajne wykorzystanie zasobów. Przykładem takiej optymalizacji może być
-czas gdy klient przetwarza żądanie związanie z uwierzytelnieniem wątek
-serwera nie musi być wtedy bezczynny lecz może przetwarzać żądania
-pochodzące od innych klientów. Definicja interfejsu pozwala również na
-przekazanie do niego dodatkowych ustawień pochodzących z~pliku
-konfiguracyjnego. Każdy algorytm uwierzytelnienia powinien po
+wydajne wykorzystanie zasobów. Przykładem takiej optymalizacji może
+być czas gdy klient przetwarza żądanie związanie z~uwierzytelnieniem
+wątek serwera nie musi być wtedy bezczynny lecz może przetwarzać
+żądania pochodzące od innych klientów. Definicja interfejsu pozwala
+również na przekazanie do niego dodatkowych ustawień pochodzących
+z~pliku konfiguracyjnego. Każdy algorytm uwierzytelnienia powinien po
 zakończeniu sukcesem lub porażką procesu uwierzytelnienia klienta
 wykonać emisję sygnału z~interfejsu algorytmu wraz z~rezultatem
-procesu autoryzacji.
+procesu autoryzacji. Ponieważ z~punktu widzenia protokołu istotne jest
+przekazanie danych autoryzacyjnych jako informacja o~akceptacji
+algorytmu uwierzytelnienia, konieczne jest aby każdy algorytm przesłał
+co najmniej jedną wiadomość do klienta.
 
 Zapewnienie niezależności implementacji algorytmów uwierzytelnienia od
 wykorzystywanej aktualnie metody komunikacji wymagało zdefiniowania
@@ -329,9 +415,9 @@ klient posiada w~pliku konfiguracyjnym listę dostępnych dla niego
 algorytmów uwierzytelnienia wraz z~danymi jakie powinny być
 przekazane, aby zapewnić pozytywne wykonanie procesu. Należy zwrócić
 uwagę, że zaimplementowane algorytmy uwierzytelnienia stanową jedynie
-przykład i~nie powinny być wykorzystywane w~systemie produkcyjnym,
+przykład. Nie powinny być one wykorzystywane w~systemie produkcyjnym,
 ponieważ wszystkie hasła oraz nazwy użytkowników przechowywane są
-jawnym tekstem w pliku konfiguracyjnym.
+jawnym tekstem w~pliku konfiguracyjnym. 
 
 \section[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
 
@@ -346,10 +432,19 @@ wykorzystany został wzorzec dekoratora.
 Aby wykorzystać wzorzec dekoratora zdefiniowano generyczny interfejs
 pozwalający na odczytanie oraz zapisanie komunikatu niezależnie od
 liczby warstw znajdujących się poniżej. Klasą prostą w tym przypadku
-jest klasa zawierająca implementację warstwy formowania
-wiadomości. Klasa ta została oparta na implementacji gniazd TCP
-pochodzącej z~biblioteki Qt. Klasami dekorującymi natomiast są klasy
-zapewniające szyfrowanie oraz dołączanie skrótu wiadomości.
+jest prosta klasa opakowująca gniazdo TCP z biblioteki Qt. Klasami
+dekorującymi są klasy odpowiadające za kolejne czynności w wyższych
+warstwach protokołu. Klasy te są odpowiedzialne, za formowanie
+wiadomości, szyfrowanie oraz obliczanie i kontrolę jej
+skrótu. Ponieważ kolejność czynności wykonywanych w trakcie budowania
+wiadomości jest istotna zastosowano rekurencyjne budowanie
+wiadomości. Każda klasa dekoratora posiada jedynie jedno wskazanie do
+obiektu, który znajduje się o poziom niżej w hierarchii. Użytkownik
+zapisuje wiadomość używając klasy z najwyższej warstwy. Obiekt
+tendokonuje przekształcenia wiadomości zgodnie ze swoim algorytmem, a
+następnie wywołuje tą samą metodę na rzecz obiektu znajdującego się o
+jeden nizej w hierarchii niż ona sama przekazując przekształconą
+wiadomość jako parametr wywołania.
 
 %diagram z tymi klasami
 
@@ -434,8 +529,10 @@ LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 \end{minipage}
 \vspace{0.5cm}
 
-Ponieważ program nie jest przypisany do żadnego z~wirtualnych
-terminali nie ma możliwości przekazywania wiadomości na standardowe
+Ponieważ program nie jest przypisany do żadnego
+z~terminali\footnote{Proces przekształcenia w serwis systemowy zakłada
+  zamknięcie destryptorów standardowego wejścia, wyjścia oraz wyjścia
+  błędów.} nie ma możliwości przekazywania wiadomości na standardowe
 wyjście lub wyjście błędów. Konieczne jest zatem utworzenie pliku, do
 którego zapisywane będą komunikaty. Należy zwrócić uwagę, że program
 jako serwis systemowy uruchomiony będzie ze znacznie ograniczonymi
