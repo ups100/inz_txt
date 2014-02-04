@@ -37,36 +37,55 @@ aplikacja, z~której korzysta, nie działa, natomiast faktyczną
 przyczyną błędu jest awaria bazy danych lub komunikacji
 sieciowej. Indywidualna diagnoza przy każdej awarii jest czasochłonna,
 przez co czas do jej usunięcia wydłuża się, powodując straty
-finansowe. Od wielu lat w~celu optymalizacji wykrywania i~obsługi
-awarii stosuje się systemy monitorujące, które przedstawiają
-administratorowi w~przejrzysty sposób stan wszystkich urządzeń oraz
-usług.
+finansowe. Konieczne jest zatem monitorowanie stanu urządzeń
+składających się na infrastrukturę IT przedsiębiorstwa.
 
-Zadaniem systemu monitorującego jest śledzenie stanu danego urządzenia
-i~przedstawianie go administratorowi poprzez czytelny interfejs
-użytkownika. Stan urządzenia może być rozumiany bardzo
-szeroko. Istnieją systemy, które pozwalają na sprawdzanie nie tylko
-tego czy urządzenie jest włączone, lecz również jego szczegółowych
-parametrów, takich jak temperatura poszczególnych podzespołów czy
-zużycie prądu. Można wyróżnić dwa podstawowe rodzaje monitorowania:
+Stan urządzenia informatycznego składa się z~dwóch
+elementów. Pierwszym z~nich jest stan usług świadczonych przez to
+urządzenie. Przykładami są nie tyle serwery HTTP czy FTP, lecz również
+prawidłowe trasowanie pakietów przez router czy filtrowanie ruchu
+przez zaporę. Sprawdzenie stanu usługi danego urządzenia zazwyczaj
+może się w~łatwy sposób odbywać z~innego urządzenia bez konieczności
+ingerencji przedmiot badań. Drugim elementem składowym stanu
+urządzenia są jego parametry wewnętrzne. Przykładami takich parametrów
+mogą być: obciążenie procesora, zużycie pamięci oraz długość kolejek
+dyskowych. Parametry urządzenia są zatem jego danymi prywatnymi i ich
+uzyskanie z zewnątrz jest utrudnione. Do ich uzyskiwanie stosuje się
+zatem specjalne oprogramowanie, które pozwala na udostępnianie
+parametrów urządzenia na zewnątrz. Popularnym narzędziem używanym w
+tym celu jest protokół SNMP (ang. {\em Simple Network Management
+  Protocol})\cite{www:SNMP}.  Protokół ten pozwala na dostęp do
+drzewiastej struktury, która zawiera parametry urządzenia, jak i pola
+sterujące. Poprzez mechanizm pułapek (ang. {\em trap})możliwe jest
+również zarządzanie notyfikacji, gdy jakiś parametr osiągnie pewną
+wartość lub wystąpi inne zdarzenie systemowe.
+
+Monitorowanie infrastruktury IT oznacza zatem śledzenie stanów
+wszystkich jej urządzeń składowych. Zadaniem systemu monitorującego
+jest nie tylko śledzenie stanu urządzeń lecz również przedstawianie go
+administratorowi w~sposób zgodny z~jego oczekiwaniami. Można wyróżnić
+dwa podstawowe rodzaje monitorowania:
 
 \begin{description}
-\item[Monitorowanie aktywne] --- rodzaj monitorowania, w~którym system
+\item[monitorowanie aktywne] --- rodzaj monitorowania, w~którym system
   monitorujący cyklicznie wykonuje sprawdzenie stanu danego
   urządzenia lub usługi,
-\item[Monitorowanie pasywne] --- rodzaj monitorowania, w~którym status
-  usługi lub urządzenia zgłaszany jest przez program zewnętrzny do
-  systemu monitorującego.
+\item[monitorowanie pasywne] --- rodzaj monitorowania, w~którym status
+  usługi lub urządzenia zgłaszany jest (być może w~nieregularnych
+  odstępach) przez program zewnętrzny do systemu monitorującego.
 \end{description}
 
-Każdy ze~sposobów monitorowania ma zarówno swoje wady, jak
+Każdy ze~sposobów monitorowania posiada zarówno swoje wady, jak
 i~zalety. Wybór metody monitorowania zależy zatem od charakterystyki
-monitorowanego parametru. Jeśli podlega on nieregularnym
+monitorowanego parametru lub usługi. Jeśli podlega on nieregularnym
 i~krótkotrwałym zmianom, a~każda z~nich powinna być odnotowana,
-stosuje się monitorowanie pasywne. Natomiast jeśli dana wartość
-posiada charakterystykę zmieniającą się w~sposób ciągły, należy
-korzystać wtedy z~monitorowania aktywnego, które dokonuje próbkowania
-danej wartości w~określonych odstępach czasu.
+stosuje się monitorowanie pasywne. Klasycznym przykładem zastosowania
+monitorowania pasywnego jest oczekiwanie na pojawienie się pułapki
+protokołu SNMP. Nigdy nie wiadomo, kiedy ani ile pułapek notyfikacji
+nadejdzie. Natomiast jeśli dana wartość posiada charakterystykę
+zmieniającą się w~sposób ciągły, należy korzystać wtedy
+z~monitorowania aktywnego, które dokonuje próbkowania danej wartości
+w~określonych odstępach czasu.
 
 Sieci bardzo dużych przedsiębiorstw posiadają budowę
 wielosegmentową. Ze względów bezpieczeństwa bardzo często składa się
@@ -79,10 +98,10 @@ rozproszonej.
 Najprostszą realizacją rozproszonego systemu monitorowania jest użycie
 monitorowania pasywnego do monitorowania wszystkich urządzeń i~usług,
 które nie są widoczne z~sieci, w~której uruchomiony jest system
-monitorujący. Niestety wymaga to zmian w~konfiguracji wszystkich
+monitorujący. Niestety może to wymagać zmian w~konfiguracji wszystkich
 urządzeń i~uruchomienia na nich dodatkowego oprogramowania. Takie
 zmiany mogą nie być dozwolone na prostych urządzeniach, których
-kontrola odbywa się poprzez preinstalowany system producenta. 
+kontrola odbywa się poprzez preinstalowany system producenta.
 
 Możliwa jest również konfiguracja wieloinstancyjnego systemu
 monitorowania. W~każdej odizolowanej komórce sieci należy umieścić
@@ -129,7 +148,7 @@ klienta mobilnego mogą zawierać tajemnice handlowe firmy
 zatem zapewnienie zarówno poufności, jak i~integralności danych podczas
 synchronizacji.
 
-W chwili pisania tej pracy, nie udało się odnaleźć na rynku systemu,
+W~chwili pisania tej pracy, nie udało się odnaleźć na rynku systemu,
 który umożliwiałby monitorowanie klienta mobilnego. Ważne jest
 dostarczenie odpowiedniego systemu, który pozwoli na kompleksowe
 monitorowanie wszystkich urządzeń występujących w~firmie, zarówno
