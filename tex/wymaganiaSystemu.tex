@@ -14,8 +14,8 @@ prywatnych urządzeń, takich jak tablety, telefony czy
 laptopy. Urządzenia te uzyskują dostęp dostęp do wielu chronionych
 zasobów firmowych przez co konieczne jest zapewnienie w~organizacji
 odpowiedniego poziomu bezpieczeństwa. Wraz z~popularyzacją rozwiązań
-chmurowych pozwalających na realizację idei IaaS (Infrastructure as
-a~Service) możliwa jest tania i~wydajna wirtualizacja nie tylko
+chmurowych pozwalających na realizację idei IaaS ({\em Infrastructure
+  as a~Service}) możliwa jest tania i~wydajna wirtualizacja nie tylko
 serwerów usługowych ale coraz częściej również stacji klienckich czy
 całych aplikacji. Użytkownik może dzięki temu pracować w~tym samym
 środowisku, niezależnie od urządzenia, które aktualnie
@@ -27,47 +27,32 @@ stacjonarnych, które są wykorzystywane do wirtualizacji. W~przypadku
 osób prywatnych monitoring urządzeń mobilnych może służyć wykrywaniu
 zachowań potencjalnie niebezpiecznych lub kontroli rodzicielskiej.
 W~tym rozdziale przedstawiono charakterystykę monitorowania klasycznej
-infrastruktury oraz takiej, w której znajdują się urządzenia
+infrastruktury oraz takiej, w~której znajdują się urządzenia
 mobilne. Ponieważ zagadnienie monitorowania tych ostatnich jest
 rozwijane od niedawna, konieczna jest również definicja wymagań
-stawianych tego typu systemem.
+stawianych tego typu systemom.
 
 \section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
 statycznych]{Monitorowanie rozproszone klientów statycznych}
 
-Poprzez klienta statycznego rozumiemy wszelkie urządzenia wchodzące w
-skład infrastruktury IT przedsiębiorstwa, które pracują nieprzerwanie
-lub w~dobrze określonych przedziałach czasowych i~posiadają dobrze
-zdefiniowaną hierarchię. Wzajemne relacje pomiędzy tymi urządzeniami
-wynikają w~dużej mierze ze~struktury sieci, lecz mogą wynikać także
-z~roli, jaką odgrywają w~danej organizacji. Przykładem klienta
-statycznego mogą zarówno serwery oraz stacje robocze, jak i~routery
-lub urządzenia montażowe przy taśmie produkcyjnej. Dzięki
-monitorowaniu wszystkich urządzeń w~danej sieci systemy monitorujące
-są w~stanie wspierać administratora, wskazując z~bardzo dużym
-prawdopodobieństwem miejsce wystąpienia awarii.
+Poprzez klienta statycznego rozumiemy wszelkie urządzenia wchodzące
+w~skład infrastruktury IT przedsiębiorstwa, które pracują
+nieprzerwanie lub w~dobrze określonych przedziałach czasowych
+i~posiadają dobrze zdefiniowaną hierarchię. Wzajemne relacje pomiędzy
+tymi urządzeniami wynikają w~dużej mierze ze~struktury sieci, lecz
+mogą wynikać także z~roli, jaką odgrywają w~danej
+organizacji. Przykładem klienta statycznego mogą zarówno serwery oraz
+stacje robocze, jak i~routery lub urządzenia montażowe przy taśmie
+produkcyjnej. Dzięki monitorowaniu wszystkich urządzeń w~danej sieci
+systemy monitorujące są w~stanie wspierać administratora, wskazując
+z~bardzo dużym prawdopodobieństwem miejsce wystąpienia awarii.
 
-Sieć w~dużej firmie rzadko stanowi jedną całość. Zazwyczaj są to
-segmenty sieci VLAN oddzielone zaporami lub w~ogóle wydzielone
-fizycznie sieci LAN. Taka separacja urządzeń pozwala na zwiększenie
-poziomu bezpieczeństwa, lecz jednocześnie utrudnia monitorowanie całej
-infrastruktury. W celu umożliwienia monitorowania całej sieci firmowej
-wykorzystuje się monitorowanie rozproszone. Można wyróżnić dwie
-podstawowe konfiguracje monitorowania rozproszonego (patrz
-rys.~\ref{fig:PorPasIRozp}):
-
-\begin{description}
-\item[Monitorowanie pasywne] --- istnieje jedna, centralna instancja jądra
-  monitorującego, do którego przesyłane są wyniki sprawdzeń
-  poszczególnych usług. Każde urządzenie samo monitoruje swoje usługi
-  i~zgłasza rezultaty.
-\item[Wieloinstancyjny system monitorujący] --- istnieje wiele instancji
-  jądra monitorującego. Typowo, każda wydzielona część sieci posiada
-  swoją instancję. Każda instancja może posiadać zarówno usługi
-  monitorowane aktywnie, jak i~pasywnie. Wyniki sprawdzeń przesyłane są
-  następnie do jednej wybranej instancji, która gromadzi wszystkie
-  dane.
-\end{description}
+Cechą charakterystyczną systemów monitorowania klienta statycznego
+jest operowanie zawsze na aktualnych danych. Urządzenie posiadają
+stałą łączność pomiędzy sobie dlatego wszystkie wyniki sprawdzeń mogą
+być na bieżąco przetwarzane przez system monitorujący. Każde zerwanie
+łączności oznacza sytuację awaryjną, która musi być raportowana
+użytkownikowi.
 
 \begin{figure}[ht]
   \caption{Monitoring pasywny (schemat po lewej) oraz rozproszony
@@ -81,6 +66,28 @@ rys.~\ref{fig:PorPasIRozp}):
 \includegraphics[width=0.49\textwidth]{img/rozproszone}
 }\\[0.1cm]
 \end{figure}
+
+Sieć w~dużej firmie rzadko stanowi jedną całość. Zazwyczaj są to
+segmenty sieci VLAN oddzielone zaporami lub w~ogóle wydzielone
+fizycznie sieci LAN. Taka separacja urządzeń pozwala na zwiększenie
+poziomu bezpieczeństwa, lecz jednocześnie utrudnia monitorowanie całej
+infrastruktury. W~celu umożliwienia monitorowania całej sieci firmowej
+wykorzystuje się monitorowanie rozproszone. Można wyróżnić dwie
+podstawowe konfiguracje monitorowania rozproszonego (patrz
+rys.~\ref{fig:PorPasIRozp}):
+
+\begin{description}
+\item[Monitorowanie pasywne] --- istnieje jedna, centralna instancja
+  rdzenia monitorującego, do którego przesyłane są wyniki sprawdzeń
+  poszczególnych usług. Każde urządzenie samo monitoruje swoje usługi
+  i~zgłasza rezultaty.
+\item[Wieloinstancyjny system monitorujący] --- istnieje wiele
+  instancji rdzenia monitorującego. Typowo, każda wydzielona część
+  sieci posiada swoją instancję. Każda instancja może posiadać zarówno
+  usługi monitorowane aktywnie, jak i~pasywnie. Wyniki sprawdzeń
+  przesyłane są następnie do jednej wybranej instancji, która gromadzi
+  wszystkie dane lub centralnej bazy danych.
+\end{description}
 
 Użycie monitorowania pasywnego dla wszystkich usług jest bardzo
 niewygodne i~jednocześnie utrudnia konfigurację, a~także pozbawia
@@ -112,7 +119,7 @@ instancji rdzenia systemu monitorującego są zazwyczaj
 darmowe. Wymagają one dodatkowej instancji, zajmującej się agregacją
 danych co powoduje zwiększenie zużycia zasobów. Należy również zwrócić
 uwagę, iż niektóre systemy jak Cacti nie posiadają w~ogóle możliwości
-rozproszonego monitorowania.
+monitorowania pasywnego czy rozproszonego.
 
 \section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
 mobilnych]{Monitorowanie rozproszone klientów mobilnych}
@@ -143,41 +150,66 @@ zaufania i~wielu zagrożeniach. Oznacza to w~szczególności, iż
 urządzenie mobilne zazwyczaj posiada zmienny adres IP, który rzadko
 jest adresem globalnym. Również struktura sieci, z~której korzystają
 klienty mobilne jest dynamiczna i~znajduje się poza obszarem
-monitorowania administratorów danego przedsiębiorstwa. Znacząca
-większość klientów mobilnych dzięki kontaktom z~siecią pozafirmową
-posiada, w~przeciwieństwie do klientów statycznych, możliwość
-synchronizacji swojego czasu czy to z~serwerami czasu światowego, czy
-też z~sieci GSM. Znaczne rozsynchronizowanie zegarów urządzenia
-mobilnego z urządzeniami w firmie prowadzić może do istotnych
-problemów funkcjonalnych (np. brak możliwości uwierzytelnienia,
-trudność w śledzeniu kolejności zdarzeń). 
+monitorowania administratorów danego przedsiębiorstwa. Oznacza to, że
+w~przeciwieństwie do klienta statycznego, gdzie każda utrata łączności
+była awarią, utrata łączności jest normalnym elementem działania
+systemu. Stwarza to konieczność gromadzenia oraz synchronizacji danych
+na urządzeniu mobilnym.
+
+Znacząca większość klientów mobilnych dzięki kontaktom z~siecią
+pozafirmową posiada, w~przeciwieństwie do klientów statycznych,
+możliwość synchronizacji swojego czasu czy to z~serwerami czasu
+światowego, czy też z~sieci GSM. Znaczne rozsynchronizowanie zegarów
+urządzenia mobilnego z~urządzeniami w~firmie prowadzić może do
+istotnych problemów funkcjonalnych (np. brak możliwości
+uwierzytelnienia, trudność w śledzeniu kolejności zdarzeń). Warto
+jednak przyjąć pewne określone zakresy tolerancji czasowych. Wśród
+serwerów czas jest synchronizowany z~dokładnością do mili sekund. Taka
+dokładność w~przypadku klienta mobilnego jest zazwyczaj
+zbędna. Bardzo często istotnymi jednostkami czasu stają się dopiero
+sekundy lub nawet minuty.
 
 Należy również zwrócić uwagę na duże rozproszenie klientów
 mobilnych. W~przeciwieństwie do klientów statycznych, którzy zazwyczaj
 pracują w~pewnych grupach lub fragmentach sieci, klienty mobilne są
 zazwyczaj rozpatrywane pojedynczo. Większość klientów mobilnych
 operuje w~pełni samodzielnie, zatem liczność grupy klientów
-wynosi~1. W~przeciwieństwie do klientów statycznych, gdzie grup
+wynosi~1. Istnieją jednak zastosowania, gdzie jeden pracownik użytkuje
+pewien niewielki zestaw urządzeń przenośnych. Nie zmienia to jednak
+faktu, że grupa urządzeń mobilnych posiada liczność rzędu maksymalnie
+kilku urządzeń, a nie nawet do kilkuset jak w przypadku klientów
+statycznych. W~przeciwieństwie do klientów statycznych, gdzie grup
 koniecznych do wydzielenia było zazwyczaj kilka lub kilkanaście,
 w~przypadku klientów mobilnych takich grup może być kilkaset lub nawet
-kilka tysięcy. Warto również dostrzec różnice w~sposobie
-zasilania. Klienty mobilne zazwyczaj posiadają własne zasilanie, przez
-co każda wykonywana na nim operacja nie tylko spowalnia jego
-działanie, lecz również zmniejsza jego czas pracy pomiędzy
-ładowaniami. Przenośność klienta mobilnego zmienia również jego
-stopień bezpieczeństwa. Urządzenia mobilne stosunkowo często są
-gubione lub kradzione. W~związku z~możliwością utraty urządzenia nie
-powinno się na nim przechowywać tajnych danych, dzięki którym można by
-skompromitować cały system z~którego korzysta klient.
+kilka tysięcy.
+
+Warto również dostrzec różnice w~sposobie zasilania. Klienty mobilne
+zazwyczaj posiadają własne zasilanie, przez co każda wykonywana na nim
+operacja nie tylko spowalnia jego działanie, lecz również zmniejsza
+jego czas pracy pomiędzy ładowaniami. Przenośność klienta mobilnego
+zmienia również jego stopień bezpieczeństwa. Urządzenia mobilne
+stosunkowo często są gubione lub kradzione. W~związku z~możliwością
+utraty urządzenia nie powinno się na nim przechowywać tajnych danych,
+dzięki którym można by skompromitować cały system z~którego korzysta
+klient.
 
 Klient mobilny znacznie różni się swoją charakterystyką od klienta
-statycznego. Różni się również rodzaj monitorowanych
-usług. W~przypadku klientów statycznych znaczna część wysiłków jest
-ukierunkowana na pomiar usług świadczonych przez dany system na rzecz
-innych systemów lub systemów świadczących określone usługi dla systemu
-klienckiego (pomiar jakości usługi z punktu widzenia urządzenia
-klienckiego). Natomiast w~przypadku klientów mobilnych istotniejsze
-wydaje się być monitorowanie parametrów wewnętrznych danego klienta.
+statycznego. Różni się również zbiór elementów, które są
+monitorowane. W~przypadku klientów statycznych znaczna część wysiłków
+jest ukierunkowana na pomiar usług świadczonych przez dany system na
+rzecz innych systemów lub systemów świadczących określone usługi dla
+systemu klienckiego (pomiar jakości usługi z punktu widzenia
+urządzenia klienckiego). Natomiast w~przypadku klientów mobilnych
+istotniejsze wydaje się być monitorowanie parametrów wewnętrznych
+danego klienta i~ewentualnie usług świadczonych przez klienta w ramach
+grupy klientów mobilnych. Przykładem może być laptop oraz telefon
+komórkowy, który pozwala mu na dostęp do internetu. Istotne z~punktu
+widzenia monitorowania są parametry wewnętrzne obu tych urządzeń takie
+jak stan baterii, siła sygnału itd. oraz jakość usługi --- w~tym
+przypadku usługi dostępu do internetu świadczonej przez telefon na
+rzecz laptopa. Sytuacja ta jest typowa i~nie jest zazwyczaj spotykane,
+aby klient mobilny udostępniał swoje usługi poza grupę klientów
+w~której on operuje.
 
 \section[Wymagania][Wymagania dla systemu monitorowania]{Wymagania dla systemu monitorowania}
 
@@ -263,7 +295,7 @@ omawianemu systemowi zostały zebrane w~tabeli~\ref{tab:Wymagania}.
   \raggedright{System musi umożliwiać przekazywanie danych do wielu
     podsystemów monitorujących (np. jednocześnie do systemu
     monitorującego i~bazy danych stanowiącej kopię zapasową
-    odebieranych danych), bez konieczności ich retransmisji z~klienta
+    odbieranych danych), bez konieczności ich retransmisji z~klienta
     mobilnego.} \tabularnewline \hline
 
   W11 & \raggedright{Reguły definiowane dla każdego klienta} & \raggedright{System musi umożliwiać definiowanie reguł dotyczących miejsc przeznaczenia dla każdego klienta indywidualnie.} \tabularnewline
