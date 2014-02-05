@@ -71,7 +71,7 @@ Cykliczne bazy danych posiadają natomiast stały, definiowany podczas
 tworzenia rozmiar\footnote{Trwają obecnie prace nad nową implementacją
   cyklicznej bazy danych --- Ceres\cite{www:Ceres}, która znosi to
   ograniczenie. W~chwili pisania tej pracy projekt nie był jednak w
-  fazie rozwoju pozwalającej na jego wykorzytsanie.}. Rozmiar ten
+  fazie rozwoju pozwalającej na jego wykorzystanie.}. Rozmiar ten
 określa liczbę porcji danych, jaka może być przechowywana
 w~bazie. Jeśli rozmiar bazy przekroczy rozmiar zadany przy tworzeniu,
 wykonywana jest konsolidacja danych. Polega ona na wyliczeniu zadanych
@@ -212,8 +212,8 @@ nazywanych wtyczkami (ang. {\em plugin}). W~ramach projektu {\em
   Nagions Plugins}\cite{www:NagiosPluginProject} dostępna jest bardzo
 duża liczba wtyczek, dzięki czemu system Nagios może monitorować
 w~sposób aktywny wszystkie podstawowe usługi. Programy znajdujące się
-w~zestawie pozwalają na badanie usług takich jak http, pop3, smtp czy
-ftp oraz pobierać dane o~urządzeniu przy pomocy protokołu
+w~zestawie pozwalają na badanie usług takich jak HTTP, POP3, SMTP czy
+FTP oraz pobierać dane o~urządzeniu przy pomocy protokołu
 SNMP. Możliwe jest również napisanie własnych programów lub skryptów,
 które zostaną wykorzystane jako wtyczki. Konieczne jest jednak, aby
 programy te spełniały wymagania opisane
@@ -222,11 +222,11 @@ w~\cite{www:NagiosPluginsTutorial}.
 Monitorowanie aktywne usług odbywa się poprzez cykliczne wykonywanie,
 co zdefiniowany okres czasu wskazanej wtyczki. Wtyczka otrzymuje dla
 każdego urządzenia i~usługi indywidualny zestaw parametrów wywołania,
-zdefiniowany przez administratora w~plikachu konfiguracyjnych
+zdefiniowany przez administratora w~plikach konfiguracyjnych
 systemu. Na podstawie parametrów wywołania oraz aktualnego stanu
 usługi program określa logiczny stan usługi i~przekazuje go do systemu
 Nagios wraz z~dodatkowym napisem opisującym stan danej usługi. Napis
-ten powinien mieć conajmniej jedną linię tekstu i~nie więcej niż
+ten powinien mieć co najmniej jedną linię tekstu i~nie więcej niż
 8KB. Opis formatowania tego napisu został zawarty
 w~\cite{www:NagiosPluginsTutorial}. 
 
@@ -236,15 +236,15 @@ sformatowanych wyników do systemu monitorującego. Format tych danych
 jest spójny z~formatem przekazywania danych z~wtyczki, jednak został
 on wzbogacony o~informacje o~czasie wykonania sprawdzenia oraz dane
 pozwalające na określenie, której usługi i urządzenia dotyczy dane
-sprawdzenie. Dzięki udostępnieniu tej funkcjonalnosci system Nagios
+sprawdzenie. Dzięki udostępnieniu tej funkcjonalności system Nagios
 może korzystać na przykład z~mechanizmu pułapek w~protokole SNMP.
 
 Monitorowanie parametrów urządzeń innych niż to, na którym uruchomiony
 jest system Nagios, wymaga użycia protokołu SNMP lub obecności na
 danym systemie odpowiedniego agenta. Wraz z systemem Nagios dostępnych
 jest wiele dodatków (ang. addon)\footnote{Należy zwrócić uwagę na
-  różne znaczenie słów: "wtyczka" (ang. {\em Plugin}) oraz "dodatek"
-  (ang. {\em Addon})}, które udostępniają takie agenty.
+  różne znaczenie słów: "wtyczka" (ang. {\em plugin}) oraz "dodatek"
+  (ang. {\em addon})}, które udostępniają takie agenty.
 
 Monitorowanie aktywne tych parametrów może się odbyć na przykład przy
 pomocy dodatku NRPE ({\em Nagios Remote Plugin Executor}). Składa się
@@ -253,16 +253,16 @@ uruchomiony jest na zdalnym (ang. {\em remote}) urządzeniu i~oczekuje
 na żądania od klientów. Klient, jest to natomiast program, który
 uruchamiany jest przez system Nagios jako wtyczka. W ramach swojego
 wykonania program ten komunikuje się ze wskazanym demonem i~zleca mu
-wykonanie danej wtyczki. Istotne jest, że wtyczka, która ma byc
+wykonanie danej wtyczki. Istotne jest, że wtyczka, która ma być
 wykonana musi zostać wcześniej dostarczona przez administratora na
 urządzenie, na którym znajduje się demon. Wynik wykonania wtyczki na
 zdalnej maszynie zostanie przesłany do klienta, który przekaże dalej
 ten wynik do systemu Nagios.
 
 Monitorowanie pasywne parametrów urządzenie zdalnego może się odbywać
-przy pomocy dowolnego prgoramu uruchomionego na tym urządzeniu. Do
-przekazania wyników tego monitorowania do systemu monitorującego mozna
-natomaist użyć dodatku NSCA ({\em Nagios Service Check
+przy pomocy dowolnego programu uruchomionego na tym urządzeniu. Do
+przekazania wyników tego monitorowania do systemu monitorującego można
+natomiast użyć dodatku NSCA ({\em Nagios Service Check
   Acceptor}). Składa się on z dwóch części: serwera oraz
 klienta. Serwer uruchomiony jest na tym samym systemie, co Nagios
 i~oczekuje na dane. Klient natomiast, uruchamiany jest przez dodatkowy
@@ -331,13 +331,13 @@ bieżących danych monitorowania, a~następnie składowaniem ich
 w~plikach. Ta cześć systemu jest odpowiedzialna za cykliczne
 uruchamianie wtyczek, a~także przetwarzaniem zarówno wyników ich
 wykonania oraz wyników monitorowania pasywnego przekazanych do
-systemu. Dane o~stanie sieci przechowywane są w~plikach pamieci
+systemu. Dane o~stanie sieci przechowywane są w~plikach pamięci
 podręcznej systemu (ang. {\em cache}).
 
 Sposób komunikacji pomiędzy rdzeniem monitorującym, a~interfejsem
 użytkownika jest bardzo sztywny. Interfejs użytkownika uzyskuje dane
-o~stanie sieci z~plików pamięci podrecznej rdzenia
-monitorująceg. Jeśli istnieje konieczność komunikacji w~drugą stronę,
+o~stanie sieci z~plików pamięci podręcznej rdzenia
+monitorującego. Jeśli istnieje konieczność komunikacji w~drugą stronę,
 na przykład ponieważ administrator chce zmienić jakieś parametry,
 konieczne jest wykorzystanie pliku komend zewnętrznych (ang. {\em
   external commands file}). Jest to potok nazwany, z~którego dane
@@ -345,7 +345,7 @@ pobiera rdzeń monitorujący i~na ich podstawie podejmuje odpowiednie
 działania. Łatwo zauważyć, że metody komunikacji wymuszają
 funkcjonowanie zarówno interfejsu graficznego jak i~rdzenia
 monitorującego na jednym urządzeniu. Oznacza to również, że nie jest
-mozliwe wykorzystanie jednego interfejsu do wyświetlania danych
+możliwe wykorzystanie jednego interfejsu do wyświetlania danych
 z~kilku równoprawnych instancji, lecz zawsze musi istnieć jedna
 instancja wyróżniona, która będzie agregowała wszystkie dane.
 
@@ -438,10 +438,10 @@ komunikacja ta odbywała się poprzez pliki\footnote{Właściwie poprzez
 graficznego i~umieszczenie go na oddzielnym urządzeniu. Icinga
 definiuje natomiast dodatkową warstwę abstrakcji, która pozwala nowemu
 interfejsowi użytkownika, na komunikację z~rdzeniem monitorującym
-w~sposób niezalezny od fizycznej architektury systemu. Schemat
+w~sposób niezależny od fizycznej architektury systemu. Schemat
 komunikacji został przedstawiony na \ref{fig:IcingaOverview}.
 
-Mozna zauważyć, że interfejs graficzny w celu pobrania danych o~stanie
+Można zauważyć, że interfejs graficzny w celu pobrania danych o~stanie
 bieżącym systemu, nie komunikuje się bezpośrednio z~rdzeniem lecz
 poprzez REST API\footnote{ang. {\em Representational state transfer}
   -- lekka metoda przesyłania danych pomiędzy klientem
@@ -482,7 +482,7 @@ raportowym opartym na serwerze
 JasperReports\cite{www:JasperReports}. Pozwala to w~bardzo łatwy
 sposób tworzyć wzory raportów, które następnie będą automatycznie
 generowane. Umożliwia to regularne i~proste tworzenie dokumentacji
-nizebędnej dla zarządu przedsiębiorstwa.
+niezbędnej dla zarządu przedsiębiorstwa.
 
 \section[Podsumowanie][Podsumowanie]{Podsumowanie}
 
