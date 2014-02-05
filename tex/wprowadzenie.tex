@@ -26,14 +26,14 @@ błędy. Z~punktu widzenia użytkownika końcowego, za awarię w~danym
 systemie należy zatem uznać nie tylko fizyczne uszkodzenie urządzenia,
 lecz także sytuację, w~której użytkownik zostaje pozbawiony dostępu do
 danej aplikacji czy usługi. Warto również zauważyć, że użytkownik
-oczekuje od danej aplikacji dostarczenia usług o~odpowiednim
+oczekuje od infrastruktury IT dostarczenia usług o~odpowiednim
 poziomie. Zatem należy również uznać za awarię sytuację, gdy usługi
 świadczone użytkownikowi nie są na satysfakcjonującym poziomie.
 
 Użytkownik końcowy bardzo często nie jest w~stanie udzielić
 precyzyjnej informacji o~usterce, która pojawiła się w~jego
 aplikacji. Często ma miejsce sytuacja, w~której użytkownik zgłasza, że
-aplikacja, z~której korzysta, nie działa, natomiast faktyczną
+program, z~którego korzysta, nie działa, natomiast faktyczną
 przyczyną błędu jest awaria bazy danych lub komunikacji
 sieciowej. Indywidualna diagnoza przy każdej awarii jest czasochłonna,
 przez co czas do jej usunięcia wydłuża się, powodując straty
@@ -42,23 +42,24 @@ składających się na infrastrukturę IT przedsiębiorstwa.
 
 Stan urządzenia informatycznego składa się z~dwóch
 elementów. Pierwszym z~nich jest stan usług świadczonych przez to
-urządzenie. Przykładami są nie tyle serwery HTTP czy FTP, lecz również
-prawidłowe trasowanie pakietów przez router czy filtrowanie ruchu
-przez zaporę. Sprawdzenie stanu usługi danego urządzenia zazwyczaj
-może się w~łatwy sposób odbywać z~innego urządzenia bez konieczności
-ingerencji przedmiot badań. Drugim elementem składowym stanu
-urządzenia są jego parametry wewnętrzne. Przykładami takich parametrów
-mogą być: obciążenie procesora, zużycie pamięci oraz długość kolejek
-dyskowych. Parametry urządzenia są zatem jego danymi prywatnymi i ich
-uzyskanie z zewnątrz jest utrudnione. Do ich uzyskiwanie stosuje się
-zatem specjalne oprogramowanie, które pozwala na udostępnianie
-parametrów urządzenia na zewnątrz. Popularnym narzędziem używanym w
-tym celu jest protokół SNMP (ang. {\em Simple Network Management
-  Protocol})\cite{www:SNMP}.  Protokół ten pozwala na dostęp do
-drzewiastej struktury, która zawiera parametry urządzenia, jak i pola
-sterujące. Poprzez mechanizm pułapek (ang. {\em trap})możliwe jest
-również zarządzanie notyfikacji, gdy jakiś parametr osiągnie pewną
-wartość lub wystąpi inne zdarzenie systemowe.
+urządzenie. Przykładami są nie tylko serwery HTTP czy FTP, lecz
+również prawidłowe trasowanie pakietów przez router czy filtrowanie
+ruchu przez zaporę (ang. {\em firewall}). Sprawdzenie stanu usługi
+danego urządzenia zazwyczaj może się w~łatwy sposób odbywać z~innego
+urządzenia bez konieczności ingerencji w~przedmiot badań. Drugim
+elementem składowym stanu urządzenia są jego parametry
+wewnętrzne. Przykładami takich parametrów mogą być: obciążenie
+procesora, zużycie pamięci oraz długość kolejek dyskowych. Parametry
+urządzenia są zatem jego danymi prywatnymi i~ich uzyskanie z~zewnątrz
+jest utrudnione. Do ich pozyskiwania stosuje się zatem specjalne
+oprogramowanie, które pozwala na udostępnianie parametrów urządzenia
+na zewnątrz. Popularnym narzędziem używanym w~tym celu jest protokół
+SNMP (ang. {\em Simple Network Management Protocol})\cite{www:SNMP}.
+Protokół ten pozwala na dostęp do drzewiastej struktury (MIB ---
+ang. {\em Management Information Base}), która zawiera parametry
+urządzenia, jak i~pola sterujące. Poprzez mechanizm pułapek (ang. {\em
+  trap}) możliwe jest również zażądanie notyfikacji, gdy jakiś
+parametr osiągnie pewną wartość lub wystąpi inne zdarzenie systemowe.
 
 Monitorowanie infrastruktury IT oznacza zatem śledzenie stanów
 wszystkich jej urządzeń składowych. Zadaniem systemu monitorującego
@@ -69,7 +70,7 @@ dwa podstawowe rodzaje monitorowania:
 \begin{description}
 \item[monitorowanie aktywne] --- rodzaj monitorowania, w~którym system
   monitorujący cyklicznie wykonuje sprawdzenie stanu danego
-  urządzenia lub usługi,
+  urządzenia lub usługi (ang. {\em polling}),
 \item[monitorowanie pasywne] --- rodzaj monitorowania, w~którym status
   usługi lub urządzenia zgłaszany jest (być może w~nieregularnych
   odstępach) przez program zewnętrzny do systemu monitorującego.
@@ -81,7 +82,7 @@ monitorowanego parametru lub usługi. Jeśli podlega on nieregularnym
 i~krótkotrwałym zmianom, a~każda z~nich powinna być odnotowana,
 stosuje się monitorowanie pasywne. Klasycznym przykładem zastosowania
 monitorowania pasywnego jest oczekiwanie na pojawienie się pułapki
-protokołu SNMP. Nigdy nie wiadomo, kiedy ani ile pułapek notyfikacji
+protokołu SNMP. Nigdy nie wiadomo, kiedy ani ile notyfikacji
 nadejdzie. Natomiast jeśli dana wartość posiada charakterystykę
 zmieniającą się w~sposób ciągły, należy korzystać wtedy
 z~monitorowania aktywnego, które dokonuje próbkowania danej wartości
@@ -160,7 +161,7 @@ danych z~urządzenia mobilnego do systemu monitorującego. Ponadto
 opracowano i~zaimplementowano dodatek do systemu Icinga pozwalający na
 dostarczenie danych do systemu monitorującego używając zaproponowanego
 protokołu. Praca ta jest częścią systemu monitorowania urządzeń
-mobilnych opracowywanego na Wydziale Elektroniki i Technik
+mobilnych opracowywanego na Wydziale Elektroniki i~Technik
 Informacyjnych. Ważnym elementem składowym tego systemu jest również
 praca inżynierska Pana Marcina Kubika\cite{book:pracaKubika}, w~której
 zawarto opis implementacji aplikacji monitorującej przeznaczonej dla
@@ -182,9 +183,10 @@ budowany jest projektowany system. W~rozdziale
 \ref{chap:ProjektSystemu} przedstawiono projekt systemu monitorowania
 oraz opis protokołu komunikacyjnego. Rozdział \ref{chap:Implementacja}
 zawiera opis wykonanej w~ramach niniejszej pracy implementacji dodatku
-pozwalającego na monitorowanie urządzeń mobilnych w sposób
-pasywny. W~rozdziale \ref{chap:Testy} znajduje się opis konfiguracji
-testowej wykonanego systemu, a~także sprawozdanie z~jego
-użytkowania. Rozdział \ref{chap:Podsumowanie} natomiast stanowi
-podsumowanie niniejszej pracy, a~także wskazuje potencjalne możliwości
-rozwoju wykonanego systemu.
+pozwalającego na przekazanie danych o~stanie urządzenia pochodzących
+z~monitorowanego urządzenia mobilnego do systemu Icinga. W~rozdziale
+\ref{chap:Testy} znajduje się opis konfiguracji testowej wykonanego
+systemu, a~także sprawozdanie z~jego użytkowania. Rozdział
+\ref{chap:Podsumowanie} stanowi natomiast podsumowanie niniejszej
+pracy, a~także wskazuje potencjalne możliwości rozwoju wykonanego
+systemu.
