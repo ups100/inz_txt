@@ -1,126 +1,38 @@
-\chapter{Projekt systemu}
+\chapter{Koncepcja rozwiązania}
 \label{chap:ProjektSystemu}
 
-Brak dostępnego na rynku systemu wspierającego monitorowanie klienta
-mobilnego powoduje konieczność opracowania nowego rozwiązania, które
-spełni wszystkie wymagania opisane w~\ref{chap:Wymagania}. Opracowanie
-od podstaw nowego systemu monitorowania, wymaga bardzo dużych nakładów
-pracy. Na rynku obecne są systemy monitorowania klienta statycznego,
-które spełniają znaczną część wymagań. Implementacja nowego systemu
-monitorowania jest zatem nieuzasadniona ekonomicznie oraz
-merytorycznie. Na podstawie wyników analizy dostępnych na rynku
-systemów podjęto decyzję, aby wykorzystać system monitorowania Icinga.
+W~rozdziale \ref{chap:Icinga} omówione zostały poszczególe komponenty
+systemu Icinga, a~także w~pełni funkcjonalna konfiguracja dla
+pojedynczego segmentu sieci. Przedstawiono również dostępne w~systemie
+Icinga schematy współpracy wielu serwerów monitorujących. Problem
+monitoringu klienta mobilnego jest w~wielu aspektach symetryczny
+względem monitoringu wielu segmentów sieci.
 
-Zastosowanie systemu Icinga pozwala na uzyskanie niskim nakładem
-pracy, wielu funkcjonalności niezbędnych w~projektowanym
-systemie. System monitorowania Icinga jest jednym
-z~najpopularniejszych narzędzi służących do monitorowania
-infrastruktury statycznej. Posiada on bardzo wiele konfiguracji
-rozproszonych, zatem możliwe jest monitorowanie nawet bardzo
-rozbudowanej sieci. Wiele dostępnych dodatków pozwoli również na
-zapewnienie możliwości analizy danych zarówno historycznych jak
-i~bieżących. Łatwo zatem zauważyć, że dzięki zastosowaniu systemu
-dostępnego na rynku uzyskano realizację znacznej części
-wymagań. System nie posada jednak żadnych zintegrowanych mechanizmów
-monitorowania klienta mobilnego. Konieczne jest zatem opracowanie
-dodatkowych elementów, które pozwolą na monitorowanie klienta
-mobilnego zgodnie z~przedstawionymi wymaganiami.
+W~tym rozdziale zawarto porównanie tych zagadnień oraz przedstawiono
+możliwe architektury rozwiązania. Na podstawie wymagań oraz znajomości
+cech każdej z~konfiguracji wybrano konfigurację spełniającą
+w~największym stopniu wymagania stawiane przed systemem monitorowania
+klienta mobilnego. Wybrana architektura opiera się na wykorzystaniu
+narzędzia NSCA. Niestety narzędzie to nie spełnia wielu spośród
+stawianych przed nim wymagań. Stwarza to konieczność opracowania
+nowego dodatku do systemu Icinga. W~rozdziale tym zawarto konceptualny
+opis architektury proponowanego dodatku. Ponadto zaproponowano
+protokół komunikacyjny przeznaczony do przesyłania wyników pomiarów
+poprzez sieć publiczną.
 
-Klient mobilny, zdefiniowany w~\ref{chap:Wymagania} jest urządzeniem,
-co do którego, nie można zakładać, że posiada nieprzerwany dostęp do
-sieci internet. Ponadto należy zauważyć zmienność zarówno
-geograficznego miejsca użytkowania jak i~topologi wykorzystywanej
-infrastruktury sieciowej. Dodatkowo, należy odnieść się do wymagań,
-w~których zawarta jest konieczność minimalizowania zużycia energii
-przez klienta mobilnego. Ciągłe utrzymywanie połączenia z serwerem,
-powodowałoby znaczne zużycie energii. Współpraca klienta mobilnego
-z~infrastrukturą publiczną nie pozwala również, na założenie, iż
-klient mobilny posiada globalny adres IP\footnote{Globalny adres IP -
-  adres protokołu internetowego działającego w warstwie sieciowej,
-  pozwalający na unikalną identyfikację urządzenia w ramach całej
-  sieci Internet.}. Wszystko to razem powoduje to brak możliwości
-wykorzystania mechanizmów aktywnego monitorowania zawartych w~systemie
-Icinga do monitorowania klienta mobilnego.
+\section[Architektura systemu][Architektura systemu]{Architektura
+  systemu}
 
-Brak możliwości inicjowania przez system monitorujący komunikacji
-wymusza użycie jednej z~dwóch dostępnych konfiguracji
-rozproszonych. Pierwsza konfiguracja, zakłada przekazywanie jedynie
-rezultatów pomiarów do jednej z~instancji rdzenia monitorującego,
-który następnie dokona ich przetwarzania. Po wykonaniu wszystkich
-niezbędnych czynności rezultaty zostaną dostarczone do centralnej bazy
-danych. Druga z~konfiguracji, zakłada wykonanie całej niezbędnej
-analizy danych na urządzeniu mobilnym, a~następnie przekazanie
-rezultatów do bazy danych. Charakterystyka klienta mobilnego
-przedstawiona w~\ref{chap:Wymagania}, określa iż urządzenie mobilne
-posiada ograniczone zasoby i~ilość dodatkowych operacji wykonywanych
-na nim powinna zostać ograniczona do minimum. Powyższe wymaganie
-dyskwalifikuje rozwiązanie, które wymaga przetwarzania wyników
-pomiarów na urządzeniu mobilnym. Konieczne jest zatem wykorzystanie
-konfiguracji, w~której na urządzeniu mobilnym znajduje się narzędzie
-przeznaczone jedynie do zbierania danych oraz przekazywania ich do
-nadrzędnej instancji jądra monitorującego. W~klasycznym wariancie tej
-konfiguracji, która wykorzystywana jest podczas monitorowania
-infrastruktury statycznej, do przekazywania danych wykorzystuje się
-dodatek NSCA. Przeprowadzona w~\ref{sec:NSCA} analiza narzędzia NSCA
-oraz protokołu komunikacyjnego wykazała liczne uchybienia tego
-narzędzia oraz wykorzystywanego w nim protokołu. Konieczne jest zatem
-opracowanie metody komunikacji spełniającej przedstawione wymagania
-wcześniej wymagania. Ponadto wiele ograniczeń narzędzia NSCA
-spowodowało konieczność zaprojektowania i~implementacji nowego
-narzędzia, które jest wolne od ograniczeń poprzednika. Powyższe
-czynniki determinują w~znacznym stopniu architekturę system. W~celu
-zapewnienia elastyczności projektowanego systemu zastosowano budowę
-modularną. Schemat współpracy poszczególnych modułów został
-przedstawiony na \ref{fig:archCalosci}. System monitorowania składa się
-z~następujących modułów:
-
-\begin{figure}[ht]
-  \caption{Schemat logiczny projektowanego systemu.}
-  \label{fig:archCalosci}
-  \centering
-\includegraphics[width=0.8\textwidth]{img/archCalosci}
-\end{figure}
-
-\begin{description}
-\item[Moduł podstawowy] Zawiera wszystkie instancje rdzenia
-  monitorującego, zarówno te wykorzystywane do monitorowania
-  infrastruktury statycznej, jak i~te których zadaniem jest
-  przetwarzanie danych pochodzących od klientów mobilnych. Ponadto
-  w~module tym zawiera się interfejs użytkownika wraz ze~wszystkimi
-  dodatkami oraz magazyn danych.
-
-\item[Moduł odbioru danych] Składa się on z~programu, który zapewnia
-  odbiór danych od klienta mobilnego przy zachowaniu wszystkich
-  wymagań zarówno w~kwestii bezpieczeństwa jak
-  i~funkcjonalności. Ponadto moduł ten odpowiedzialny jest za
-  przekazywanie odebranych danych do pozostałych elementów zgodnie
-  ze~zdefiniowaną w~systemie polityka.
-
-\item[Moduł mobilny] Zależna od platformy aplikacja mobilna, której
-  podstawowym zadaniem jest gromadzenie danych o~zadanych
-  parametrach. Zawiera się tu również implementacja protokołu
-  komunikacyjnego dla danej platformy w~celu przekazania zebranych
-  danych do pozostałych modułów systemu.
-\end{description}
-
-\section[Problemy][Problemy z monitorowaniem klienta mobilnego]{Problemy z monitorowaniem klienta mobilnego}
-
-System Icinga nie posiada żadnego mechanizmu wsparcia dla klientów
-mobilnych. Istnieje wiele konfiguracji rozproszonych, a~część z nich
-może być zaadoptowana do monitorowania klienta mobilnego. Należy
-pamiętać, iż element systemu obecny na urządzeniu mobilnym musi
-oszczędzać zarówno pamięć jak i~czas procesora. Schemat logiczny
-konfiguracji ze wspólną bazą danych dla klientów mobilnych został
-przedstawiony na \ref{fig:mobilnyWspBaza}. Konfiguracja ta jest
-niestety nieakceptowalna ze względu na konieczność przetwarzania
-wszystkich informacji na urządzeniu mobilnym, co w~znaczący sposób
-zwiększyłoby obciążenie klienta mobilnego.  W związku z~powyższym
-zdecydowano się rozważyć konfigurację rozproszoną z~użyciem
-NSCA. Wymaga ona dostarczenia elementu systemu, który będzie znajdował
-się na urządzeniu mobilnym i monitorował je, a~następnie przekazywał,
-gdy będzie to możliwe dane do instancji nadrzędnej, która będzie
-prowadziła analizę otrzymanych danych. Schemat tej konfiguracji został
-przedstawiony na \ref{fig:mobilnyInstancja}.
+Charakterystyka problemu monitorowania klienta mobilnego przedstawiona
+w~rozdziale \ref{chap:Wymagania} wydaje się być w wielu aspektach
+zbierzna z~zagadnieniem monitorowania wielosegmentowej infrastruktury
+statycznej. Każdy klient mobilny (lub grupa w~ramach której ściśle on
+funkcjonuje np. zestaw laptop~+~telefon) moze być rozważana jako
+osobny segement sieci. Oznacza to, że na każdym z~klientów mobilnych
+powinien znajdować się serwer monitorujący. Aby wykorzystać możliwie
+najwięcej z~dostępnych funkcjonalności systmu monitorującego Icinga
+nalezy zatem rozważyc dostępne architektury rozproszone w~kontekście
+monitorowania klienta mobilnego.
 
 \begin{figure}[ht]
   \centering
@@ -130,6 +42,48 @@ przedstawiony na \ref{fig:mobilnyInstancja}.
 \includegraphics[width=0.75\textwidth]{img/mobilnyWspBaza}
 \end{figure}
 
+Architektura pozwalająca na współpracę wielu instancji poprzez wspólną
+bazę danych została przedstawiona na
+rys.~\ref{fig:mobilnyWspBaza}. W~tej konfiguracji każdy klient mobilny
+posiada swoją instancję rdzenia monitorującego systemu
+Icinga. Komunikuje się on bezpośrednio z~baza danych, gdzie
+przechowywany jest stan bieżący całej infrastruktury. Oznacza to
+konieczność udostępnienia bazy danych w~sieci publicznej, co zmniejsza
+poziom bezpieczeństwa systemu. Należy zwrócić uwagę, że każdy klient
+mobilny jest w~pełni odpowiedzialny za przetwarzanie wyników pomiarów
+wszystkich monitorowanych przez niego urządzeń. W~szczególności
+oznacza to, że implementacja klienta mobilnego musi być wyposażona
+w~mechanizm przetwarzania danych zgodny z~dodatkiem inGraph. Konieczne
+jest również zapewnienie możliwosći użycia innego mechanizmu, aby nie
+ograniczać modyfikowalnosci systemu. Należy zwrócić uwagę, że to
+rozwiązanie wymaga niemalże ciągłego kontaktu z~bazą danych lub
+opracowania algorytmu synchronizacji danych pomiędzy lokalną kopią
+przetworzonych danych u~klienta i~baza danych na serwerze. Proces
+synchronizacji tych danych moze wymagać przesłania relatywnie dużej
+ilosci informacji poprzez siec. Należy również zaznaczyć, że całe
+przetwarzanie danych, zarówno to związane z~monitorowaniem, jak i~to
+związane z~wykonywaniem transformacji danych potrzebnych do generacji
+wykresów jest wykonywane na urządzeniu mobilnym.
+
+Łatwo zauważyć, że konfiguracja ta jest zdecydowanie niewskazana dla
+klienta mobilnego. Zastosowanie jej wymagałoby znacznego obciążenia
+urządzenia mobilnego poprzez angażowanie go w~przetwarzanie
+danych. Ponadto rozwiązanie to moze zużywać dużą część pasma
+w~zależnosci od zastosowanego algorytmu synchronizacji danych. Znaczną
+część przesyłanych danych stanowią przetworzone dane niezbędne do
+generacji wykresów. Istotny jest również fakt, że jeśli klient mobilny
+przetwarza dane to jest on również odpowiedzialny za powiadamianie
+administratora o~zdefiniowanych wydarzeniach. Wysyłanie maili
+zawierających informacje o~błędzie generuje oczywiście dodatkowy ruch
+i~obciąża system urządzenia. Warto również wspomnieć o konieczności
+udostępnienia publicznie bazy danych zarówno systemu monitorującego,
+jak i~dodatku inGraph. Obie te bazy danych mogą zawerać wrażliwe dane
+przedsiębiorstwa i~nie powinny być udostępniane poza sieć
+prywatną. Wszystkie te elementy stoją w~sprzeczności z~wymaganiami
+zdefiniowanymi w~\ref{chap:Wymagania}. W~związku z~powyższym nie jest
+możliwe zastosowanie tej architektury w~do monitorowania klienta
+mobilnego.
+
 \begin{figure}[ht]
   \centering
   \caption{Monitoring klienta mobilnego w~konfiguracji z~instancją
@@ -138,183 +92,150 @@ przedstawiony na \ref{fig:mobilnyInstancja}.
 \includegraphics[width=0.80\textwidth]{img/mobilnyInstancja}
 \end{figure}
 
-Wykorzystanie do celu komunikacji pomiędzy klientem mobilnym,
-a~instancja nadrzędną dodatku NSCA niesie za sobą wiele problemów.
-Dodatek NSCA jest powszechnie używany do monitorowania serwerów
-znajdujących się za zaporą lub w~wydzielonym segmencie sieci. Dodatek
-ten może być stosowany, w~sieciach o~statycznym charakterze, gdzie
-połączenia są stałe, a~łączność nie ulega częstym przerwaniom. Ponadto
-należy być świadomym słabości modelu bezpieczeństwa stosowanego
-w~protokole wymiany danych. Stosowanie dodatku NSCA poza zamkniętymi
-sieciami firmowymi może okazać się niebezpieczne i~zawodne.
+Druga z~konfiguracji rozproszonych zakładająca wykorzystanie dodatku
+NSCA została przedstawiona na rys.~\ref{fig:mobilnyInstancja}. W~tej
+konfiguracji klient mobilny musi posiadać jedynie prosty mechanizm
+pozwalający na cykliczne uruchamianie sprawdzeń odpowiednich
+parametrów i~usług. Ponadto warto rozważyć wzbogacenie klienta
+mobilnego o~funkcjonalność monitorowania pasywnego innych urządzeń
+powiązanych z~nim (np. laptop, telefon itd). Można zatem stwierdzić,
+iż jest to minimalna implementacja rdzenia monitorującego ---
+IcingaMini. Zadaniem klienta mobilnego jest jedynie samo sprawdzenie
+stanu poszczególnych usług, zgodnie z~polityką zdefiniowaną przez
+administratora. Dane zebrane w~ramach monitorowania muszą być
+przechowane na urządzeniu i~gdy stanie się to możliwe dostarczone do
+serwera NSCA jako dane monitorowania pasywnego. Rdzeń monitorujacy
+umieszczony na serwerze po odebraniu danych dokona ich przetworzenia
+zarówno w~ramach systemu Icinga, jak i~dodatku inGraph.Wyniki
+przetwarzania zostaną zaisane w~odpowiednich baza danych. Oznacza to,
+że całe przetwarzanie wykonywane jest na serwerze. Pozwala to na
+usunięcie funkcjonalności programu ingraph-collector z~klienta
+mobilnego. Ponadto kolejną istotną różnicą jest możliwość umieszczenia
+bazy danych w~sieci prywatnej. Jedynym elementem, który musi być
+dostępny z~zewnątrz jest serwer monitorujacy klientów mobilnych, gdyż
+do niego przesyłane są wyniki sprawdzeń. Warto również wspomnieć, ze
+ilość przesyłanych danych została również ograniczona. W~poprzedniej
+architekturze konieczne było przesłanie zarówno danych o~stanie
+infrastruktury jak i~danych potrzebnych do generacji
+wykresów. W~konfiguracji z~instancją nadrzędną do serwera przesyłane
+są jedynie rezultaty pomiarów, natomiast wszystkie pozostałe dane są
+na ich podstawie generowane przez serwer.
+
+Idea działania tej architektury wydaje się być odpowiednia dla systemu
+monitorowania klienta mobilnego. Należy jednak dokonać analizy
+kluczowego dla tej konfiguracji dodatku NSCA. Jest on powszechnie
+wykorzystywany podczas monitorowania klientów statycznych, jednak
+specyficzne wymagania zdefiniowane dla klienta mobilnego mogą nie
+pozwolić na jego zastosowanie w~tym systemie.
 
 Zagadnienie monitorowania klienta mobilnego zostało szczegółowo
-opisane w~\ref{chap:Wymagania}. Niestety dodatek NSCA nie spełnia
-bardzo wielu z~przedstawionych wymagań przez co nie powinien być on
-stosowany w~systemach tego typu. Głównymi problemami, które
-dyskryminują ten w~zastosowaniu do monitorowania klienta mobilnego są:
+opisane w~rozdziale~\ref{chap:Wymagania}. Po analizie przedstawionych
+tam wymagań można stwierdzić, że dodatek NSCA nie spełnia bardzo wielu
+z~nich. Głównymi problemami, które dyskryminują ten dodatek
+w~zastosowaniu do monitorowania klienta mobilnego są:
 
 \begin{description}
-\item[Bezpieczeństwo] Mechanizmy bezpieczeństwa zawarte w~protokole
-  wymiany danych posiadają poważne luki. Zastosowanie CRC32 do
-  sprawdzania spójności danych niesie za sobą ryzyko ze względu na
-  duże prawdopodobieństwo wystąpienia kolizji. Ponadto konieczność
-  przechowywania na urządzeniu klucza symetrycznego, którego
-  ujawnienie kompromituje cały system znacząco osłabia stosowane
-  mechanizmy bezpieczeństwa.
-\item[Nadpisywanie stempla czasu] Moduł odbierający dodaje do każdego
-  wpisu dziennika aktualny stempel czasy. Powoduje to brak możliwości
-  przesyłania, historycznych danych zgromadzonych w skutek utraty
+\item[Bezpieczeństwo.] Mechanizmy bezpieczeństwa zawarte w~protokole
+  wymiany danych, przy zastosowaniu ich do komunikacji z~klientem
+  mobilnym posiadają poważne luki. Konieczność przechowywania na
+  urządzeniu klucza symetrycznego, którego ujawnienie kompromituje
+  cały system uniemożliwia realizację wymagania, które nie pozwala na
+  kompromitację systemu po zgubieniu urządzenia.
+\item[Nadpisywanie stempla czasu.] Moduł odbierający (NSCA) dodaje do
+  każdego wpisu dziennika aktualny stempel czasu. Uniemożliwia to
+  przesyłanie historycznych danych zgromadzonych wskutek utraty
   dostępu do sieci.
-\item[Brak dodatkowych mechanizmów uwierzytelnienia klienta] Decyzja
-  o~przydzieleniu klientowi dostępu czyli akceptacji przesłanych przez
-  niego wpisów dziennika podejmowana jest na podstawie znajomości
-  przez niego algorytmu szyfrowania oraz klucza.
-\item[Brak kontroli otrzymywanych danych] Każdy klient, który zna
-  klucz może przesyłać wpisy dotyczące dowolnego urządzenia i~dowolnej
-  usługi. Brak jest mechanizmu, który pozwolił by na kontrolę tego,
-  jaki klient ma prawo informować o~jakim urządzeniu czy też usłudze.
-\item[Brak potwierdzenia dostarczenia danych] Klient wysyłający dane
+\item[Brak dodatkowych mechanizmów uwierzytelnienia klienta.] Decyzja
+  o~przydzieleniu klientowi dostępu, czyli akceptacji przesłanych
+  przez niego danych, podejmowana jest na podstawie znajomości przez
+  niego algorytmu szyfrowania oraz klucza symetrycznego.
+\item[Brak kontroli otrzymywanych danych.] Każdy klient, który zna
+  klucz może przesyłać dane dotyczące dowolnego urządzenia i~dowolnej
+  usługi. Brak mechanizmu, który pozwoliłby na kontrolę tego, jaki
+  klient ma prawo informować o~jakim urządzeniu czy też usłudze.
+\item[Brak potwierdzenia dostarczenia danych.] Klient wysyłający dane
   nie ma żadnej informacji o~tym, czy jego dane zostały zaakceptowane
   czy odrzucone. Oznacza to brak możliwości synchronizacji danych na
-  kliencie mobilnym i~serwerze, gdyż nigdy nie mamy gwarancji, że
+  kliencie mobilnym i~serwerze, gdyż nigdy nie ma gwarancji, że
   wysłane przez klienta dane zostały przetworzone przez dodatek NSCA
   i~przekazane do rdzenia monitorującego.
-\item[Brak implementacji dla systemów mobilnych] Moduł wysyłający jest
-  aktualnie zaimplementowany jedynie na systemy Windows oraz
+\item[Brak implementacji dla systemów mobilnych.] Moduł wysyłający
+  jest aktualnie zaimplementowany jedynie na systemy Windows oraz
   Linux. Wiele współczesnych urządzeń mobilnych, które powinny być
-  monitorowane funkcjonuje pod kontrolą systemu operacyjnego Android
+  monitorowane, funkcjonuje pod kontrolą systemu operacyjnego Android
   czy też Windows Phone.
-\item[Przekazywanie danych tylko w~jedno miejsce] Dane odebrane przez
-  moduł odbierający mogą być przekazane jedynie w~jedno miejsce. Przy
-  bardziej złożonych systemach, konieczna jest możliwość przekazywania
-  danych do kilku systemów oraz definiowania reguł, które dane gdzie
-  powinny trafić.
+\item[Przekazywanie danych tylko w~jedno miejsce.] Dane odebrane przez
+  moduł odbierający mogą być przekazane w~jedno miejsce. Przy bardziej
+  złożonych systemach konieczne jest przekazywanie danych do kilku
+  systemów oraz definiowanie reguł określających, które dane gdzie
+  powinny trafić. Jest to przydatne na przykład do tworzenia kopii
+  zapasowej danych otrzymanych od klienta.
 \end{description}
 
 Zastosowanie konfiguracji z~nadrzędną instancją rdzenia monitorującego
 stanowi dobry szkielet dla systemu monitorowania klienta
-mobilnego. Niestety dostępne na rynku narzędzie, to jest dodatek NSCA
-nie są odpowiednio przystosowane do użycia ich w takim systemie. Wobec
-braku dostępnych narzędzi na rynku konieczne jest zaprojektowanie oraz
-zaimplementowanie nowego narzędzie, które spełni stawiane przed nim
-wymagania.
+mobilnego. Niestety dostępne na rynku narzędzie, to jest dodatek NSCA,
+nie jest odpowiednio przystosowane do użycia ich w takim
+systemie. Wobec braku dostępnych narzędzi na rynku konieczne jest
+zaprojektowanie oraz zaimplementowanie nowego narzędzia, które spełni
+stawiane przed nim wymagania. W ramach tej pracy wykonano projekt oraz
+implementację dodatku NSCAv2, który uwzględnia dodatkowe wymagania
+wynikające z monitorowania klienta mobilnego. Ponieważ protokół
+komunikacyjny używany w dodatku NSCA jest równiez niedostosowany do
+potrzeb klienta mobilnego w ramach tej pracy zaproponowano nowy
+protokół komunikacyjny pozwalający na niezawodną transmisję danych z
+urządzenia mobilnego do serwera.
 
-\section[Projekt modułu podstawowego][Projekt modułu podstawowego]{Projekt modułu podstawowego}
-
-Moduł ten składa się z~kilku współpracujących ze sobą
-elementów. Możliwa jest konfiguracja tego modułu w~kilku wariantach,
-co umożliwia dostosowanie go do rozmiarów oraz topologi monitorowanej
-infrastruktury. Każda z~stosowanych konfiguracji musi zapewniać
-co najmniej poniższą funkcjonalność:
-
-\begin{itemize}
-\item monitorowanie infrastruktury statycznej,
-\item przetwarzanie danych pochodzących od klienta mobilnego,
-\item gromadzenie danych,
-\item zapewnienie interfejsu dla administratora.
-\end{itemize}
-
-Minimalna konfiguracja modułu musi się składać co najmniej z~jednej
-instancji rdzenia monitorującego oraz dowolnego z~interfejsów,
-klasycznego lub icinga-web. W~celu umożliwienia przetwarzania danych
-pochodzących od klientów mobilnych konieczne jest jedynie
-zdefiniowanie tych urządzeń oraz ich usług, jako monitorowane
-pasywnie. Należy jednak zwrócić uwagę na liczne ograniczenia tej
-konfiguracji, które zostały omówione w~\ref{chap:Icinga}. Ponadto
-konfiguracja ta nie spełnia wszystkich wymagań, gdyż nie umożliwia
-analizy zgromadzonych danych historycznych. W~celu spełnienia
-wszystkich wymagań należy zatem wzbogacić omawianą konfigurację
-o~dodatek inGraph, który umożliwi administratorowi analizę
-zgromadzonych danych.
-
-Liczne wady przedstawionej konfiguracji powodują, że jej
-funkcjonalność jest znacząco ograniczona. Wykorzystanie jej możliwe
-jest jedynie w~bardzo małych sieciach, które nie będą już
-rozwijane. Zalecana jest zatem konfiguracja o~nieco rozszerzonej
-strukturze. W~skład tej konfiguracji wchodzą:
-
-\begin{itemize}
-\item rdzeń lub rdzenie monitorujące z~komponentem IDOUtils
-\item baza danych systemu Icinga
-\item dodatek inGraph
-\item baza danych dodatku inGraph
-\item interfejs icinga-web
-\end{itemize}
-
-\begin{figure}[ht]
-\centering
-  \caption{Schemat zalecanej konfiguracji systemu.}
-  \label{fig:modulPodstawowy}
-\includegraphics[width=1\textwidth]{img/modulPodstawowy}
-\end{figure}
-
-Minimum wymaganym do funkcjonowania tej konfiguracji jest jedna
-instancja rdzenia monitorującego. Będzie ona monitorowała zarówno
-infrastrukturę statyczną jak i~przetwarzała dane od klienta
-mobilnego. Wszystkie dane przetworzone przez tą instancję trafiają do
-bazy danych z~której korzysta interfejs użytkownika icinga-web. Taka
-konfiguracja umożliwia bardzo dobrą skalowalność całego systemu oraz
-łatwego dostosowania go do struktury monitorowanej sieci. Rozbudowa
-infrastruktury monitorującej może zostać wykonana w~łatwy sposób
-poprzez dodanie kolejnej instancji jądra wykorzystującej tą samą bazę
-danych. Ponadto możliwe jest również łączenie tej konfiguracji
-z~niemalże dowolną inną konfiguracją bez zaburzania pracy
-systemu. Skalowalność tej konfiguracji dotyczy również klienta
-mobilnego. Jeśli klientów mobilnych jest zbyt dużo, aby mogły zostać
-obsłużone przez jedną instancję, możliwe jest dodanie kolejnej
-instancji, która będzie odpowiedzialna za przetwarzanie danych od
-wyznaczonej części klientów mobilnych. W~celu umożliwienia analizy
-danych historycznych zalecane jest użycie dodatku inGraph. Został on
-opisany szczegółowo w~\ref{sec:inGraph}. Jego wykorzystanie umożliwia
-prezentację administratorowi zarówno uśrednionych wartości z~długiego
-okresu czasu jak i~szczegółowych danych z~zadanego przedziału. W~celu
-wykorzystania tego dodatku w~omawianej konfiguracji konieczne jest
-umieszczenie elementu zbierającego dane przy każdej instancji rdzenia
-monitorującego. Wszystkie zebrane dane zapisywane są w~jednej bazie
-danych z~której korzysta interfejs użytkownika.
-
+Należy również zaznaczyć, ze w chwili pisania tej pracy, nie udało się
+odnaleźć na rynku żadnej aplikacji pozwalającej na monitorowanie
+urządzenia mobilnego i współpracującej w jakikolwiek sposób z systemem
+Icinga. Ze względu na brak takiej aplikacji w niniejszej pracy
+dokonano zarysu wymaganej od takiej aplikacji
+funkcjonalności. Aplikacja realizująca i rozszerzająca tą
+funkcjonalność została zaprojektowana i zaimplementowana przez Pana
+Marcina Kubika w ramach pracy inżynierskiej\cite{book:pracaKubika}
+realizowanej na Wydziale Elektroniki i Technik Informacyjnych.
 
 
 \section[Protokół komunikacyjny][Protokół komunikacyjny]{Protokół komunikacyjny}
 \label{sec:ProtKom}
 
-Wymagania przedstawione w~\ref{chap:Wymagania} definiują bardzo wiele
+Wymagania przedstawione w~rozdz.~\ref{chap:Wymagania} definiują bardzo wiele
 cech systemu, które muszą być zapewnione poprzez użycie odpowiedniego
 protokołu komunikacyjnego. Analiza wymagań pozwoliła na wyodrębnienie
 następujących cech protokołu komunikacyjnego:
 
 \begin{description}
-\item[spójność danych] protokół musi gwarantować, że dane zostały
+\item[spójność danych] --- protokół musi gwarantować, że dane zostały
   dostarczone i~przetworzone;
-\item[integralność] protokół musi zapewniać, że dane zostaną
+\item[integralność] ---  protokół musi zapewniać, że dane zostaną
   dostarczone w~niezmodyfikowanej postaci i~jedynie od
   uwierzytelnionego nadawcy;
 \item[poufność] protokół musi zapewniać przekazanie danych w sposób,
   który uniemożliwi stroną trzecim ich odczytanie;
-\item[niezależność algorytmu szyfrowania] protokół musi być niezależny
+\item[niezależność algorytmu szyfrowania] ---  protokół musi być niezależny
   od algorytmu, którym szyfrowane są dane;
-\item[uwierzytelnienie klienta] protokół musi zapewniać element
+\item[uwierzytelnienie klienta] ---  protokół musi zapewniać element
   pozwalający na potwierdzenie tożsamości klienta;
-\item[niezależność uwierzytelnienia klienta] protokół musi być
+\item[niezależność uwierzytelnienia klienta] --- protokół musi być
   niezależny od wykorzystywanej metody uwierzytelnienia klienta;
-\item[uwierzytelnienie serwera] protokół musi zapewniać potwierdzenie
+\item[uwierzytelnienie serwera] --- protokół musi zapewniać potwierdzenie
   tożsamość serwera;
-\item[odporność na utratę urządzenia klienckiego] protokół nie może
+\item[odporność na utratę urządzenia klienckiego] --- protokół nie może
   wymagać przechowywania na urządzeniu danych pozwalających na
   kompromitację całego systemu;
-\item[oszczędność pasma] protokół powinien minimalizować ilość
+\item[oszczędność pasma] --- protokół powinien minimalizować ilość
   przesyłanych danych.
 \end{description}
 
 Rozbudowane wymagania bezpieczeństwa protokołu wynikają
 z~charakterystyki przesyłanych danych. Dane, które pochodzą
-z~urządzenia mogą zawierać zarówno poufne dane właściciela jak
+z~urządzenia, mogą zawierać zarówno poufne dane właściciela, jak
 i~tajemnice handlowe firmy. Ujawnienie tych danych może pociągać za
 sobą poważne konsekwencje finansowe lub prawne, dlatego konieczne jest
 zapewnienie bezpiecznego protokołu. Należy również pamiętać, że jedna
 ze stron komunikujących się przy użyciu protokołu znajduje się na
-urządzeniu mobilnym przez co należy ograniczyć narzut wprowadzany
+urządzeniu mobilnym, dlatego należy ograniczyć narzut wprowadzany
 przez użycie tego protokołu.
 
 Spośród bezpiecznych protokołów komunikacyjnych rozpowszechnionych na
@@ -322,7 +243,7 @@ rynku najbliższym spełnienia wszystkich wymagań jest protokół Secure
 Socket Layer - SSL\footnote{Szczegółowy opis protokołu można znaleźć
   w~\cite[148-155]{book:kryptografia}.}. Jest to protokół warstwy
 prezentacji, który pozwala na bezpieczny transport strumienia
-danych. Protokół wykorzystuje zarówno kryptografię symetryczną jak
+danych. Protokół wykorzystuje kryptografię symetryczną
 i~asymetryczną. Kryptografia asymetryczna wykorzystywana jest do
 uwierzytelnienia serwera i~opcjonalnie klienta przy pomocy
 certyfikatów nadawanych przez centra certyfikacji. Model
@@ -334,23 +255,18 @@ połączenia wymaga przesłania znaczącej ilości danych. Ponadto
 konieczne jest zdobycie certyfikatu, który pozwalałby na weryfikację
 serwera. Model bezpieczeństwa zastosowany w~SSL jest dla
 rozpatrywanego przypadku nadmiarowy, ponieważ klient mobilny
-przekazuje dane zawsze do tego samego serwera. Protokół SSL
-przeznaczony jest głównie dla sklepów internetowych oraz banków, gdyż
-jest on nastawiony na uwierzytelnienie serwera i~zapewnia bezpieczny
-kontakt w wieloma domenami przy użyciu niewielkiej liczby centrów
-certyfikujących.
-
-Nadmiarowość modelu bezpieczeństwa protokołu SSL powoduje nadmierne
-zużycie pasma. Ponadto zamknięty zbiór algorytmów możliwych
+przekazuje dane zawsze do tego samego serwera.  A~to z~kolei powoduje
+nadmierne zużycie pasma. Ponadto zamknięty zbiór algorytmów
 szyfrowania możliwych do wykorzystania powoduje, że nie może on być
 zastosowany w~omawianym przypadku. Wobec braku gotowego protokołu
 konieczne jest zaprojektowanie nowego, który spełni wszystkie stawiane
 wymagania.
 
-Protokół został oparty na protokole TCP, który zapewnia abstrakcję
-przesłania strumienia bajtów z~gwarancją ich dostarczenia. Mnogość
-wymagań dotyczących projektowanego protokołu utrudnia wykorzystanie
-architektury jednowarstwowej. Konieczne jest zatem wydzielenie warstw
+Protokół taki, został opracowany w ramach niniejszej pracy. Jest on
+oparty na protokole TCP, który zapewnia abstrakcję przesłania
+strumienia bajtów z~gwarancją ich dostarczenia. Mnogość wymagań
+dotyczących projektowanego protokołu utrudnia wykorzystanie
+architektury jednowarstwowej. Konieczne jest zatem wydzielenie warstw,
 z~których każda będzie zapewniała dobrze zdefiniowane usługi dla
 warstw wyższych.
  
@@ -373,20 +289,20 @@ w~pełni symetryczny. Oznacza to, że obie komunikujące się strony
 posiadają taki sam dozwolony zbiór stanów protokołu. Warstwa świadczy
 usługę przekazywania wiadomości o~zdefiniowanym rozmiarze. W~celu
 wykonania tej usługi, do danych, które są dostarczone stronie
-nadawczej dołączana jest ich długość. Długość w~protokole jest
-reprezentowana jako 32 bitowa liczba ze znakiem o~sieciowej kolejności
+nadawczej, dołączana jest ich długość. Długość w~protokole jest
+reprezentowana jako 32-bitowa liczba ze znakiem o~sieciowej kolejności
 bajtów. Tak sformatowana wiadomość przesyłana jest przy użyciu
 protokołu TCP do odbiorcy. Odbiorca po odebraniu pierwszych czterech
 bajtów wiadomości sprawdza rozmiar danych, po czym rozpoczyna
 odbieranie ilości danych określonej przez nagłówek. Wiadomość jest
 przekazywana użytkownikowi dopiero w~momencie odebrania całego
 komunikatu. Jeśli w~trakcie odbierania fragmentów wiadomości nastąpi
-przerwanie połączenia, odebrane fragmentu wiadomości są porzucane,
+przerwanie połączenia, odebrane fragmenty wiadomości są porzucane,
 a~użytkownikowi sygnalizowany jest błąd.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu warstwy formowania wiadomości}
+\caption{Struktura komunikatu warstwy formowania wiadomości.}
 
 \begin{tabular}{|p{3cm}|p{6cm}|}
 \hline
@@ -400,17 +316,17 @@ Długość danych & Dane\\
 Warstwa ta jest odpowiedzialna za zapewnienie poufności oraz
 integralności przesyłanych danych. Ponadto zadaniem tej warstwy jest
 również wykonanie uwierzytelnienia serwera. Podczas projektowania tej
-warstwy konieczne było uwzględnienie również wymagania, które zalecało
+warstwy konieczne było również uwzględnienie wymagania, które zalecało
 niezależność algorytmu szyfrowania przesyłanych danych od protokołu
 komunikacyjnego. W~celu zapewnienia możliwości późniejszej modyfikacji
 protokołu, warstwa ta zawiera również proces negocjacji wersji
 protokołu.
 
-Model bezpieczeństwa implementowany przez tą warstwę jest zbliżony do
+Model bezpieczeństwa implementowany przez tę warstwę jest zbliżony do
 protokołu SSL, jednak zostały wprowadzone zmiany, które zmniejszają
 zużycie pasma oraz eliminują potrzebę wykorzystania
 certyfikatów. Zanim możliwa będzie bezpieczna komunikacja z~użyciem
-tej warstwy konieczne jest umieszczenie na urządzeniu mobilnym klucza
+tej warstwy, konieczne jest umieszczenie na urządzeniu mobilnym klucza
 publicznego RSA oraz klucza prywatnego na serwerze. Istotne jest, aby
 klucze mogły być umieszczane jedynie przez autoryzowaną osobę,
 np. administratora tych urządzeń. Bezpośrednie umieszczenie klucza
@@ -424,29 +340,30 @@ znacznie większego narzutu obliczeniowego jest ono używane tylko
 w~trakcie nawiązywania połączenia. Właściwy transport danych
 szyfrowany jest przy pomocy uzgodnionego klucza
 symetrycznego. W~poniższym omówieniu protokołu, a~także na diagramach,
-w~celu uproszczenia pominięto fakt istnienia limitu czasu oczekiwania
+w~celu uproszczenia, pominięto fakt istnienia limitu czasu oczekiwania
 oraz możliwość rozłączenia w~dowolnym momencie. Obie te sytuacje
 powodują zakończenie działania i~zgłoszenie błędu warstwie
 wyższej. Uproszczona wersja maszyny stanowej procesu inicjalizacji
 komunikacji w~tej warstwie po stronie serwera znajduje się na
-\ref{fig:kryptoSerwer}, a po stronie klienta \ref{fig:kryptoKlient}.
+rys.~\ref{fig:kryptoSerwer}, a po stronie klienta na
+rys.~\ref{fig:kryptoKlient}.
 
 Komunikacja z~użyciem tej warstwy możliwa jest dopiero po wykonaniu
 inicjalizacji. Proces inicjalizacji rozpoczyna się od negocjacji
 używanej wersji protokołu. Niezwłocznie po nadejściu połączenia od
 klienta serwer wysyła komunikat będący zapytaniem o~żądaną przez
-klienta wersję protokołu. Klient odpowiada na ten komunikat
-przesyłając żądaną wersję protokołu. Jeśli serwer może obsłużyć dana
-wersję protokołu przesyła on pozytywne potwierdzenie do klienta, co
+klienta wersję protokołu. Klient odpowiada na ten komunikat,
+przesyłając żądaną wersję protokołu. Jeśli serwer może obsłużyć daną
+wersję protokołu, przesyła on pozytywne potwierdzenie do klienta, co
 powoduje rozpoczęcie kolejnego etapu inicjalizacji. W~przeciwnym
 przypadku serwer przesyła informację o~odrzuceniu żądania. Po
-odebraniu negatywnego potwierdzenia klient może podjąć kolejne próby
+odebraniu negatywnego potwierdzenia klient może podjąć kolejne próby,
 używając innych wersji protokołu. Dalsza komunikacja uzależniona jest
 od wybranej wersji protokołu komunikacyjnego.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu żądanie wersji}
+\caption{Struktura komunikatu żądanie wersji.}
 
 \begin{tabular}{|p{5cm}|p{6cm}|}
 \hline
@@ -468,18 +385,19 @@ z~przedstawieniem klienta. Etap ten rozpoczyna się od przesłania przez
 klienta jego identyfikatora oraz losowych ośmiu bajtów
 danych. Komunikat zaszyfrowany jest kluczem publicznym serwera, zatem
 może go odczytać jedynie posiadacz odpowiedniego klucza
-prywatnego. Serwer po odebraniu wiadomości odszyfrowuje ją używając
+prywatnego. Serwer po odebraniu wiadomości odszyfrowuje ją, używając
 swojego klucza prywatnego. Jeśli wiadomość jest nieczytelna lub klient
-o~podanym identyfikatorze nie istnieje serwer niezwłocznie kończy
+o~podanym identyfikatorze nie istnieje, serwer niezwłocznie kończy
 połączenie. Jeśli wiadomość jest poprawna, a~klient o~podanym
-identyfikatorze istnieje serwer wykonuje podpis cyfrowy identyfikatora
-oraz losowych bajtów odebranych od klienta. Do klienta odsyłany jest
-komunikat zawierający wykonany przez serwer podpis. Klient po
-odebraniu podpisu wykonuje weryfikację podpisu na podstawie
-wiadomości, która została przesłana do serwera. Jeśli podpis jest
-zgodny oznacza to, że urządzenie z którym nastąpiło połączenie jest
-posiadaczem odpowiedniego klucza prywatnego, czyli upoważnione przez
-administratora do odbierania danych pochodzących od tego klienta.
+identyfikatorze istnieje, serwer wykonuje podpis cyfrowy
+identyfikatora oraz losowych bajtów odebranych od klienta. Do klienta
+odsyłany jest komunikat zawierający wykonany przez serwer
+podpis. Klient po odebraniu podpisu wykonuje weryfikację podpisu na
+podstawie wiadomości, która została przesłana do serwera. Jeśli podpis
+jest zgodny, oznacza to, że urządzenie, z którym nastąpiło połączenie,
+jest posiadaczem odpowiedniego klucza prywatnego, czyli zostało
+upoważnione przez administratora do odbierania danych pochodzących od
+tego klienta.
 
 \begin{figure}[h]
   \caption{Maszyna stanów warstwy kryptograficznej po stronie klienta.}
@@ -490,7 +408,7 @@ administratora do odbierania danych pochodzących od tego klienta.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu identyfikatora klienta }
+\caption{Struktura komunikatu identyfikatora klienta.}
 
 \begin{tabular}{|p{3cm}|p{3cm}|p{6cm}|}
 \hline
@@ -501,7 +419,7 @@ Kod CLIENT\_ID & Ciąg losowy & Identyfikator\\
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu potwierdzającego identyfikator }
+\caption{Struktura komunikatu potwierdzającego identyfikator.}
 
 \begin{tabular}{|p{6cm}|p{6cm}|}
 \hline
@@ -528,7 +446,7 @@ stanowi ostatni etap inicjalizacji.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu żądania algorytmu }
+\caption{Struktura komunikatu żądania algorytmu. }
 
 \begin{tabular}{|p{5cm}|p{6cm}|}
 \hline
@@ -539,7 +457,7 @@ stanowi ostatni etap inicjalizacji.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu zawierającego klucz symetryczny}
+\caption{Struktura komunikatu zawierającego klucz symetryczny.}
 
 \begin{tabular}{|p{3cm}|p{5cm}|p{3cm}|p{2cm}|}
 \hline
@@ -551,18 +469,18 @@ Długość skrótu & \raggedright{Kod ESTABLISH\_ENCRYPTION} & \raggedright{Kluc
 Wykonanie inicjalizacji pozwoliło na uzgodnienie w~sposób bezpieczny
 klucza symetrycznego. W~dalszej komunikacji wszystkie komunikaty
 szyfrowane są z~użyciem wybranego algorytmu symetrycznego. Ponieważ
-algorytmy szyfrowania nie zapewniają integralności przesyłanych danych
-konieczne jest użycie funkcji skrótu. W~omawianym protokole została
-użyta funkcja SHA2. Przygotowanie zatem każdego komunikatu z~danymi
-rozpoczyna się od obliczenia skrótu danych. Ponieważ algorytm skrótu
-nie był negocjowany konieczne jest dostarczenie długości używanego
-skrótu. Długość skrótu wyrażona w bajtach dołączana jest na początku
-wiadomości, natomiast sam skrót na końcu. Komunikat przed wysłaniem
-szyfrowany jest uzgodnionym kluczem symetrycznym.
+algorytmy szyfrowania nie zapewniają integralności przesyłanych
+danych, konieczne jest użycie funkcji skrótu. W~omawianym protokole
+została użyta funkcja SHA2. Przygotowanie zatem każdego komunikatu
+z~danymi rozpoczyna się od obliczenia skrótu danych. Ponieważ algorytm
+skrótu nie był negocjowany, konieczne jest dostarczenie długości
+używanego skrótu. Długość skrótu wyrażona w bajtach dołączana jest na
+początku wiadomości, natomiast sam skrót na końcu. Komunikat przed
+wysłaniem szyfrowany jest uzgodnionym kluczem symetrycznym.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu danych warstwy kryptograficznej }
+\caption{Struktura komunikatu danych warstwy kryptograficznej. }
 
 \begin{tabular}{|p{3cm}|p{6cm}|p{3cm}|}
 \hline
@@ -573,26 +491,27 @@ Długość skrótu & Dane & Skrót danych\\
 
 \subsection[Warstwa transportu pomiarów][Warstwa transportu pomiarów]{Warstwa transportu pomiarów}
 
-Warstwa ta zapewnia zapewnia transport wpisów dziennika w~pakietach
-o~dowolnym rozmiarze. Wykorzystanie warstw niższych gwarantuje zarówno
-poufność jak i~integralność przesyłanych komunikatów. Żadna z~niższych
-warstw nie zapewnia jednak uwierzytelnienie klienta, dlatego jest to
-również jedno z~zadań tej warstwy.
+Warstwa ta zapewnia zapewnia transport danych o stanie urządzeń
+i~usług w~pakietach o~dowolnym rozmiarze. Wykorzystanie warstw
+niższych gwarantuje zarówno poufność i~integralność przesyłanych
+komunikatów. Żadna z~niższych warstw nie zapewnia jednak
+uwierzytelnienia klienta, dlatego jest to również jedno z~zadań tej
+warstwy.
 
 Inicjalizacja komunikacji w~tej warstwie rozpoczyna się od negocjacji
 algorytmu uwierzytelnienia klienta. Serwer przesyła do klienta
 komunikat informujący o~konieczności wyboru algorytmu
 uwierzytelnienia. Klient przesyła komunikat zawierający nazwę
 algorytmu, który ma być użyty do potwierdzenia tożsamości. Serwer po
-otrzymaniu komunikatu sprawdza czy żądany algorytm jest dostępny dla
-tego klienta. Jeśli nie jest, przesyłany jest komunikat informujący
-o~odrzuceniu żądania, a~klient może ponowić żądanie używając innego
-algorytmu. Jeśli algorytm wybrany przez klienta jest dostępny
+otrzymaniu komunikatu sprawdza, czy żądany algorytm jest dostępny dla
+tego klienta. Jeśli nie, przesyłany jest komunikat informujący
+o~odrzuceniu żądania, a~klient może ponowić żądanie, używając innego
+algorytmu. Jeśli algorytm wybrany przez klienta jest dostępny,
 rozpoczyna się proces uwierzytelnienia.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu żądania algorytmu uwierzytelnienia }
+\caption{Struktura komunikatu żądania algorytmu uwierzytelnienia. }
 \begin{tabular}{|p{5cm}|p{6cm}|}
 \hline
 \raggedright{Kod CHOSEN\_AUTH\_MODULE} & Nazwa algorytmu uwierzytelnienia\\
@@ -604,19 +523,19 @@ Uwierzytelnienie klienta wykonywane jest poprzez zewnętrzne moduły,
 gdyż protokół komunikacyjny musi być niezależny od protokołu
 komunikacyjnego. Algorytm uwierzytelnienia uprawniony jest do
 przesyłania dowolnych danych w~obie strony. Jeśli algorytm
-uwierzytelnienia odrzuci klienta oznacza to natychmiastowe zamknięcie
-połączenia. Pomyślne zakończenie procesu uwierzytelnienia oznacza,
+uwierzytelnienia odrzuci klienta, oznacza to natychmiastowe zamknięcie
+połączenia. Pomyślne zakończenie procesu uwierzytelnienia oznacza
 konieczność wykonania sprawdzenia, czy klient posiada zdefiniowane
-miejsca do których może przekazywać swoje dane. W przypadku braku
-takiego miejsca, aby dane nie zostały utracone do klienta wysyłany
+miejsca, do których może przekazywać swoje dane. W~przypadku braku
+takiego miejsca, aby dane nie zostały utracone, do klienta wysyłany
 jest komunikat negatywnego potwierdzenia, a~połączenie jest
 zamykane. Jeśli co najmniej jedno miejsce docelowe zostało
-zdefiniowane do klienta wysyłany jest komunikat informujący
+zdefiniowane, do klienta wysyłany jest komunikat informujący
 o~oczekiwaniu na przesłanie danych, co kończy proces
 inicjalizacji. Przebieg omówionego procesu inicjalizacji oraz
 pozostałych elementów protokołu po stronie serwera przedstawia
-\ref{fig:transportSerwer}, natomiast po stronie klient
-\ref{fig:transportKlient}.
+rys.~\ref{fig:transportSerwer}, natomiast po stronie klient
+rys.~\ref{fig:transportKlient}.
 
 
 \begin{figure}[ht]
@@ -635,7 +554,7 @@ pozostałych elementów protokołu po stronie serwera przedstawia
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu z danymi uwierzytelnienia }
+\caption{Struktura komunikatu z danymi uwierzytelnienia. }
 \begin{tabular}{|p{3cm}|p{6cm}|}
 \hline
 Kod AUTH\_DATA & Dane \\
@@ -650,7 +569,7 @@ następnie przesyłany w~pakiecie potwierdzającym przetworzenie danych.
 
 \begin{table}[H]
 \centering
-\caption{Struktura komunikatu zawierającego dane }
+\caption{Struktura komunikatu zawierającego dane. }
 \begin{tabular}{|p{3cm}|p{6cm}|}
 \hline
 \raggedright{Kod LOGS\_PORTION} & Dane pomiarów  \\
@@ -658,23 +577,24 @@ następnie przesyłany w~pakiecie potwierdzającym przetworzenie danych.
 \end{tabular}
 \end{table}
 
-Pakiet z~danymi może zawierać dowolną liczbę wpisów dziennika. Każdy
-wpis powinien posiadać odpowiedni format. W~szczególności każdy wpis
-powinien zawierać bajt danych, który pozwala na określenie czy dotyczy
-on urządzenia czy usługi. Niezbędne jest również przesłanie stempla
-czasu, który determinuje kiedy dany wpis został utworzony. Stempel ten
-powinien być zgodny z stemplem czasu systemu Unix oraz być przesłany w
-sieciowej kolejności bajtów. Do prawidłowego przekazania wpisu do
-systemu monitorującego konieczne jest również dostarczenie nazwy
-urządzenia oraz usługi. W~celu umożliwienia oddzielenia tych danych
-konieczne jest zakończenie każdego z~tych pól znakiem zerowym. Każdy
-wpis powinien również zawierać bajt informujący o~stanie w~jakim jest
-dana usługa. Kod ten powinien być zapisany przy użyciu jednego bajtu
-w~sposób zgodny z~kodami akceptowanymi przez system monitorujący.
+Pakiet z~danymi może zawierać dowolną ilość danych. Każdy wynik
+sprawdzenia powinien posiadać odpowiedni format. W~szczególności
+powinien zawierać bajt danych, który pozwala na określenie, czy
+dotyczy on urządzenia, czy usługi. Niezbędne jest również przesłanie
+stempla czasu, który determinuje, kiedy dane sprawdzenie zostało
+wykonane. Stempel ten powinien być zgodny ze stemplem czasu systemu
+Unix, a jego przesłanie musi odbywać się w~sieciowej kolejności
+bajtów. Do prawidłowego przekazania danych do systemu monitorującego
+konieczne jest również dostarczenie nazwy urządzenia oraz usługi. Aby
+oddzielić te dane konieczne jest zakończenie każdego z~tych pól
+znakiem zerowym. Każdy wpis powinien również zawierać bajt informujący
+o~stanie, w~jakim jest dana usługa. Kod ten powinien być zapisany przy
+użyciu jednego bajtu w~sposób zgodny z~kodami akceptowanymi przez
+system monitorujący.
 
 \begin{table}[H]
 \centering
-\caption{Struktura pojedynczego wpisu dziennika urządzenia }
+\caption{Struktura pojedynczego wpisu dziennika urządzenia. }
 \begin{tabular}{|p{2cm}|p{3cm}|p{4cm}|p{2cm}|p{2cm}|}
 \hline
 Kod HOST & Stempel czasu & Nazwa urządzenia & Kod stanu & Wpis  \\
@@ -684,7 +604,7 @@ Kod HOST & Stempel czasu & Nazwa urządzenia & Kod stanu & Wpis  \\
 
 \begin{table}[H]
 \centering
-\caption{Struktura pojedynczego wpisu dziennika usługi }
+\caption{Struktura pojedynczego wpisu dziennika usługi. }
 \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{2cm}|p{1cm}|p{2cm}|}
   \hline
   \raggedright{Kod SERVICE} & \raggedright{Stempel czasu} & \raggedright{Nazwa urządzenia} & \raggedright{Nazwa usługi} & \raggedright{Kod stanu} & Wpis  \\
@@ -692,21 +612,21 @@ Kod HOST & Stempel czasu & Nazwa urządzenia & Kod stanu & Wpis  \\
 \end{tabular}
 \end{table}
 
-Jeśli odebrane dane posiadają nieprawidłową strukturę, lub klient
+Jeśli odebrane dane posiadają nieprawidłową strukturę lub klient
 dokonał próby przesłania danych, do których przesyłania nie ma
-uprawnień połączenie jest natychmiast zamykane. Klient, po przesłaniu
+uprawnień, połączenie jest natychmiast zamykane. Klient po przesłaniu
 wszystkich danych lub w~chwili zdefiniowanej przez administratora może
-zdecydować o~zamknięciu połączenia wysyłając odpowiedni
+zdecydować o~zamknięciu połączenia, wysyłając odpowiedni
 komunikat. Serwer po odebraniu tego komunikatu zamknie połączenie.
 
 
-\section[Projekt modułu mobilnego][Projekt modułu mobilnego]{Projekt modułu mobilnego}
+\section[IcingaMini][Zarys aplikacji mobilnej IcingaMini]{Zarys aplikacji mobilnej IcingaMini}
 
-Moduł ten jest odpowiedzialny za monitorowanie zadanych parametrów
-urządzenia mobilnego. Klienty mobilne są wzajemnie nie zależne i~mogą
-operować bez możliwości komunikacji pomiędzy sobą. Konieczne jest
-zatem, aby każdy klient mobilny posiadał swoją instancję tego
-modułu. W~module tym możemy wyróżnić trzy podstawowe, rozdzielne
+Aplikacja IcingaMini jest odpowiedzialna za monitorowanie zadanych
+parametrów urządzenia mobilnego. Klienty mobilne są wzajemnie nie
+zależne i~mogą operować bez możliwości komunikacji pomiędzy
+sobą. Konieczne jest zatem, aby każdy klient mobilny posiadał swoją
+instancję tej aplikacji. Możemy wyróżnić trzy podstawowe, rozdzielne
 funkcjonalnie elementy:
 
 \begin{itemize}
@@ -725,13 +645,12 @@ miejsc zdefiniowanych przez administratora. Wtyczki są to elementy
 bezpośrednio odpowiedzialne za wykonywanie pomiarów zadanych wartości
 czy testowanie zdefiniowanych usług. Metoda realizacji wtyczek
 uzależniona jest od platformy sprzętowej na jaką przeznaczona jest
-dana implementacja modułu. Konieczne jest jednak zapewnienie
-niezależności elementu pomiarowego od zestawu wykorzystywanych
-wtyczek, aby umożliwić swobodną zmianę zbioru wykorzystywanych
-wtyczek.
+dana aplikacja. Konieczne jest jednak zapewnienie niezależności
+elementu pomiarowego od zestawu wykorzystywanych wtyczek, aby
+umożliwić swobodną zmianę zbioru wykorzystywanych wtyczek.
 
 Implementacja tego modułu musi uwzględniać uwarunkowania sprzętowe jak
-i~systemowe platformy na której się znajduje. Urządzenia mobilne są
+i~systemowe platformy, na której się znajduje. Urządzenia mobilne są
 zazwyczaj zasilane z~własnych akumulatorów dlatego konieczne jest
 zastosowanie mechanizmów, które pozwolą na zredukowanie zużycia
 energii związanego z~systematycznym wykonywaniem sprawdzeń. Należy
@@ -739,112 +658,122 @@ również wspomnieć, iż moduł mobilny odpowiedzialny jest za nadawanie
 każdemu z~odczytów stempla czasu uniwersalnego\footnote{Czas
   uniwersalny - średni astronomiczny czas słoneczny na południku
   zerowym.} dokonywanego pomiaru. Na podstawie dokonanej
-charakterystyki klienta mobilnego, można poczynić założenie, iż klient
-posiada dostęp do punktów synchronizacji czasu. Jest wiele dostępnych
-metod synchronizacji czasu na urządzeniu mobilnym, między innymi
-pobranie czasu z~sieci GSM czy też z~serwerów czasu światowego, przez
-co nie stanowi to dla klienta mobilnego poważnego wymagania.
+charakterystyki klienta mobilnego, można poczynić założenie, iż
+posiada on dostęp do punktów synchronizacji czasu. Jest wiele
+dostępnych metod synchronizacji czasu na urządzeniu mobilnym, między
+innymi pobranie czasu z~sieci GSM czy też z~serwerów czasu światowego,
+przez co nie stanowi to dla aplikacji poważnego wymagania.
 
-Klient mobilny po zebraniu porcji wpisów dziennika o~rozmiarze zgodnym
-z~polityką administratora, lub po upływie określonego czasu powinien
-przesłać posiadane wpisy dziennika do modułu odbiorczego, a~po
+Aplikacja IcingaMini po zebraniu porcji wpisów dziennika o~rozmiarze
+zgodnym z~polityką administratora, lub po upływie określonego czasu
+powinia przesłać posiadane wpisy dziennika do modułu odbiorczego, a~po
 uzyskaniu potwierdzenia usunąć je z~urządzenia w~celu oszczędności
-pamięci. Możliwa jest również sytuacja, w~której klient mobilny
-użytkowany jest przez pewien czas bez dostępu do sieci przez którą
-możliwa jest komunikacja z serwerem. W takiej sytuacji moduł mobilny
-powinien gromadzić odczyty, aż do czasu uzyskania możliwości
-połączenia z~serwerem. Różnorodność platform dostępnych na rynku
-sprawia, iż nie można wymagać od modułu odbiorczego dostarczenia
-uniwersalnej implementacji protokołu komunikacyjnego. Wymaga się
-zatem, aby klient mobilny używał protokołu komunikacyjnego zgodnego
-z~protokołem modułu odbiorczego. Konieczne jest również, aby klient
-mobilny posiadał możliwość definiowania metod uwierzytelnienia. Należy
+pamięci. Możliwa jest również sytuacja, w~której urządzenie mobilne
+użytkowany jest przez pewien czas bez dostępu do sieci, przez którą
+możliwa jest komunikacja z serwerem. W takiej sytuacji aplikacja
+powinna gromadzić odczyty, aż do czasu uzyskania możliwości połączenia
+z~serwerem. Różnorodność platform dostępnych na rynku sprawia, iż nie
+można wymagać dostarczenia uniwersalnej implementacji protokołu
+komunikacyjnego. Wymaga się zatem, aby każda implementacja aplikacji
+mobilnej używała protokołu komunikacyjnego zgodnego z~protokołem
+dodatku NSCAv2. Konieczne jest również, aby implementacja IcingiMini
+posiadała możliwość definiowania metod uwierzytelnienia. Należy
 również zapewnić możliwość weryfikacji tożsamości serwera, z~którym
 nawiązuje się połączenie.
 
 W~ramach systemu monitorowania możliwe jest funkcjonowanie wielu
-instancji modułu mobilnego. Instancje te mogą być uruchomione na
-bardzo wielu platformach. W~chwili pisania tej pracy nie znaleziono na
-rynku żadnej aplikacji przeznaczonej, na platformę mobilną, która
-spełniałaby stawiane wymagania. Szczegółowy projekt oraz
-implementacja tego modułu dla platformy mobilnej wykracza poza zakres
+urządzeń wykorzystujących tą aplikację. Urządzenia te mogą
+wykorzystywać bardzo wiele różnych platform (Androin, Windows Phone,
+Ubuntu).. W~chwili pisania tej pracy nie znaleziono na rynku żadnej
+aplikacji przeznaczonej, na platformę mobilną, która spełniałaby
+stawiane wymagania. Szczegółowy projekt oraz implementacja aplikacji
+spełniającej przedstawione tu wymagania wykracza poza zakres
 niniejszej pracy. Podczas okresu testowania wykonanego systemu
-wykorzystano moduł mobilny, przeznaczony dla platformy Android. Został
-on zaprojektowany i~zaimplementowany przez Pana Marcina
-Kubika. Szczegółowy opis tej implementacji klienta mobilnego można
-znaleźć w~\cite{book:pracaKubika}.
+wykorzystano aplikację, przeznaczoną dla platformy Android. Została
+ona zaprojektowany i~zaimplementowana przez Pana Marcina
+Kubika. Szczegółowy opis jej implementacji można znaleźć
+w~\cite{book:pracaKubika}.
 
-\section[Projekt modułu odbiorczego][Projekt modułu odbiorczego]{Projekt modułu odbiorczego}
+\section[Koncepcja dodatku NSCAv2][Koncepcja dodatku NSCAv2]{Koncepcja
+  dodatku NSCAv2}
 \label{sec:ProjModOdb}
 
-Moduł ten pośredniczy w~przekazywaniu danych pomiędzy modułem mobilnym
-a~modułem podstawowym. Uruchomiony jest on na serwerze, który posiada
-dostęp do zarówno do sieci wewnętrznej instytucji, jak i~do sieci,
-w~której funkcjonują klienty mobilne, w~szczególności do sieci
-Internet. Możliwe jest również umieszczenie tego modułu na tym samym
-urządzeniu, co rdzeń monitorujący odpowiedzialny z~przetwarzanie
-danych pochodzących od klientów mobilnych.
+Dodatek NSCAv2 jest to zaimplementowany w~ramach tej pracy zamiennik
+dla dodatku NSCA. Podobnie jak NSCA dodatek ten służy do przekazywania
+wyników pasywnego monitorowania z~urządzeń innych, niz to na którym
+uruchomiony jest system monitorujący. Istotną różnicą pomiędzy tymi
+dodatkami jest wykorzystywany protokół komunikacyjny. W~dodatku NSCAv2
+zaimplementowano opracowany w~ramach tej pracy protokół komunikacyjny
+(patrz \ref{sec:ProtKom}).
 
-Moduł ten składa się z jednego programu, którego zadaniem jest
-przekazywanie danych od klientów mobilnych zgodnie ze zdefiniowaną
-polityką. Znaczna część logiki programu oraz polityka dostarczania
-danych jest konfigurowana przy pomocy pliku konfiguracyjnego, co
-umożliwia jej zmianę bez konieczności ponownej kompilacji
-programu. Plik ten zawiera również definicję klientów, którzy są
-uprawnieni do przekazywania danych. Każdy klient może posiadać wiele
-urządzeń, a każde z~urządzeń wiele usług. Zgodnie z~protokołem
-komunikacyjnym przed przesłaniem danych występuje etap
-uwierzytelnienia klienta. Przekazywanie danych możliwe jest jedynie po
-zakończeniu pozytywnym potwierdzeniu tożsamości
-klienta. Wysokopoziomowy model logiczny omawianego programu składa się
-zatem z~następujących elementów:
+NSCAv2 w~znaczący sposób różni się pod względem koncepcyjnym od
+swojego poprzednika. Przede wszystkim dodano logiczną reprezentację
+klienta\footnote{Należy zwrócić uwagę na różnicę znaczeniową pomiedzy
+  klient --- osoba posiadająca urządzenie oraz klient mobilny
+  czyli urządzenie mobilne, a takze klient statyczny czyli
+  urządzenie statyczne, stacjonarne (patrz rozdział
+  \ref{chap:Wymagania}).} jako posiadacza kilku urządzeń. Oznacza to
+zdefiniowanie następującej hierarchi bytów w programie:
 
-\begin{itemize}
-\item dostawca danych,
-\item kanał komunikacyjny,
-\item konsument danych.
-\end{itemize}
+\begin{description}
+\item[klient] --- posiadacz pewnej liczby urządzeń, którego tożsamość
+  jest potwierdzana przez proces uwierzytelnienia.
+\item[urządzenie] --- urządzenie mobilne lub stacjonarne o~nazwie
+  zdefiniowanej w~konfiguracji programu monitorującego.
+\item[usługa] --- usługa sieciowa lub parametr urządzenia monitorowany
+  przez system.
+\end{description}
 
-Dostawca danych jest to fragment programu odpowiedzialny za odebranie
-oraz kontrolę danych pochodzących od klienta. Zawiera on więc
-implementację protokołu komunikacyjnego oraz wykorzystuje dostępne
-w~programie algorytmy kryptografii oraz uwierzytelnienia zgodnie
-z~konfiguracją. W celu umożliwienia współpracy różnych protokołów
-komunikacyjnych możliwe jest używanie jednocześnie wielu dostawców
-danych. Kanał komunikacyjny stanowi natomiast niezawodne
-asynchroniczne medium komunikacyjne pomiędzy dostawcą, a
-konsumentami. Dostawca danych zobowiązany jest do dostarczenia danych
-jedynie do jednego miejsca, czyli kanału komunikacyjnego. Logika
-zawarta w~kanale wyznacza natomiast na podstawie zdefiniowanej
-polityki podzbiór konsumentów danych, którzy powinni powinien otrzymać
-przekazane danych. Możliwe jest definiowanie polityki dostarczania
-danych zarówno na podstawie informacji o~kliencie od którego pochodzą
-dane, jak i~na podstawie informacji o~dostawcy który odebrał
-dane. W~celu przyśpieszenia komunikacji z~klientem mobilnym
-potwierdzenie przetworzenia danych zawarte w~protokole komunikacyjnym
-wysyłane jest niezwłocznie po przekazaniu danych do kanału
-komunikacyjnego. Konieczne jest zatem zapewnienie niezawodności kanału
-komunikacyjnego, aby możliwe było gwarantowanie, że dane, które do
-niego zostały przekazane będą dostarczone do wskazanych
-odbiorców. Odbiorca danych jest to element programu odpowiedzialny za
-odpowiednie formowanie danych oraz przekazanie ich do modułu
-podstawowego. Dzięki możliwości dostarczania danych do wielu
-odbiorców, możliwe jest nie tylko przekazywanie danych do systemu
-monitorującego lecz również wykonywanie np. kopi zapasowej otrzymanych
-danych. Przykłądowy schemat logiczny dla dwóch dostawców danych oraz
-trzech konsumentów został przedstawiony na \ref{fig:odbiorczy}
+Każdy klient może posiadać wiele urządzeń, a~każde urządzenie wiele
+usług. Klient może przekazywać dane dotyczące pomiarów jedynie dla
+urządzeń i~usług, które zostały do tego klienta przypisane przez
+administratora w~konfiguracji dodatku. Wszystkie dane przesyłane przez
+klienta są sprawdzane i~jeśli nastąpi próba przekazania danych
+dotyczących usługi lub urządzenia, do którego klient nie ma uprawnień,
+dane te zostaną odrzucone.
 
 \begin{figure}[ht]
   \caption{Diagram architektury modułu odbiorczego}
   \label{fig:odbiorczy}
   \centering
-\includegraphics[width=0.7\textwidth]{img/odbiorczy}
+\includegraphics[width=1\textwidth]{img/odbiorczy}
 \end{figure}
+
+Dodatek NSCAv2 uwzględnia wszystkie wymagania stawiane przed systemem
+monitorowania klienta mobilnego. Jest to zauważalne w~jego
+architekturze logicznej. Dodatek NSCA posiadał budowę monolityczną,
+przez co możliwe było dostarczanie do niego danych tylko i~wyłącznie
+jedną drogą (zdefiniowany przez dodatek protokół komunikacyjny)
+i~przekazywanie ich jedynie do jednego miejsca (plik komend
+zewnątrznych). NSCAv2 posiada natomiast budowę modularną, której
+schemat logiczny został przedstawiony na rys.~\ref{fig:odbiorczy}.
+
+Elementem, który odbiera dane od klienta jest dostawca danych. Jest to
+implementacja pewnego protokołu komunikacyjnego pomiędzy dodatkiem,
+a~aplikacją znajdującą sie na urządzeniem mobilnym. W~ramach tej pracy
+przygotowano jednego dostawcę danych, który implementuje zaproponowany
+w~niej protokół komunikacyjny. Architektura programu zakłada możliwość
+istnienia wielu niezależnych od siebie dostawców danych.
+
+Modułem odpowiedzialnym, za przekazywanie danych do systemu
+monitorujacego jest konsument danych. Jest to implementacja metody
+przekazywania danych w~zależności od miejsca docelowego. W~ramach tej
+pracy dostarczono konsumenta danych, który zapisuje otrzymane dane do
+pliku komend zewnętrznych systemu Icinga oraz konsumenta danych, który
+wypisuje otrzymane dane w~postaci logów programu. Konsumentów danych
+również moze być więcej niż jeden.
+
+Istnienie wielu konsumentów oraz wielu dostawców danych powoduje
+konieczność dodania obiektu, który będzie definiował powiązania
+pomiędzy tymi elementami. Elementem tym jest kanał komunikacyjny. Jest
+to obiekt, który na podstawie informacji o~dostawcy oraz kliencie
+determinuje do jakich konsumentów mają zostać przekazane dane. Reguły
+te definiowane są przez administratora w~pliku konfiguracyjnym.
 
 Wymagania przedstawione w~\ref{chap:Wymagania} wymuszają umożliwienie
 dodawania nowych algorytmów zarówno kryptograficznych jak i~algorytmów
-uwierzytelnienie klienta. W~celu spełnienia tych wymagań wyróżnione
-zostały w!programie również dwa moduły pomocnicze:
+uwierzytelnienie klienta. Aby spełnic wymagania, wyróżnione zostały
+w~programie dwa moduły pomocnicze:
 
 \begin{itemize}
 \item moduł uwierzytelnienia,
@@ -858,8 +787,7 @@ natomiast bibliotekę algorytmów kryptografii symetrycznej,
 asymetrycznej oraz funkcji skrótu. Umożliwia to realizację procesu
 negocjacji algorytmu symetrycznego wykorzystywanego przez protokół
 komunikacyjny. Ponieważ różnice pomiędzy poszczególnymi protokołami
-komunikacyjnymi mogą być niewielkie w~programie wyodrębniono również
+komunikacyjnymi mogą być niewielkie, w~programie wyodrębniono również
 moduł implementujący poszczególne warstwy protokołu. Umożliwi to w
 przyszłości szybką modyfikację protokołu komunikacyjnego lub dodanie
 nowego.
-
