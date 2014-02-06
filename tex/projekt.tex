@@ -103,6 +103,103 @@ z~następujących modułów:
   danych do pozostałych modułów systemu.
 \end{description}
 
+\section[Problemy][Problemy z monitorowaniem klienta mobilnego]{Problemy z monitorowaniem klienta mobilnego}
+
+System Icinga nie posiada żadnego mechanizmu wsparcia dla klientów
+mobilnych. Istnieje wiele konfiguracji rozproszonych, a~część z nich
+może być zaadoptowana do monitorowania klienta mobilnego. Należy
+pamiętać, iż element systemu obecny na urządzeniu mobilnym musi
+oszczędzać zarówno pamięć jak i~czas procesora. Schemat logiczny
+konfiguracji ze wspólną bazą danych dla klientów mobilnych został
+przedstawiony na \ref{fig:mobilnyWspBaza}. Konfiguracja ta jest
+niestety nieakceptowalna ze względu na konieczność przetwarzania
+wszystkich informacji na urządzeniu mobilnym, co w~znaczący sposób
+zwiększyłoby obciążenie klienta mobilnego.  W związku z~powyższym
+zdecydowano się rozważyć konfigurację rozproszoną z~użyciem
+NSCA. Wymaga ona dostarczenia elementu systemu, który będzie znajdował
+się na urządzeniu mobilnym i monitorował je, a~następnie przekazywał,
+gdy będzie to możliwe dane do instancji nadrzędnej, która będzie
+prowadziła analizę otrzymanych danych. Schemat tej konfiguracji został
+przedstawiony na \ref{fig:mobilnyInstancja}.
+
+\begin{figure}[ht]
+  \centering
+  \caption{Monitoring klienta mobilnego w~konfiguracji ze~wspólną bazą
+    danych.}
+  \label{fig:mobilnyWspBaza}
+\includegraphics[width=0.75\textwidth]{img/mobilnyWspBaza}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \caption{Monitoring klienta mobilnego w~konfiguracji z~instancją
+    nadrzędną.}
+  \label{fig:mobilnyInstancja}
+\includegraphics[width=0.80\textwidth]{img/mobilnyInstancja}
+\end{figure}
+
+Wykorzystanie do celu komunikacji pomiędzy klientem mobilnym,
+a~instancja nadrzędną dodatku NSCA niesie za sobą wiele problemów.
+Dodatek NSCA jest powszechnie używany do monitorowania serwerów
+znajdujących się za zaporą lub w~wydzielonym segmencie sieci. Dodatek
+ten może być stosowany, w~sieciach o~statycznym charakterze, gdzie
+połączenia są stałe, a~łączność nie ulega częstym przerwaniom. Ponadto
+należy być świadomym słabości modelu bezpieczeństwa stosowanego
+w~protokole wymiany danych. Stosowanie dodatku NSCA poza zamkniętymi
+sieciami firmowymi może okazać się niebezpieczne i~zawodne.
+
+Zagadnienie monitorowania klienta mobilnego zostało szczegółowo
+opisane w~\ref{chap:Wymagania}. Niestety dodatek NSCA nie spełnia
+bardzo wielu z~przedstawionych wymagań przez co nie powinien być on
+stosowany w~systemach tego typu. Głównymi problemami, które
+dyskryminują ten w~zastosowaniu do monitorowania klienta mobilnego są:
+
+\begin{description}
+\item[Bezpieczeństwo] Mechanizmy bezpieczeństwa zawarte w~protokole
+  wymiany danych posiadają poważne luki. Zastosowanie CRC32 do
+  sprawdzania spójności danych niesie za sobą ryzyko ze względu na
+  duże prawdopodobieństwo wystąpienia kolizji. Ponadto konieczność
+  przechowywania na urządzeniu klucza symetrycznego, którego
+  ujawnienie kompromituje cały system znacząco osłabia stosowane
+  mechanizmy bezpieczeństwa.
+\item[Nadpisywanie stempla czasu] Moduł odbierający dodaje do każdego
+  wpisu dziennika aktualny stempel czasy. Powoduje to brak możliwości
+  przesyłania, historycznych danych zgromadzonych w skutek utraty
+  dostępu do sieci.
+\item[Brak dodatkowych mechanizmów uwierzytelnienia klienta] Decyzja
+  o~przydzieleniu klientowi dostępu czyli akceptacji przesłanych przez
+  niego wpisów dziennika podejmowana jest na podstawie znajomości
+  przez niego algorytmu szyfrowania oraz klucza.
+\item[Brak kontroli otrzymywanych danych] Każdy klient, który zna
+  klucz może przesyłać wpisy dotyczące dowolnego urządzenia i~dowolnej
+  usługi. Brak jest mechanizmu, który pozwolił by na kontrolę tego,
+  jaki klient ma prawo informować o~jakim urządzeniu czy też usłudze.
+\item[Brak potwierdzenia dostarczenia danych] Klient wysyłający dane
+  nie ma żadnej informacji o~tym, czy jego dane zostały zaakceptowane
+  czy odrzucone. Oznacza to brak możliwości synchronizacji danych na
+  kliencie mobilnym i~serwerze, gdyż nigdy nie mamy gwarancji, że
+  wysłane przez klienta dane zostały przetworzone przez dodatek NSCA
+  i~przekazane do rdzenia monitorującego.
+\item[Brak implementacji dla systemów mobilnych] Moduł wysyłający jest
+  aktualnie zaimplementowany jedynie na systemy Windows oraz
+  Linux. Wiele współczesnych urządzeń mobilnych, które powinny być
+  monitorowane funkcjonuje pod kontrolą systemu operacyjnego Android
+  czy też Windows Phone.
+\item[Przekazywanie danych tylko w~jedno miejsce] Dane odebrane przez
+  moduł odbierający mogą być przekazane jedynie w~jedno miejsce. Przy
+  bardziej złożonych systemach, konieczna jest możliwość przekazywania
+  danych do kilku systemów oraz definiowania reguł, które dane gdzie
+  powinny trafić.
+\end{description}
+
+Zastosowanie konfiguracji z~nadrzędną instancją rdzenia monitorującego
+stanowi dobry szkielet dla systemu monitorowania klienta
+mobilnego. Niestety dostępne na rynku narzędzie, to jest dodatek NSCA
+nie są odpowiednio przystosowane do użycia ich w takim systemie. Wobec
+braku dostępnych narzędzi na rynku konieczne jest zaprojektowanie oraz
+zaimplementowanie nowego narzędzie, które spełni stawiane przed nim
+wymagania.
+
 \section[Projekt modułu podstawowego][Projekt modułu podstawowego]{Projekt modułu podstawowego}
 
 Moduł ten składa się z~kilku współpracujących ze sobą
@@ -328,10 +425,10 @@ w~trakcie nawiązywania połączenia. Właściwy transport danych
 szyfrowany jest przy pomocy uzgodnionego klucza
 symetrycznego. W~poniższym omówieniu protokołu, a~także na diagramach,
 w~celu uproszczenia pominięto fakt istnienia limitu czasu oczekiwania
-oraz możliwość rozłaczenia w~dowolnym momencie. Obie te sytuacje
+oraz możliwość rozłączenia w~dowolnym momencie. Obie te sytuacje
 powodują zakończenie działania i~zgłoszenie błędu warstwie
-wyższej. Uproszczona wersja maszyny stanowej procesu incjalizacji
-komunikacji w~tej warswie po stronie serwera znajduje się na
+wyższej. Uproszczona wersja maszyny stanowej procesu inicjalizacji
+komunikacji w~tej warstwie po stronie serwera znajduje się na
 \ref{fig:kryptoSerwer}, a po stronie klienta \ref{fig:kryptoKlient}.
 
 Komunikacja z~użyciem tej warstwy możliwa jest dopiero po wykonaniu

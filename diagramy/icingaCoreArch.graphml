@@ -71,24 +71,6 @@ wydajnościowych<y:LabelModel>
     <node id="n3">
       <data key="d5"/>
       <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.document">
-          <y:Geometry height="114.0" width="161.0" x="1189.0" y="216.0"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="41.25" modelName="custom" textColor="#000000" visible="true" width="86.03125" x="37.484375" y="36.375">Pliki stanu
-systemu<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n4">
-      <data key="d5"/>
-      <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="53.0" width="132.0" x="743.0" y="758.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
@@ -103,7 +85,7 @@ systemu<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n5">
+    <node id="n4">
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -121,7 +103,7 @@ aktywnie<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n6" yfiles.foldertype="group">
+    <node id="n5" yfiles.foldertype="group">
       <data key="d4"/>
       <data key="d5"/>
       <data key="d6">
@@ -150,8 +132,8 @@ aktywnie<y:LabelModel>
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n6:">
-        <node id="n6::n0">
+      <graph edgedefault="directed" id="n5:">
+        <node id="n5::n0">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -168,7 +150,7 @@ aktywnie<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n6::n1">
+        <node id="n5::n1">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -186,7 +168,7 @@ komend zewnętrznych<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n6::n2">
+        <node id="n5::n2">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -204,15 +186,14 @@ wtyczek<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n6::n3">
+        <node id="n5::n3">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
               <y:Geometry height="80.0" width="189.0" x="878.0" y="238.0"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="41.25" modelName="custom" textColor="#000000" visible="true" width="111.90625" x="38.546875" y="19.375">Pamięć stanu
-i pomiarów<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="72.3515625" x="58.32421875" y="28.6875">IDOMOD<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -224,7 +205,7 @@ i pomiarów<y:LabelModel>
         </node>
       </graph>
     </node>
-    <node id="n7">
+    <node id="n6">
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.cloud">
@@ -241,7 +222,7 @@ i pomiarów<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n8">
+    <node id="n7">
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -258,7 +239,7 @@ i pomiarów<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n9">
+    <node id="n8">
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.dataBase">
@@ -276,7 +257,7 @@ danych<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n10" yfiles.foldertype="group">
+    <node id="n9" yfiles.foldertype="group">
       <data key="d4"/>
       <data key="d5"/>
       <data key="d6">
@@ -306,8 +287,8 @@ danych<y:LabelModel>
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n10:">
-        <node id="n10::n0">
+      <graph edgedefault="directed" id="n9:">
+        <node id="n9::n0">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -324,7 +305,7 @@ danych<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n10::n1">
+        <node id="n9::n1">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -342,7 +323,7 @@ komend zewnętrznych<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n10::n2">
+        <node id="n9::n2">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -360,7 +341,7 @@ wtyczek<y:LabelModel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n10::n3">
+        <node id="n9::n3">
           <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
@@ -379,7 +360,7 @@ wtyczek<y:LabelModel>
         </node>
       </graph>
     </node>
-    <node id="n11">
+    <node id="n10">
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.document">
@@ -397,7 +378,24 @@ wydajnościowych<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <edge id="e0" source="n0" target="n6::n1">
+    <node id="n11">
+      <data key="d5"/>
+      <data key="d6">
+        <y:GenericNode configuration="com.yworks.flowchart.userMessage">
+          <y:Geometry height="80.0" width="189.0" x="1217.0625" y="238.4375"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="132.6171875" x="28.19140625" y="28.6875">Do bazy danych<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+        </y:GenericNode>
+      </data>
+    </node>
+    <edge id="e0" source="n0" target="n5::n1">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -417,7 +415,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n6::e0" source="n6::n1" target="n6::n0">
+    <edge id="n5::e0" source="n5::n1" target="n5::n0">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -436,7 +434,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n6::e1" source="n6::n2" target="n6::n0">
+    <edge id="n5::e1" source="n5::n2" target="n5::n0">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -455,7 +453,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e1" source="n6::n0" target="n2">
+    <edge id="e1" source="n5::n0" target="n2">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -474,7 +472,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n6::e2" source="n6::n0" target="n6::n3">
+    <edge id="n5::e2" source="n5::n0" target="n5::n3">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -493,14 +491,14 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e2" source="n6::n3" target="n3">
+    <edge id="e2" source="n5::n3" target="n11">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="0.0" sy="0.0" tx="-61.937499999999545" ty="-0.4375"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="standard" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="103.8984375" x="9.0343017578125" y="17.66509237129145">Stan + dane<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="103.8984375" x="23.098388671875" y="18.6875">Stan + dane<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -531,7 +529,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e4" source="n6::n2" target="n4">
+    <edge id="e4" source="n5::n2" target="n3">
       <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
@@ -552,7 +550,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e5" source="n4" target="n6::n2">
+    <edge id="e5" source="n3" target="n5::n2">
       <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
@@ -575,7 +573,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e6" source="n4" target="n5">
+    <edge id="e6" source="n3" target="n4">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -594,7 +592,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n10::e0" source="n10::n1" target="n10::n0">
+    <edge id="n9::e0" source="n9::n1" target="n9::n0">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -613,7 +611,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n10::e1" source="n10::n2" target="n10::n0">
+    <edge id="n9::e1" source="n9::n2" target="n9::n0">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -632,7 +630,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n10::e2" source="n10::n0" target="n10::n3">
+    <edge id="n9::e2" source="n9::n0" target="n9::n3">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -651,7 +649,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e7" source="n10::n3" target="n7">
+    <edge id="e7" source="n9::n3" target="n6">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -670,7 +668,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e8" source="n7" target="n8">
+    <edge id="e8" source="n6" target="n7">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -681,7 +679,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e9" source="n8" target="n9">
+    <edge id="e9" source="n7" target="n8">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -700,7 +698,7 @@ pasywnego sprawdzenia<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e10" source="n10::n0" target="n11">
+    <edge id="e10" source="n9::n0" target="n10">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
