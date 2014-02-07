@@ -59,7 +59,7 @@ serwer mion.elka.pw.edu.pl przeznaczony dla studentów Wydziału
 Elektroniki i~Technik Informacyjnych Politechniki Warszawskiej.
 
 W~ramach niniejszej pracy wykonano rozbudowę systemu monitorującego
-Icinga o~funkcjonalność monitorowania klienta mobilnego. W~związku
+{\em Icinga} o~funkcjonalność monitorowania klienta mobilnego. W~związku
 z~powyższym konieczne było uwzględnienie również klientów mobilnych
 w~konfiguracji testowej. Dzięki uprzejmości Pana Marcina Kubika
 możliwe było wykorzystanie opracowanego przez niego modułu mobilnego
@@ -120,12 +120,12 @@ użycie jednego rdzenia monitorującego zarówno do monitorowania
 infrastruktury statycznej, jak i~do przetwarzania danych pochodzących
 od klientów mobilnych. W~celu zapewnienia konfiguracji zbliżonej do
 warunków użytkowania systemu, wykonano konifgurację wraz z dodatkien
-inGraph oraz baza danych dla systemu Icinga. Konfiguracja całego
+inGraph oraz baza danych dla systemu {\em Icinga}. Konfiguracja całego
 systemu składa się z~następujących elementów:
 
 \begin{itemize}
-\item rdzeń monitorujący Icinga,
-\item baza danych MySQL systemu Icinga,
+\item rdzeń monitorujący {\em Icinga},
+\item baza danych MySQL systemu {\em Icinga},
 \item dodatek inGraph,
 \item baza danych MySQL dodatku inGraph,
 \item interfejs icinga-web,
@@ -224,7 +224,7 @@ SMTP &  &  &  &  &  & \multicolumn{1}{|c|}{Tak} \\
 \end{table} 
 
 W celu umożliwienia monitorowania klienta mobilnego konieczne było
-również zdefiniowanie w~systemie Icinga urządzeń Android1 oraz
+również zdefiniowanie w~systemie {\em Icinga} urządzeń Android1 oraz
 Android2, a~także odpowiednich usług. Udostępniona przez Pana Marcina
 Kubika wersja aplikacji mobilnej posiada duży zbiór parametrów
 urządzenia, które można monitorować. Spośród dostępnych parametrów
@@ -249,7 +249,7 @@ i~publicznego na serwerze, a~publicznego na urządzeniach
 mobilnych. Konieczne było również podanie w~pliku konfiguracyjnym
 dodatku NSCAv2 ścieżki do klucza prywatnego, a~także numeru portu na
 którym powinien on czekać na przychodzące połączenia. Ponieważ plik
-komend zewnętrznych w~wykonanej instalacji systemu Icinga znajduje się
+komend zewnętrznych w~wykonanej instalacji systemu {\em Icinga} znajduje się
 w~standardowym miejscu, konieczna była jedynie bezparametrowa
 deklaracja konsumenta danych. Ostatnim etapem konfiguracji było
 zdefiniowanie ścieżki danych dla klientów, prowadzącej od dostawcy
@@ -264,7 +264,7 @@ i~wszystkich urządzeń znajdujących się poza siecią lokalną. W~celu
 ograniczenia liczby komunikatów otrzymywanych w~przypadku takiej
 awarii konieczne było zdefiniowanie odpowiedniej struktury
 sieci. Rysunek \ref{fig:logicznySchematSieci} przedstawia logiczną
-strukturę połączeń. Została ona wygenerowane przez program Icinga na
+strukturę połączeń. Została ona wygenerowane przez program {\em Icinga} na
 podstawie plików konfiguracyjnych monitorowanych urządzeń. Łatwo
 zauważyć, że jedyna ścieżka od systemu monitorującego do wszystkich
 urządzeń spoza sieci lokalnej prowadzi przez router

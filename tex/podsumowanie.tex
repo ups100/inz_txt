@@ -9,9 +9,9 @@ niskim nakładem pracy.
 
 Przed wykonaniem projektu przeprowadzono analizę dostępnych na rynku
 systemów monitorujących. W~ramach tej analizy przedstawiono podstawowe
-możliwości systemu Cacti, Nagios oraz Icinga. Przeprowadzone
+możliwości systemu Cacti, Nagios oraz {\em Icinga}. Przeprowadzone
 porównanie systemów wykazało, że najlepszym systemem do rozbudowy
-w~ramach tej pracy będzie system Icinga.
+w~ramach tej pracy będzie system {\em Icinga}.
 
 Przed wykonaniem szczegółowego projektu systemu konieczne było
 określenie docelowego zastosowania systemu. Zdefiniowano w~sposób
@@ -21,27 +21,27 @@ charakterystyk obu typów urządzeń sporządzono wymagania, jakie powinny
 zostać spełnione przez projektowany system.
 
 Kolejnym etapem przygotowania projektu była dokładna analiza
-możliwości systemu Icinga w~kontekście zdefiniowanych
+możliwości systemu {\em Icinga} w~kontekście zdefiniowanych
 wymagań. W~ramach tej analizy przedstawiono ogólną architekturę
 systemu oraz zestaw dopuszczalnych jego konfiguracji. Dokonano również
 analizy dostępnych dodatków w~kontekście ich funkcjonalności i~jakości
-ich wykonania. Analiza ta wykazała, iż system Icinga nie posiada
+ich wykonania. Analiza ta wykazała, iż system {\em Icinga} nie posiada
 żadnych mechanizmów wspierających monitorowanie klienta mobilnego,
 a~narzędzia przeznaczone dla klientów statycznych nie spełniałją
 specyficznych wymagań dla projektowanego systemu.
 
 Po dokładnym rozpoznaniu dostępnych elementów do budowy kompletnego
 rozwiązania wykonano projekt całościowej architektury
-systemu. Przedstawiono wybraną konfigurację systemu Icinga, a także
+systemu. Przedstawiono wybraną konfigurację systemu {\em Icinga}, a także
 zbiór dodatków koniecznych do spełnienia wymagań. Ze względu na brak
 gotowych rozwiązań pozwalających na monitorowanie klienta mobilnego
 zdefiniowano własny bezpieczny protokół komunikacyjny. Zapewni on
 transport danych pomiędzy urządzeniem mobilnym, a~serwerem
 monitorującym. Konieczne było również wykonanie odpowiedniego dodatku
-do systemu Icinga, który umożliwiłby odbiór danych od klientów
+do systemu {\em Icinga}, który umożliwiłby odbiór danych od klientów
 mobilnych i~przekazanie ich do miejsc zgodnych z~polityką całego
 systemu. W szczególności tym miejscem docelowym jest system
-monitorujący Icinga.
+monitorujący {\em Icinga}.
 
 Na podstawie projektu wykonano implementację omawianego wcześniej
 dodatku NSCAv2 w~języku C++. W~trakcie prac wykorzystany został

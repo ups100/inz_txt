@@ -86,8 +86,8 @@ dokładnej analizy danych historycznych. Istotną kwestią jest, że RDD
 nie pozwala na modyfikowanie danych historycznych, lecz jedynie tych
 pochodzących z~bieżącego okna czasowego. Oznacza to na przykład brak
 możliwości importowania do takiej bazy danych historycznych. Istnieją
-jednak implementacja jak na przykład Whisper, które nie posiadają tego
-ograniczenia.
+jednak implementacje cyklicznych baz danych, jak na przykład Whisper,
+które nie posiadają tego ograniczenia.
 
 W~dalszych punktach przedstawione zostały wybrane systemy
 monitorowania. Podstawowym kryterium wyboru opisywanych systemów była
@@ -95,13 +95,13 @@ ich dostępność na licencji umożliwiającej przeglądanie oraz
 modyfikację w~dowolny sposób jego kodu źródłowego. Ponadto zwrócono
 również uwagę na popularność systemów w~środowisku administratorów,
 a~także na dostępność dokumentacji. Na tej podstawie wybrano spośród
-systemów analitycznych system Cacti. Spośród systemów dostępnościowych
-wybrano natomiast systemy Nagios oraz Icinga.
+systemów analitycznych system {\em Cacti}. Spośród systemów dostępnościowych
+wybrano natomiast systemy {\em Nagios} oraz {\em Icinga}.
 
 
 \section[Cacti][Cacti]{Cacti}
 
-Cacti\cite{www:Cacti} jest systemem monitorującym rozwijanym przez
+{\em Cacti}\cite{www:Cacti} jest systemem monitorującym rozwijanym przez
 The Cacti Group Inc. i~dystrybuowanym na licencji~GPL\footnote{
   ang. {\em General Public License} - popularna licencja
   oprogramowania o~otwartych źródłach. Treść licencji można znaleźć
@@ -136,7 +136,7 @@ obsługiwana przez program przy pomocy narzędzia RRDtool.
 Interfejs użytkownika został napisany w~języku PHP. Do jego działania
 niezbędny jest serwer http, np. Apache. Rysunek
 \ref{fig:CactiInterface} przedstawia przykładową podstronę systemu
-Cacti. Z~poziomu interfejsu użytkownika możliwa jest graficzna
+{\em Cacti}. Z~poziomu interfejsu użytkownika możliwa jest graficzna
 konfiguracja całego systemu. Interfejs posiada klasyczną
 budowę. Składa się on z~jednokolorowego paska menu, w~którym zawarte
 są odnośniki do poszczególnych podstron, oraz z~pulpitu, na którym
@@ -172,24 +172,24 @@ przez {\em Cactid}, a~jego wyniki przekazywane w~taki sam sposób, jak
 ze~sprawdzeń opierających się na SNMP.
 
 Żaden z~dostawców danych nie umożliwia monitorowania danego urządzenia
-lub usługi w~sposób pasywny. Cacti nie posiada również żadnego
+lub usługi w~sposób pasywny. {\em Cacti} nie posiada również żadnego
 mechanizmu, który pozwoliłby na monitorowanie sieci w~sposób
 rozproszony. Oznacza to, iż administrator musi zmienić konfigurację
 sieci tak, aby jeden serwer miał dostęp do każdego urządzenia, lub
 konfigurować i~zarządzać osobną instancją w~każdym segmencie. Jest to
 bardzo niewygodne i~wręcz uniemożliwia monitorowanie rozległych sieci
-przy pomocy Cacti.
+przy pomocy {\em Cacti}.
 
 \section[Nagios][Nagios]{Nagios}
 \label{sec:Nagios}
 
-Nagios\cite{www:Nagios} został opublikowany w~1999 roku na licencji GPL. System od
+{\em Nagios}\cite{www:Nagios} został opublikowany w~1999 roku na licencji GPL. System od
 niemal 15 lat jest ciągle rozwijany i~udoskonalany zarówno przez
-autorów, jak i~przez szeroką społeczność. W~systemie Nagios najwyższym
+autorów, jak i~przez szeroką społeczność. W~systemie {\em Nagios} najwyższym
 priorytetem jest kontrola bieżącej dostępności wszystkich
 monitorowanych usług. Organizacja systemu zakłada, iż w~sieci znajdują
 się urządzenia (ang. {\em hosts}), które mogą świadczyć pewne usługi
-(ang. services)\footnote{W nomenklaturze systemu Nagios usługą
+(ang. services)\footnote{W nomenklaturze systemu {\em Nagios} usługą
   (ang. service) nazywana jest zarówno monitorowana usługa zewnętrzna
   jak np. DNS czy FTP lecz również dowolny parametr tego urządzenia
   jak zużycie procesora czy pamięci.}. Każde urządzenie i~usługa może
@@ -212,7 +212,7 @@ znajdujących się na trasie pakietów.
 Określanie stanu usługi odbywa się przy pomocy zewnętrznych programów
 nazywanych wtyczkami (ang. {\em plugin}). W~ramach projektu {\em
   Nagions Plugins}\cite{www:NagiosPluginProject} dostępna jest bardzo
-duża liczba wtyczek (ponad tysiąc), dzięki czemu system Nagios może
+duża liczba wtyczek (ponad tysiąc), dzięki czemu system {\em Nagios} może
 monitorować w~sposób aktywny wszystkie podstawowe usługi. Programy
 znajdujące się w~zestawie pozwalają na badanie usług takich jak HTTP,
 POP3, SMTP czy FTP oraz pobierać dane o~urządzeniu przy pomocy
@@ -227,7 +227,7 @@ każdego urządzenia i~usługi indywidualny zestaw parametrów wywołania,
 zdefiniowany przez administratora w~plikach konfiguracyjnych
 systemu. Na podstawie parametrów wywołania oraz aktualnego stanu
 usługi program określa logiczny stan usługi i~przekazuje go do systemu
-Nagios wraz z~dodatkowym napisem opisującym stan danej usługi. Napis
+{\em Nagios} wraz z~dodatkowym napisem opisującym stan danej usługi. Napis
 ten powinien mieć co najmniej jedną linię tekstu i~nie więcej niż
 4KB. Opis formatowania tego napisu został zawarty
 w~\cite{www:NagiosPluginsTutorial}. 
@@ -240,15 +240,15 @@ danych jest spójny z~formatem przekazywania danych z~wtyczki, jednak
 został on wzbogacony o~informacje o~czasie wykonania sprawdzenia oraz
 dane pozwalające na określenie, której usługi i urządzenia dotyczy
 dane sprawdzenie. Dzięki udostępnieniu tej funkcjonalności system
-Nagios może korzystać na przykład z~mechanizmu pułapek w~protokole
+{\em Nagios} może korzystać na przykład z~mechanizmu pułapek w~protokole
 SNMP.
 
 Monitorowanie parametrów urządzeń innych niż to, na którym uruchomiony
-jest system Nagios, wymaga użycia protokołu SNMP lub obecności na
-danym systemie odpowiedniego agenta. Wraz z systemem Nagios dostępnych
+jest system {\em Nagios}, wymaga użycia protokołu SNMP lub obecności na
+danym systemie odpowiedniego agenta. Wraz z systemem {\em Nagios} dostępnych
 jest wiele dodatków (ang. addon)\footnote{Należy zwrócić uwagę na
   różne znaczenie słów: "wtyczka" (ang. {\em plugin}) oraz "dodatek"
-  (ang. {\em addon}). W nomenklaturze stosowanej w systemie Nagios
+  (ang. {\em addon}). W nomenklaturze stosowanej w systemie {\em Nagios}
   dodatkiem jest każdy program, który zmienia lub rozszerza jego
   funkcjonalność. Wtyczka natomiast jest to program, lub skrypt
   pozwalający na sprawdzanie stanu jakiegoś parametru lub usługi.},
@@ -259,14 +259,14 @@ pomocy dodatku NRPE ({\em Nagios Remote Plugin Executor}). Składa się
 on z~dwóch części: agent oraz klient. Agent, jest to demon, który
 uruchomiony jest na zdalnym (ang. {\em remote}) urządzeniu jako serwer
 i~oczekuje na żądania od klientów. Klient, jest to natomiast program,
-który uruchamiany jest przez system Nagios jako lokalna
+który uruchamiany jest przez system {\em Nagios} jako lokalna
 wtyczka. W~ramach swojego wykonania wtyczka ta łączy się ze wskazanym
 agentem i~zleca mu uruchomienie wskazanej wtyczki na jego
 maszynie. Istotne jest, że wtyczka, która ma być wykonana musi zostać
 wcześniej dostarczona przez administratora na urządzenie, na którym
 znajduje się agent. Wynik wykonania wtyczki na zdalnej maszynie
 zostanie przesłany do klienta, który przekaże dalej ten wynik do
-systemu Nagios.
+systemu {\em Nagios}.
 
 Monitorowanie pasywne parametrów urządzenie zdalnego może się odbywać
 przy pomocy dowolnego programu uruchomionego na tym urządzeniu. Do
@@ -275,7 +275,7 @@ natomiast użyć dodatku NSCA ({\em Nagios Service Check
   Acceptor}). Składa się on z dwóch części: serwera oraz klienta. W
 przeciwieństwie do NRPE, gdzie serwer znajdował się na monitorowanym
 urządzeniu, w przypadku NSCA serwer uruchomiony jest na tym samym
-systemie, co Nagios. Klient natomiast, uruchamiany jest przez
+systemie, co {\em Nagios}. Klient natomiast, uruchamiany jest przez
 dodatkowy mechanizm monitorujący na zdalnym urządzeniu w~celu
 przekazania wyników pasywnego sprawdzenia do Nagiosa, kiedy jest to
 potrzebne. Oznacza to, że w~porównaniu z~dodatkiem NRPE, gdzie agent
@@ -283,7 +283,7 @@ na urządzeniu mobilnym czekał na polecenia do wykonania, tutaj to
 serwer NSCA czeka na już gotowe dane ze zdalnych lokalizacji. Szerokie
 omówienie dodatku NSCA zostało zawarte w~rozdz.~\ref{sec:NSCA}.
 
-System Nagios posiada rozbudowany system powiadamiania administratora
+System {\em Nagios} posiada rozbudowany system powiadamiania administratora
 o~wystąpieniu awarii oraz o~jej zakończeniu lub innych zdefiniowanych
 wydarzeniach systemowych. Możliwe jest powiadamianie zarówno poprzez
 email jak i~sms. Ponadto możliwe jest automatyczne wykonywanie
@@ -344,7 +344,7 @@ w~plikach. Ta cześć systemu jest odpowiedzialna za cykliczne
 uruchamianie wtyczek, a~także przetwarzaniem zarówno wyników ich
 wykonania oraz wyników monitorowania pasywnego przekazanych do
 systemu. Dane o~stanie sieci przechowywane są w~plikach
-dyskowych. W~nomentklaturze systemu Nagios noszą one nazwę pamięci
+dyskowych. W~nomentklaturze systemu {\em Nagios} noszą one nazwę pamięci
 podręcznej (ang. {\em cache}).
 
 Sposób komunikacji pomiędzy rdzeniem monitorującym a~interfejsem
@@ -370,11 +370,11 @@ nich. Sztandarowym przykładem jest Nagios Fusion --- komercyjna
 wersja interfejsu użytkownika. Zapewnia ona możliwość prezentacji
 w~jednym interfejsie informacji pochodzących z~wielu instancji
 systemu. Istnieją również darmowe dodatki czyli programy rozszerzające
-lub zmieniające funkcjonalność systemu Nagios. Przykładem takiego
-dodatku może być NDOUtils, który pozwala systemowi Nagios na
+lub zmieniające funkcjonalność systemu {\em Nagios}. Przykładem takiego
+dodatku może być NDOUtils, który pozwala systemowi {\em Nagios} na
 wykorzystanie bazy danych MySQL zamiast płaskich struktur plikowych
-lub N2RRD, który gromadzi dane z~systemu Nagios w~bazie RRD. Możliwa
-jest również częściowa integracja systemu Nagios\footnote{Szczegółowe
+lub N2RRD, który gromadzi dane z~systemu {\em Nagios} w~bazie RRD. Możliwa
+jest również częściowa integracja systemu {\em Nagios}\footnote{Szczegółowe
   informacje na temat rozszerzania funkcjonalności oraz samego systemu
   można znaleźć w~\cite{www:Nagios}.}  z~dodatkami lub systemami,
 które pozwalają na wizualizacje zgromadzonych danych.
@@ -382,11 +382,11 @@ które pozwalają na wizualizacje zgromadzonych danych.
 \section[Icinga][Icinga]{Icinga}
 \label{subsec:Icinga}
 
-System Icinga powstał w~2009 roku jako klon (ang. {\em fork}) systemu
-Nagios. System został wzbogacony o~wiele nowych elementów, a~także
-poprawiono wiele błędów obecnych w~systemie Nagios. Dzięki zachowaniu
-wstecznej kompatybilności wszystkie wtyczki i~dodatki systemu Nagios
-mogą być wykorzystane w~systemie Icinga. Pozyskano dzięki temu bardzo
+System {\em Icinga} powstał w~2009 roku jako klon (ang. {\em fork}) systemu
+{\em Nagios}. System został wzbogacony o~wiele nowych elementów, a~także
+poprawiono wiele błędów obecnych w~systemie {\em Nagios}. Dzięki zachowaniu
+wstecznej kompatybilności wszystkie wtyczki i~dodatki systemu {\em Nagios}
+mogą być wykorzystane w~systemie {\em Icinga}. Pozyskano dzięki temu bardzo
 dużą bazę wtyczek, co umożliwia monitorowanie tych samych usług
 i~urządzeń co protoplasta. Podstawowe zasady funkcjonowania systemu są
 identyczne, jednak wprowadzono wiele ulepszeń i~architektonicznych
@@ -402,7 +402,7 @@ poprawek.
 \end{center}
 \end{figure}
 
-System Icinga został wyposażony w~zupełnie nowy interfejs
+System {\em Icinga} został wyposażony w~zupełnie nowy interfejs
 graficzny\footnote{Skorzystanie z nowego interfejsu wymaga użycia
   modułu IDOUtils oraz bazy danych. Możliwe jest wykorzystanie również
   klasycznego interfejsu, który nie posiada takich wymagań.}, który
@@ -431,8 +431,8 @@ użytkownikowi dostęp do danych o~konkretnej usłudze lub odmówić
 wykonywania niektórych czynności administracyjnych. Zarządzanie
 użytkownikami oraz ich uprawnieniami możliwe jest również z~poziomu
 graficznego interfejsu użytkownika, co znacząco podnosi wygodę
-użytkowania systemu. Cechy te odróżniają system Icinga od systemu
-Nagios, w~którym użytkownicy mogli być definiowani jedynie z~poziomu
+użytkowania systemu. Cechy te odróżniają system {\em Icinga} od systemu
+{\em Nagios}, w~którym użytkownicy mogli być definiowani jedynie z~poziomu
 systemu operacyjnego, na którym uruchomiony jest system monitorujący,
 a~ich uprawnienia były jednakowe.
 
@@ -444,10 +444,10 @@ a~ich uprawnienia były jednakowe.
 \end{figure}
 
 Kolejną istotną różnicą jest zmiana sposobu komunikacji pomiędzy
-rdzeniem monitorującym a~interfejsem użytkownika. W systemie Nagios
+rdzeniem monitorującym a~interfejsem użytkownika. W systemie {\em Nagios}
 komunikacja ta odbywała się poprzez pliki\footnote{Właściwie poprzez
   potok nazwany i~pliki.}, co uniemożliwiało wyodrębnienie interfejsu
-graficznego i~umieszczenie go na oddzielnym urządzeniu. Icinga
+graficznego i~umieszczenie go na oddzielnym urządzeniu. {\em Icinga}
 definiuje natomiast dodatkową warstwę abstrakcji, która pozwala nowemu
 interfejsowi użytkownika, na komunikację z~rdzeniem monitorującym
 w~sposób niezależny od fizycznej architektury systemu. Schemat
@@ -477,11 +477,11 @@ przez jeden interfejs informacji zgromadzonych przez wiele instancji
 rdzenia. Jest to bardzo istotne w~przypadku rozległych sieci. Pozwala
 to na rozdzielenie obciążenia wynikającego z~monitorowania na wiele
 serwerów bez konieczności istnienia instancji nadrzędnej. System
-Icinga posiada również wiele innych konfiguracji rozproszonych,
+{\em Icinga} posiada również wiele innych konfiguracji rozproszonych,
 a~także redundantnych. Należy również nadmienić, że wszystkie elementy
 systemu potrzebne do takich konfiguracji są darmowe.
 
-W~systemie Icinga dopracowano także możliwości współpracy
+W~systemie {\em Icinga} dopracowano także możliwości współpracy
 z~bazą danych. System ten pozwala na współpracę już nie tylko z~bazą
 MySQL, lecz również z~bazami PostgreSQL czy bazą danych firmy
 Oracle. Możliwość wykorzystania bazy danych Oracle jest bardzo
@@ -489,13 +489,13 @@ istotna, jeśli dane dotyczące konfiguracji muszą być przechowywane
 przez bardzo długi czas, lub jeśli monitorowana infrastruktura jest
 bardzo rozbudowana.
 
-Warto również wspomnieć o~dostępnym dla systemu Icinga module
+Warto również wspomnieć o~dostępnym dla systemu {\em Icinga} module
 raportowym opartym na serwerze
 JasperReports\cite{www:JasperReports}. Pozwala to w~bardzo łatwy
 sposób tworzyć wzory raportów, które następnie będą automatycznie
 generowane. Umożliwia to regularne i~proste tworzenie dokumentacji
 niezbędnej dla zarządu przedsiębiorstwa. Rozszerzony opis systemu
-Icinga został zawarty w~rozdziale~\ref{chap:Icinga}.
+{\em Icinga} został zawarty w~rozdziale~\ref{chap:Icinga}.
 
 \section[Podsumowanie][Podsumowanie]{Podsumowanie}
 
@@ -506,7 +506,7 @@ w~wielu instytucjach. Porównując wszystkie omówione systemy, należy
 zwrócić szczególną uwagę na różnice w~ich możliwych zastosowaniach
 docelowych.
 
-Systemy takie jak Cacti zaliczane są do grupy systemów
+Systemy takie jak {\em Cacti} zaliczane są do grupy systemów
 analitycznych. Ich celem jest zatem umożliwienie gromadzenia oraz
 analizy danych. Zbierane dane mają charakter zagregowany w~zadanych
 przedziałach, na podstawie których prezentowane są użytkownikowi
@@ -516,7 +516,7 @@ być wzbogacony o~funkcjonalność charakterystyczną dla systemów
 dostępnościowych.
 
 Drugą grupę systemów stanowią natomiast systemy dostępnościowe, takie
-jak Nagios czy Icinga. Ich głównym celem jest monitorowanie bieżącego
+jak {\em Nagios} czy {\em Icinga}. Ich głównym celem jest monitorowanie bieżącego
 stanu infrastruktury i~raportowanie użytkownikowi najświeższych
 informacji. Systemy te zostały również zaprojektowane w~taki sposób,
 aby wspomagać administratora w~lokalizacji awarii. Głównym typem

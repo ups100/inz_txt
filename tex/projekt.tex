@@ -2,9 +2,9 @@
 \label{chap:ProjektSystemu}
 
 W~rozdziale \ref{chap:Icinga} omówione zostały poszczególne komponenty
-systemu Icinga, a~także w~pełni funkcjonalna konfiguracja dla
+systemu {\em Icinga}, a~także w~pełni funkcjonalna konfiguracja dla
 pojedynczego segmentu sieci. Przedstawiono również dostępne w~systemie
-Icinga schematy współpracy wielu serwerów monitorujących. Problem
+{\em Icinga} schematy współpracy wielu serwerów monitorujących. Problem
 monitoringu klienta mobilnego jest w~wielu aspektach symetryczny
 względem monitoringu wielu segmentów sieci.
 
@@ -15,7 +15,7 @@ w~największym stopniu wymagania stawiane przed systemem monitorowania
 klienta mobilnego. Wybrana architektura opiera się na wykorzystaniu
 narzędzia NSCA. Niestety narzędzie to nie spełnia wielu spośród
 stawianych przed nim wymagań. Stwarza to konieczność opracowania
-nowego dodatku do systemu Icinga. W~rozdziale tym zawarto konceptualny
+nowego dodatku do systemu {\em Icinga}. W~rozdziale tym zawarto konceptualny
 opis architektury proponowanego dodatku. Ponadto zaproponowano
 protokół komunikacyjny przeznaczony do przesyłania wyników pomiarów
 poprzez sieć publiczną.
@@ -24,10 +24,10 @@ Przedstawiona w~tym rozdziale koncepcja systemu jest elastyczna
 i~zapewnia dobrą skalowalność. Podczas projektowania tego rozwiązania,
 dla uproszczenia, celowo pomijano zagadnienie monitorowania klienta
 statycznego. Zgodnie z~przedstawionym w~rozdziale \ref{chap:Icinga}
-opisem systemu Icinga oraz dostępnych jego konfiguracji rozproszonych,
+opisem systemu {\em Icinga} oraz dostępnych jego konfiguracji rozproszonych,
 istnieje dowolność przy zagnieżdżaniu konfiguracji systemu. Oznacza
 to, iż system monitorowania klienta mobilnego może być zintegrowany
-z~każdą infrastrukturą monitorującą opartą na systemie Icinga. Spośród
+z~każdą infrastrukturą monitorującą opartą na systemie {\em Icinga}. Spośród
 wszystkich dostępnych możliwości konfiguracji zalecane jest użycie
 tej, wykorzystującej wspólną bazę danych zarówno dla klientów
 statycznych jak i~mobilnych, gdyż cechuje się ona najlepszą
@@ -43,7 +43,7 @@ statycznej. Każdy klient mobilny (lub grupa w~ramach której ściśle on
 funkcjonuje np. zestaw laptop~+~telefon) może być rozważana jako
 osobny segment sieci. Oznacza to, że na każdym z~klientów mobilnych
 powinien znajdować się serwer monitorujący. Aby wykorzystać możliwie
-najwięcej z~dostępnych funkcjonalności systemu monitorującego Icinga
+najwięcej z~dostępnych funkcjonalności systemu monitorującego {\em Icinga}
 należy zatem rozważyć dostępne architektury rozproszone w~kontekście
 monitorowania klienta mobilnego.
 
@@ -59,7 +59,7 @@ Architektura pozwalająca na współpracę wielu instancji poprzez wspólną
 bazę danych została przedstawiona na
 rys.~\ref{fig:mobilnyWspBaza}. W~tej konfiguracji każdy klient mobilny
 posiada swoją instancję rdzenia monitorującego systemu
-Icinga. Komunikuje się on bezpośrednio z~baza danych, gdzie
+{\em Icinga}. Komunikuje się on bezpośrednio z~baza danych, gdzie
 przechowywany jest stan bieżący całej infrastruktury. Oznacza to
 konieczność udostępnienia bazy danych w~sieci publicznej, co zmniejsza
 poziom bezpieczeństwa systemu. Należy zwrócić uwagę, że każdy klient
@@ -119,7 +119,7 @@ administratora. Dane zebrane w~ramach monitorowania muszą być
 przechowane na urządzeniu i~gdy stanie się to możliwe dostarczone do
 serwera NSCA jako dane monitorowania pasywnego. Rdzeń monitorujący
 umieszczony na serwerze po odebraniu danych dokona ich przetworzenia
-zarówno w~ramach systemu Icinga, jak i~dodatku inGraph.Wyniki
+zarówno w~ramach systemu {\em Icinga}, jak i~dodatku inGraph.Wyniki
 przetwarzania zostaną zapisane w~odpowiednich baza danych. Oznacza to,
 że całe przetwarzanie wykonywane jest na serwerze. Pozwala to na
 usunięcie funkcjonalności programu ingraph-collector z~klienta
@@ -202,7 +202,7 @@ urządzenia mobilnego do serwera.
 Należy również zaznaczyć, ze w chwili pisania tej pracy, nie udało się
 odnaleźć na rynku żadnej aplikacji pozwalającej na monitorowanie
 urządzenia mobilnego i współpracującej w jakikolwiek sposób z systemem
-Icinga. Ze względu na brak takiej aplikacji w niniejszej pracy
+{\em Icinga}. Ze względu na brak takiej aplikacji w niniejszej pracy
 dokonano zarysu wymaganej od takiej aplikacji
 funkcjonalności. Aplikacja realizująca i rozszerzająca tą
 funkcjonalność została zaprojektowana i zaimplementowana przez Pana
@@ -773,7 +773,7 @@ Modułem odpowiedzialnym, za przekazywanie danych do systemu
 monitorującego jest konsument danych. Jest to implementacja metody
 przekazywania danych w~zależności od miejsca docelowego. W~ramach tej
 pracy dostarczono konsumenta danych, który zapisuje otrzymane dane do
-pliku komend zewnętrznych systemu Icinga oraz konsumenta danych, który
+pliku komend zewnętrznych systemu {\em Icinga} oraz konsumenta danych, który
 wypisuje otrzymane dane w~postaci logów programu. Konsumentów danych
 również może być więcej niż jeden.
 
