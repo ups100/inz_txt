@@ -1,45 +1,57 @@
 \chapter{Implementacja}
 \label{chap:Implementacja}
 
-W rozdziale \ref{chap:ProjektSystemu} przedstawiono projekt systemu
-monitorowania uwzględniającego wymagania przedstawione
-w~\ref{chap:Wymagania}. Jest to zatem projekt kompleksowego systemu,
-który pozwoli na monitorowanie zarówno klientów mobilnych jak
-i~statycznych. W~chwili pisania tej pracy na rynku dostępne było
-jedynie oprogramowanie potrzebne, aby zapewnić funkcjonalność modułowi
-podstawowemu. W~obec tego konieczne było zaimplementowanie zarówno
-modułu odbiorczego jak i~modułu mobilnego. Rozdział ten zawiera opis
-wykonanej w~ramach tej pracy implementacji modułu
-odbiorczego. Szczegółowy projekt, a~także opis implementacji modułu
-mobilnego dla platformy Android został przedstawiony
-w~\cite{book:pracaKubika}.
+W rozdziale \ref{chap:ProjektSystemu} przedstawiono autorskie
+rozwiązanie problemu monitorowania klienta mobilnego przy uzyciu
+systemu Icinga. W ramach projektowania takiego systemu dokonano
+analizy dostępnych na rynku dodatków pod kątem ich przydatności w
+systemie monitorowania klienta mobilnego. Przeprowadzona analiza
+wykazała konieczność opracowania nowego dodatku, pozwalającego na
+przekazywanie w sposób zgodny z wymaganiami, danych z urządzenia
+mobilnego do serwera.  Dodatek ten --- NSCAv2 został zaprojektowany i
+zaimplementowany w ramach niniejszej pracy. Rozdział ten zawiera
+dokładny opis funkcjonalny tego dodatku oraz przedstawia istotne
+elementy implementacji tego dodatku.
+
+Ponadto w proponowanym systemie występuje aplikacja przeznaczona dla
+platformy mobilnej. Implementacja takiej aplikacji wykracza poza
+zakres tej pracy.  W ramach serii prac dyplomowych przygotowywanych na
+Wydziale Elektroniki i Technik Informacyjnych powstała również praca
+inżynierska Pana Marcina Kubika. Przedmiotem tej pracy jest projekt
+oraz implementacja dla platformy Android aplikacji
+IcingaMini. Pobierzny opis koncepcji i potrzeby tej aplikacji mozna
+znaleźć w~\ref{sec:IcingaMini} natomaist szczegółowy opis
+implementacji został zawarty w~\cite{book:pracaKubika}.
 
 \section[Opis architektury][Opis architektury]{Opis architektury}
 
-Logiczna architektura programu została przedstawiona
-w~\ref{sec:ProjModOdb}. Fizyczna struktura programu została utworzona
-z~użyciem biblioteki Qt jako podstawowego szkieletu
-aplikacji. Wykorzystano również biblioteki boost oraz Crypto++. Moduł
-ten przeznaczony jest, podobnie jak system monitorujący Icinga dla
-komputerów pracujących pod kontrolą systemu operacyjnego Linux i~jest
-uruchamiany jako samodzielny serwis. Fizyczna struktura programu
-składa się z~następujących elementów:
+
+Konceptualny model dodatku został przedstawiony
+w~\ref{sec:ProjModOdb}. Fizyczna struktura programu jest dużo bardziej
+złożona. Została utworzona z~użyciem biblioteki Qt jako podstawowego
+szkieletu aplikacji. Wykorzystano również biblioteki boost oraz
+Crypto++. Dodatek ten przeznaczony jest, podobnie jak system
+monitorujący Icinga dla komputerów pracujących pod kontrolą systemu
+operacyjnego Linux i~jest uruchamiany jako samodzielny
+serwis. Fizyczna struktura programu składa się z~następujących
+elementów:
 
 \begin{description}
-\item[Szkielet programu] Zawiera on elementy programu, konieczne do
+\item[Szkielet programu] --- Zawiera on elementy programu, konieczne do
   wytworzenia środowiska dla funkcjonowania pozostałych modułów oraz
-  zarządzania nimi. Ponadto zawiera implementacje dostawców oraz
-  konsumentów danych.
-\item[Moduł kryptograficzny] Dostarcza on implementacji funkcji
+  zarządzania nimi. Ponadto zawiera odwzorowanie bytów logicznych
+  (dostawca, konsument, kanał komunikacyjny) programu w strukturę
+  fizyczną.
+\item[Moduł kryptograficzny] --- Dostarcza on implementacji funkcji
   kryptograficznych, wymaganych podczas komunikacji z klientem
   mobilnym. Zawiera on zarówno algorytmy asymetryczne, konieczne do
   inicjalizacji kryptografii symetrycznej, jak i~algorytmy symetryczne,
   służące do przesyłania danych.
-\item[Moduł autoryzacji klienta] Zawiera on implementację algorytmów
+\item[Moduł autoryzacji klienta] --- Zawiera on implementację algorytmów
   uwierzytelnienia klienta.
-\item[Moduł komunikacji z użyciem TCP] Dostarcza on implementację
+\item[Moduł komunikacji z użyciem TCP] --- Dostarcza on implementację
   protokołu komunikacyjnego używanego do komunikacji z~klientem.
-\item[Moduł logowania] Pozwala na przekazywanie użytkownikowi
+\item[Moduł logowania] --- Pozwala na przekazywanie użytkownikowi
   komunikatów z~dowolnych miejsc znajdujących się w~innych
   modułach. Wiadomość ta może zawierać informacje o~zaistniałym
   błędzie, lub innym zdarzeniu wymagającym poinformowania użytkownika.
@@ -63,15 +75,15 @@ kryptograficznych jak i~algorytmów uwierzytelnienia klienta. W~celu
 zapewnienia możliwości wybrania typu faktycznego obiektu na podstawie
 danych wykorzystano wzorzec projektowy fabryki\footnote{Wzorzec ten
   został szczegółowo opisany w~\cite[101-109]{book:wzorce}.}.  Każdy
-z~wspomnianych modułów posiada swojego zarządcę. Dostępne w~module
-obiekty muszą zostać zarejestrowane u~swojego zarządcy. Pozostałe
-moduły uzyskują instancje tych obiektów, poprzez zarządcę, który na
-podstawie przekazanych danych określa typ faktyczny obiektu. Jeśli
-dany typ jest dostępny, zostanie on wówczas przekazany wywołującemu
-i~będzie on mógł używać go poprzez dostarczony generyczny
+z~wspomnianych modułów posiada swojego zarządcę (fabrykę). Dostępne
+w~module obiekty muszą zostać zarejestrowane u~swojego
+zarządcy. Pozostałe moduły uzyskują instancje tych obiektów, poprzez
+zarządcę, który na podstawie przekazanych danych określa typ faktyczny
+obiektu. Jeśli dany typ jest dostępny, zostanie on wówczas przekazany
+wywołującemu i~będzie on mógł używać go poprzez dostarczony generyczny
 interfejs. Logiczna struktura tych modułów wymaga zapewnienia, że
 w~programie istnieje tylko jedna instancja obiektu danego
-zarządcy. W~tym celu został wykorzystany wzorzec projektowy o nazwie
+zarządcy. W~tym celu został wykorzystany wzorzec projektowy
 singleton\footnote{Szczegółowe omówienie wzorca singleton można
   znaleźć w~\cite[130-138]{book:wzorce}.}. Zastosowanie wzorca
 projektowego fabryki pozwala pozostałym modułom, na korzystanie z
@@ -117,20 +129,20 @@ obiektu. Należy zatem zawsze po pomyślnej analizie pliku
 konfiguracyjnego sprawdzić zawartość pliku dziennika wykonania
 programu. 
 
-Definicje klientów znajdujące się w pliku konfiguracyjnym są
-nie zbędne dla zapewnienia bezpieczeństwa całego systemu. Moduł
-odbiorczy pozwoli na zalogowanie się jedynie klienta, który został
-zdefiniowany w konfiguracji. Według wymagań konieczne jest zapewnienie
+Definicje klientów znajdujące się w pliku konfiguracyjnym są nie
+zbędne dla zapewnienia bezpieczeństwa całego systemu. Dodatek NSCAv2
+pozwoli na komunikację z klientem, tylko jeśli został on zdefiniowany
+w konfiguracji. Według wymagań konieczne jest zapewnienie
 niezależności algorytmów uwierzytelnienia klienta od pozostałych
 elementów. Definicja każdego klienta zawiera zatem listę modułów
 uwierzytelnienia, których dany klient moze używać. Program zapewnia
-równiez kontrolę przesyłanych danych zatem konieczne jest również
-określenie listy dozwolonych urządzeń i usług, o których dany klient
-moze przesyłać informacje.
+równiez kontrolę przesyłanych danych zatem konieczne jest określenie
+listy dozwolonych urządzeń i usług, o których dany klient moze
+przesyłać informacje.
 
 Jednym z wielu wymagań stawianych na etapie projektowania systemu było
 zapewnienie mozliwości przekazywania danych pochodzących od klinta
-mobilnego do wielu miejsc docolewych takich jak systemy monitorujące
+mobilnego do wielu miejsc docolewych, takich jak systemy monitorujące
 czy bazy danych. Polityka dostarczania danych jest zdecydowanie
 elementem konfiguracyjnym i nie powinna być ona zaszyta w
 implementacji programu. W wykonanym programie logika przekazywania
@@ -142,22 +154,22 @@ oraz dostawcy, który te dane odebrał.
 Przeniesienie znacznej cześci logiki programu do pliku
 konfiguracyjnego maiało znaczący wpływ na architekturę
 rozwiązania. Program stanowi jedynie zbiór elementów, z których przy
-pomocy pliku konfiguracyjnego składa się w pełni funkcjonalny moduł.
+pomocy pliku konfiguracyjnego składa się w pełni funkcjonalny dodatek.
 
 \section[Szkielet programu][Szkielet programu]{Szkielet programu}
 
 Moduł ten zawiera podstawowe komponenty programu. Zawarto tutaj
 wszystkie czynności przygotowawcze związane z~wczytaniem konfiguracji
-oraz utworzeniem obiektów wynikających z~niej. Ponadto w~module tym
+oraz utworzeniem obiektów z~niej wynikających. Ponadto w~module tym
 znajdują się definicję podstawowych bytów logicznych
 programu. W~zależności od pełnionej funkcji można wyróżnić następujące
 grupy obiektów:
 
 \begin{description}
 \item[Grupa obiektów konfiguracyjnych] zawiera wszystkie obiekty
-  używane zarówno do wczytania parametrów uruchomienia programu z~
-  linii poleceń, jak również obiekty odpowiedzialne za dostarczenie do
-  programu konfiguracji zawartej w pliku.
+  używane zarówno do wczytania parametrów uruchomienia programu
+  z~linii poleceń, jak również obiekty odpowiedzialne za dostarczenie
+  do programu konfiguracji zawartej w pliku.
 \item[Grupa obiektów producentów danych] \raggedright{zawiera generyczny interfejs
   producenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
   z~tej grupy, a~także definicję dostępnych producentów danych.}
@@ -170,7 +182,7 @@ grupy obiektów:
   z~kanałem komunikacyjnym pomiędzy producentami danych, a~ich
   konsumentami. Zawiera również mechanizmy formatowania danych oraz
   bufory przeznaczone na dane oczekujące na przekazanie.
-\item[Grupa obiektów zarządzających] zawiera zarządce programu oraz
+\item[Grupa obiektów zarządzających] zawiera zarządcę programu oraz
   obiekty pomocnicze. Wykonywane są tutaj wszelkie czynności, które
   należy wykonać w~trakcie uruchamiania programu, a~także tworzenie
   oraz niszczenie obiektów implementujących elementy logiczne
@@ -204,22 +216,39 @@ fabryki. Pozwala ona pozostałym obiektom na uzyskiwanie instancji
 obiektu dostawcy danych, bez konieczności znania jego typu faktycznego
 w~trakcie pisania kodu czy też kompilacji. Drugim z~elementów jest
 generyczny interfejs dostawcy danych, który musi być implementowany
-przez każdego dostawcę. Interfejs ten pozwala na wykonywanie
-wszystkich niezbędnych operacji. Między innymi na przekazanie
-konkretnej instancji klasy dodatkowych danych inicjujących takich jak
-adres sieciowy czy numer portu. Należy również nadmienić, że konieczne
-było również dostarczenie odpowiedniego mechanizmu rejestracji
-definiowanych obiektów w~fabryce. Istotne jest, aby umożliwić
-programiście rejestrację nowego typu faktycznego obiektu bez
-konieczności ingerencji w~inne pliki źródłowe. W~celu ułatwienia tego
-procesu zostało opracowane makro, które dzięki wykorzystaniu szablonów
-dokonuje automatycznej rejestracji nowego typu faktycznego obiektu
-w~fabryce. Dzięki jego wykorzystaniu programista, podczas dodawania
-nowego dostawcy danych musi zapewnić jedynie deklarację oraz definicję
-nowego typu. Warto zauważyć, że sposób implementacji tego makra
-pozwala na umieszczenie definicji nowego typu w~pliku nagłówkowym,
-który jest włączany do wielu jednostek translacji i nie powoduje to
-błędów kompilacji ani błędów funkcjonowania procesu rejestracji.
+przez każdego dostawcę. Interfejs ten jest bardzo prosty jednak
+pozwala na wykonywanie wszystkich niezbędnych operacji.
+
+Każdy dostawca danych powinien dostarczyć implementacji dwóch
+funkcji. Funkcja {\em initImpl()} jest wywoływana z funkcji {\em
+  init()} w chwili inicjalizacji konkretnego obiektu klasy parametrami
+pochodzącymi z pliku konfiguracyjnego. Pozwala to między innymi na
+przekazanie dodatkowych danych inicjujących takich jak adres sieciowy
+czy numer portu. Dostawca danych powinien w funkcji {\em initImpl()}
+pobrać wszystkie niezbędne mu dane z dostarczonych parametrów, a
+następnie wykonać wszystkie czynnosci przygotowawcze takie jak
+uruchomienie dodatkowego wątku. Po wyjściu z tej funkcji z sukcesem
+przyjmuje się, ze dostawca został zainicjalizowany poprawnymi danymi
+oraz jest on uruchomiony i oczekuje na dane od klientów. Istotne jest
+również dostarczenie implementacji funkcji {\em close()}. Jest ona
+odpowiedzialna za zakończenie pracy tego dostawcy danych i zwolnienie
+wszystkich używanych przez niego zasobów.
+
+%interfejs dostawcy danych
+
+Należy również nadmienić, że konieczne było również dostarczenie
+odpowiedniego mechanizmu rejestracji definiowanych obiektów
+w~fabryce. Istotne jest, aby umożliwić programiście rejestrację nowego
+typu faktycznego obiektu bez konieczności ingerencji w~inne pliki
+źródłowe. W~celu ułatwienia tego procesu zostało opracowane makro,
+które dzięki wykorzystaniu szablonów dokonuje automatycznej
+rejestracji nowego typu faktycznego obiektu w~fabryce. Dzięki jego
+wykorzystaniu programista, podczas dodawania nowego dostawcy danych,
+musi zapewnić jedynie deklarację oraz definicję nowego typu. Warto
+zauważyć, że sposób implementacji tego makra pozwala na umieszczenie
+definicji nowego typu w~pliku nagłówkowym, który jest włączany do
+wielu jednostek translacji i nie powoduje to błędów kompilacji ani
+błędów funkcjonowania procesu rejestracji.
 
 \vspace{0.5cm}
 \begin{minipage}{\textwidth}
@@ -233,27 +262,28 @@ DATA_PROVIDER(NazwaTypu, NazwaRejestrowana)
 \vspace{0.5cm}
 
 W~ramach tej grupy obiektów dostarczono również referencyjną
-implementację dostawcy o~nazwie typu DefaultTcpProvider. Stanowi on
-implementację omówionego wcześniej protokółu komunikacyjnego. W~celu
-zapewnienia lepszej wydajności, logika funkcjonowania tego dostawcy
-została przeniesiona do osobnego wątku programu. Aby zapewnić
-elastyczności wykorzystania tego obiektu możliwe jest definiowanie
-z~poziomu pliku konfiguracyjnego zarówno adresu IP i~portu
-wykorzystywanego przez ten obiekt, a~także wskazanie pliku
-zawierającego klucz prywatny.
+implementację dostawcy o~nazwie typu {\em DefaultTcpProvider}. Stanowi
+on implementację omówionego wcześniej protokółu
+komunikacyjnego. W~celu zapewnienia lepszej wydajności, logika
+funkcjonowania tego dostawcy została przeniesiona do osobnego wątku
+programu. Aby zapewnić elastyczności wykorzystania tego obiektu
+możliwe jest definiowanie z~poziomu pliku konfiguracyjnego zarówno
+adresu IP i~portu wykorzystywanego przez ten obiekt, a~także wskazanie
+pliku zawierającego klucz prywatny.
 
 \subsubsection[Grupa obiektów konsumentów danych][Grupa obiektów
 konsumentów danych]{Grupa obiektów konsumentów danych}
 
 Grupa obiektów konsumentów danych posiada analogiczną budowę jak grupa
 producentów danych. Zapewnia ona zarówno fabrykę konsumentów danych
-jak i~generyczny interfejs konsumenta. Rejestracja obiektów w~fabryce
+jak i~generyczny interfejs konsumenta. Interfejs konsumenta danych
+jest analogiczny jak dla dostawcy. Rejestracja obiektów w~fabryce
 odbywa się również przy użyciu analogicznego makra. W~ramach tej grupy
 obiektów dostarczono implementację dwóch konsumentów danych. Pierwszy
-z~nich o~nazwie typu ToScreenPrinter, spełnia jedynie funkcję
+z~nich o~nazwie typu {\em ToScreenPrinter}, spełnia jedynie funkcję
 kontrolną. Wszystkie dane, które do niego trafią są natychmiast
-wypisywane w~dzienniku wykonania programu. Dostawca typu
-ToIcingaWriter odpowiedzialny jest natomiast za przekazywanie
+wypisywane w~dzienniku wykonania programu. Dostawca typu {\em
+  ToIcingaWriter} odpowiedzialny jest natomiast za przekazywanie
 wszystkich danych do pliku komend zewnętrznych systemu Icinga. Możliwa
 jest zmiana ścieżki pliku komend zewnętrznych systemu Icinga poprzez
 plik konfiguracyjny.
@@ -267,11 +297,11 @@ elementej tej grupy jest fizyczne odwzorowanie bytu klienta w
 odpowiednią klasę. Pozwala to na uzyskiwanie przez inne moduły w
 prosty sposób wszystkich niezbędnych infrormacji na temat
 obsługiwanego klienta. Każdy klient posiada zdefiniowany w~pliku
-konfiguracyjnym zbiór urządzeń i~usług o~których informacje może
+konfiguracyjnym zbiór urządzeń i~usług, o~których informacje może
 przesyłać. Obiekty z~tej grupy, które są odpowiedzialne za kontrolę
 odbieranych danych, pobierają z~analizatora składniowego wspomniane
 zbiory i~dokonują kontroli każdego wpisu dziennika otrzymanego od
-klienta. Jeśli klienta nadesłał dane dotyczące urządzenia lub usługi
+klienta. Jeśli klienta nadesłał dane dotyczące urządzenia lub usługi,
 do których nie ma on uprawnień, nie będzie możliwe przekazanie ich do
 konsumentów.
 
@@ -343,12 +373,15 @@ następujących schematów algorytmów:
 \item podpis cyfrowy.
 \end{itemize}
 
-Dostarczanie implementacji danego schematu kryptograficznego odbywa
-się w~sposób analogiczny do dostarczania implementacji dostawców
-danych. Wszystkie implementacje algorytmów zostają zarejestrowane
-w~fabryce kryptograficznej, która umożliwia uzyskiwanie obiektu
-o~typie określanym na podstawie danych na przykład odebranych od
-klienta.
+%definicje interfejsów kryptograficznych
+
+Definicje wszystkich interfejsów zostały przedstawione na
+rys.~\ref{fig:cryptoInterface}. Dostarczanie implementacji danego
+schematu kryptograficznego odbywa się w~sposób analogiczny do
+dostarczania implementacji dostawców danych. Wszystkie implementacje
+algorytmów zostają zarejestrowane w~fabryce kryptograficznej, która
+umożliwia uzyskiwanie obiektu o~typie określanym na podstawie danych,
+na przykład odebranych od klienta.
 
 % biblio do CBC i AESA
 W~ramach tej pracy dostarczono kilku algorytmów, które były konieczne
@@ -405,29 +438,47 @@ przez implementacje poszczególnych algorytmów. Implementacja tego
 interfejsu powinna być dostarczona przez moduł, który jest aktualnie
 wykorzystywany w~programie do komunikacji z~klientem.
 
-W~ramach pracy zostały również zaimplementowane dwa moduły
-uwierzytelnienia klienta. Pierwszy z nich nosi nazwę AlwaysAllow
-i~jest to tak zwane uwierzytelnienie puste, czyli zakończone sukcesem
-dla każdego klienta. Drugi moduł - LoginPass jest to prosta metoda
-uwierzytelnienia oparta na pobraniu od klienta loginu oraz hasła
-i~porównanie go z~danymi dostarczonymi w~pliku konfiguracyjnym. Każdy
-klient posiada w~pliku konfiguracyjnym listę dostępnych dla niego
-algorytmów uwierzytelnienia wraz z~danymi jakie powinny być
-przekazane, aby zapewnić pozytywne wykonanie procesu. Należy zwrócić
-uwagę, że zaimplementowane algorytmy uwierzytelnienia stanową jedynie
-przykład. Nie powinny być one wykorzystywane w~systemie produkcyjnym,
-ponieważ wszystkie hasła oraz nazwy użytkowników przechowywane są
-jawnym tekstem w~pliku konfiguracyjnym. 
+%sekwencja uwierzytelnienie
+
+Przykładowy przebieg procesu uwierzytelnienia został przedstawiony na
+rys.~\ref{fig:sekwencjaAuth}. Proces ten rozpoczyna się od ustawienia
+aktualnie wykorzystywanego interfejsu komunikacyjnego. Następnie
+wykonywane jest rozpoczęcie procesu uwierzytelnienia. W ramach tego
+procesu moduł uwierzytelnienia moze komunikować się z klientem poprzez
+otrzymany wcześniej obiekt. Po zakończeniu procesu autoryzacji
+emitowany jest odpowiedni sygnał informujący pozostałe komponenty o
+rezultacie uwierzytelnienia.
+
+W~ramach pracy został zaimplementowany również przykłądowy moduł
+uwierzytelnienia klienta. Nosi on nazwię: {\em LoginPass}. Jest to
+prosta metoda uwierzytelnienia oparta na pobraniu od klienta loginu
+oraz hasła i~porównanie go z~danymi dostarczonymi w~pliku
+konfiguracyjnym. Każdy klient posiada w~pliku konfiguracyjnym listę
+dostępnych dla niego algorytmów uwierzytelnienia wraz z~danymi jakie
+powinny być przekazane, aby zapewnić pozytywne wykonanie
+procesu. Należy zwrócić uwagę, że zaimplementowany algorytmy
+uwierzytelnienia stanowi jedynie przykład, w jaki sposób powinno się
+definiować algorytmy w opracowanym dodatku. Ich wykorzystanie w
+systemie produkcyjnym zależy od bezpieczeństwa serwera, na którym
+znajduje się program NSCAv2. Należy być świadomym, że wszystkie hasła
+oraz nazwy użytkowników przechowywane są jawnym tekstem w~pliku
+konfiguracyjnym\footnote{Sposób przechowywania loginu oraz hasła na
+  urządzeniu mobilnym jest uzależnione od konkretnej implementacji
+  aplikacji IcingaMini.}. Nie stanowi to oczywiście zagrożenia jeśli
+do serwera monitorujacego dostęp mają jedynie uprzywilejowane
+osoby. Należy przypomnieć, że na sewerze znajdują się również klucze
+prywatne RSA, więc zawsze nalezy zwrócić szczególną uwagę, na
+bezpieczeństwo serwera.
 
 \section[Moduł TCP][Moduł komunikacji z wykorzystaniem TCP]{Moduł komunikacji z wykorzystaniem TCP}
 
 Moduł ten zawiera implementację protokołu komunikacyjnego opisanego
-w~\ref{sec:ProtKom}. Inicjacja każdej z~warstw protokołu została
-zaimplementowana dedykowanej klasie lub jeśli proces inicjacji złożony
-był z~kilku rozdzielnych logicznie elementów, każdy element został
-zaimplementowany w~osobnej klasie. W~celu umożliwienia każdej z~warstw
-protokołu korzystanie z~usług warstw niższych w~sposób generyczny
-wykorzystany został wzorzec dekoratora.
+w~rozdziale~\ref{sec:ProtKom}. Inicjacja każdej z~warstw protokołu
+została zaimplementowana w~dedykowanej klasie lub jeśli proces
+inicjacji złożony był z~kilku rozdzielnych logicznie elementów, każdy
+element został zaimplementowany w~osobnej klasie. W~celu umożliwienia
+każdej z~warstw protokołu korzystanie z~usług warstw niższych w~sposób
+generyczny wykorzystany został wzorzec dekoratora.
 
 Aby wykorzystać wzorzec dekoratora zdefiniowano generyczny interfejs
 pozwalający na odczytanie oraz zapisanie komunikatu niezależnie od
@@ -466,7 +517,7 @@ w~jednym wątku.
 
 \section[Moduł logowania][Moduł logowania]{Moduł logowania}
 
-Omawiany program wykonywany jest bez interakcji
+Omawiany dodatek wykonywany jest bez interakcji
 z~użytkownikiem. Funkcjonuje on jako serwis systemowy. Docelowo będzie
 on wykonywany na serwerze, poza sesją jakiegokolwiek
 użytkownika. W~trakcie wykonania programu mogą się zdarzyć sytuacje
@@ -475,7 +526,7 @@ z~tych informacji stanowi jedynie zapis wykonania programu, jednak
 mogą występować również informacje o sytuacjach krytycznych, o których
 użytkownik musi zostać powiadomiony. Konieczne było zatem dostarczenie
 możliwości przekazywania takich informacji z~wielu modułów do jednego,
-wspólnego miejsca, które stanowi dziennik wykonania programu.
+wspólnego miejsca, które stanowi dziennik wykonania serwisu.
 
 Każdy moduł posiada możliwość przekazywania użytkownikowi wiadomości
 o~różnym priorytecie. Dozwolone są następujące priorytety:
@@ -529,7 +580,7 @@ LOG_ENTRY(MyLogger::DEBUG, "komunikat"<<123);
 \end{minipage}
 \vspace{0.5cm}
 
-Ponieważ program nie jest przypisany do żadnego
+Ponieważ demon nie jest przypisany do żadnego
 z~terminali\footnote{Proces przekształcenia w serwis systemowy zakłada
   zamknięcie destryptorów standardowego wejścia, wyjścia oraz wyjścia
   błędów.} nie ma możliwości przekazywania wiadomości na standardowe
