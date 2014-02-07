@@ -1,7 +1,7 @@
 \chapter{Koncepcja rozwiązania}
 \label{chap:ProjektSystemu}
 
-W~rozdziale \ref{chap:Icinga} omówione zostały poszczególe komponenty
+W~rozdziale \ref{chap:Icinga} omówione zostały poszczególne komponenty
 systemu Icinga, a~także w~pełni funkcjonalna konfiguracja dla
 pojedynczego segmentu sieci. Przedstawiono również dostępne w~systemie
 Icinga schematy współpracy wielu serwerów monitorujących. Problem
@@ -20,18 +20,31 @@ opis architektury proponowanego dodatku. Ponadto zaproponowano
 protokół komunikacyjny przeznaczony do przesyłania wyników pomiarów
 poprzez sieć publiczną.
 
+Przedstawiona w~tym rozdziale koncepcja systemu jest elastyczna
+i~zapewnia dobrą skalowalność. Podczas projektowania tego rozwiązania,
+dla uproszczenia, celowo pomijano zagadnienie monitorowania klienta
+statycznego. Zgodnie z~przedstawionym w~rozdziale \ref{chap:Icinga}
+opisem systemu Icinga oraz dostępnych jego konfiguracji rozproszonych,
+istnieje dowolność przy zagnieżdżaniu konfiguracji systemu. Oznacza
+to, iż system monitorowania klienta mobilnego może być zintegrowany
+z~każdą infrastrukturą monitorującą opartą na systemie Icinga. Spośród
+wszystkich dostępnych możliwości konfiguracji zalecane jest użycie
+tej, wykorzystującej wspólną bazę danych zarówno dla klientów
+statycznych jak i~mobilnych, gdyż cechuje się ona najlepszą
+skalowalnością.
+
 \section[Architektura systemu][Architektura systemu]{Architektura
   systemu}
 
 Charakterystyka problemu monitorowania klienta mobilnego przedstawiona
 w~rozdziale \ref{chap:Wymagania} wydaje się być w wielu aspektach
-zbierzna z~zagadnieniem monitorowania wielosegmentowej infrastruktury
+zbieżna z~zagadnieniem monitorowania wielosegmentowej infrastruktury
 statycznej. Każdy klient mobilny (lub grupa w~ramach której ściśle on
-funkcjonuje np. zestaw laptop~+~telefon) moze być rozważana jako
-osobny segement sieci. Oznacza to, że na każdym z~klientów mobilnych
+funkcjonuje np. zestaw laptop~+~telefon) może być rozważana jako
+osobny segment sieci. Oznacza to, że na każdym z~klientów mobilnych
 powinien znajdować się serwer monitorujący. Aby wykorzystać możliwie
-najwięcej z~dostępnych funkcjonalności systmu monitorującego Icinga
-nalezy zatem rozważyc dostępne architektury rozproszone w~kontekście
+najwięcej z~dostępnych funkcjonalności systemu monitorującego Icinga
+należy zatem rozważyć dostępne architektury rozproszone w~kontekście
 monitorowania klienta mobilnego.
 
 \begin{figure}[ht]
@@ -54,13 +67,13 @@ mobilny jest w~pełni odpowiedzialny za przetwarzanie wyników pomiarów
 wszystkich monitorowanych przez niego urządzeń. W~szczególności
 oznacza to, że implementacja klienta mobilnego musi być wyposażona
 w~mechanizm przetwarzania danych zgodny z~dodatkiem inGraph. Konieczne
-jest również zapewnienie możliwosći użycia innego mechanizmu, aby nie
-ograniczać modyfikowalnosci systemu. Należy zwrócić uwagę, że to
+jest również zapewnienie możliwości użycia innego mechanizmu, aby nie
+ograniczać modyfikowalności systemu. Należy zwrócić uwagę, że to
 rozwiązanie wymaga niemalże ciągłego kontaktu z~bazą danych lub
 opracowania algorytmu synchronizacji danych pomiędzy lokalną kopią
 przetworzonych danych u~klienta i~baza danych na serwerze. Proces
-synchronizacji tych danych moze wymagać przesłania relatywnie dużej
-ilosci informacji poprzez siec. Należy również zaznaczyć, że całe
+synchronizacji tych danych może wymagać przesłania relatywnie dużej
+ilości informacji poprzez siec. Należy również zaznaczyć, że całe
 przetwarzanie danych, zarówno to związane z~monitorowaniem, jak i~to
 związane z~wykonywaniem transformacji danych potrzebnych do generacji
 wykresów jest wykonywane na urządzeniu mobilnym.
@@ -68,8 +81,8 @@ wykresów jest wykonywane na urządzeniu mobilnym.
 Łatwo zauważyć, że konfiguracja ta jest zdecydowanie niewskazana dla
 klienta mobilnego. Zastosowanie jej wymagałoby znacznego obciążenia
 urządzenia mobilnego poprzez angażowanie go w~przetwarzanie
-danych. Ponadto rozwiązanie to moze zużywać dużą część pasma
-w~zależnosci od zastosowanego algorytmu synchronizacji danych. Znaczną
+danych. Ponadto rozwiązanie to może zużywać dużą część pasma
+w~zależności od zastosowanego algorytmu synchronizacji danych. Znaczną
 część przesyłanych danych stanowią przetworzone dane niezbędne do
 generacji wykresów. Istotny jest również fakt, że jeśli klient mobilny
 przetwarza dane to jest on również odpowiedzialny za powiadamianie
@@ -77,7 +90,7 @@ administratora o~zdefiniowanych wydarzeniach. Wysyłanie maili
 zawierających informacje o~błędzie generuje oczywiście dodatkowy ruch
 i~obciąża system urządzenia. Warto również wspomnieć o konieczności
 udostępnienia publicznie bazy danych zarówno systemu monitorującego,
-jak i~dodatku inGraph. Obie te bazy danych mogą zawerać wrażliwe dane
+jak i~dodatku inGraph. Obie te bazy danych mogą zawierać wrażliwe dane
 przedsiębiorstwa i~nie powinny być udostępniane poza sieć
 prywatną. Wszystkie te elementy stoją w~sprzeczności z~wymaganiami
 zdefiniowanymi w~\ref{chap:Wymagania}. W~związku z~powyższym nie jest
@@ -104,15 +117,15 @@ IcingaMini. Zadaniem klienta mobilnego jest jedynie samo sprawdzenie
 stanu poszczególnych usług, zgodnie z~polityką zdefiniowaną przez
 administratora. Dane zebrane w~ramach monitorowania muszą być
 przechowane na urządzeniu i~gdy stanie się to możliwe dostarczone do
-serwera NSCA jako dane monitorowania pasywnego. Rdzeń monitorujacy
+serwera NSCA jako dane monitorowania pasywnego. Rdzeń monitorujący
 umieszczony na serwerze po odebraniu danych dokona ich przetworzenia
 zarówno w~ramach systemu Icinga, jak i~dodatku inGraph.Wyniki
-przetwarzania zostaną zaisane w~odpowiednich baza danych. Oznacza to,
+przetwarzania zostaną zapisane w~odpowiednich baza danych. Oznacza to,
 że całe przetwarzanie wykonywane jest na serwerze. Pozwala to na
 usunięcie funkcjonalności programu ingraph-collector z~klienta
 mobilnego. Ponadto kolejną istotną różnicą jest możliwość umieszczenia
 bazy danych w~sieci prywatnej. Jedynym elementem, który musi być
-dostępny z~zewnątrz jest serwer monitorujacy klientów mobilnych, gdyż
+dostępny z~zewnątrz jest serwer monitorujący klientów mobilnych, gdyż
 do niego przesyłane są wyniki sprawdzeń. Warto również wspomnieć, ze
 ilość przesyłanych danych została również ograniczona. W~poprzedniej
 architekturze konieczne było przesłanie zarówno danych o~stanie
@@ -181,7 +194,7 @@ zaprojektowanie oraz zaimplementowanie nowego narzędzia, które spełni
 stawiane przed nim wymagania. W ramach tej pracy wykonano projekt oraz
 implementację dodatku NSCAv2, który uwzględnia dodatkowe wymagania
 wynikające z monitorowania klienta mobilnego. Ponieważ protokół
-komunikacyjny używany w dodatku NSCA jest równiez niedostosowany do
+komunikacyjny używany w dodatku NSCA jest również niedostosowany do
 potrzeb klienta mobilnego w ramach tej pracy zaproponowano nowy
 protokół komunikacyjny pozwalający na niezawodną transmisję danych z
 urządzenia mobilnego do serwera.
@@ -666,7 +679,7 @@ przez co nie stanowi to dla aplikacji poważnego wymagania.
 
 Aplikacja IcingaMini po zebraniu porcji wpisów dziennika o~rozmiarze
 zgodnym z~polityką administratora, lub po upływie określonego czasu
-powinia przesłać posiadane wpisy dziennika do modułu odbiorczego, a~po
+powinna przesłać posiadane wpisy dziennika do modułu odbiorczego, a~po
 uzyskaniu potwierdzenia usunąć je z~urządzenia w~celu oszczędności
 pamięci. Możliwa jest również sytuacja, w~której urządzenie mobilne
 użytkowany jest przez pewien czas bez dostępu do sieci, przez którą
@@ -683,7 +696,7 @@ nawiązuje się połączenie.
 
 W~ramach systemu monitorowania możliwe jest funkcjonowanie wielu
 urządzeń wykorzystujących tą aplikację. Urządzenia te mogą
-wykorzystywać bardzo wiele różnych platform (Androin, Windows Phone,
+wykorzystywać bardzo wiele różnych platform (Android, Windows Phone,
 Ubuntu).. W~chwili pisania tej pracy nie znaleziono na rynku żadnej
 aplikacji przeznaczonej, na platformę mobilną, która spełniałaby
 stawiane wymagania. Szczegółowy projekt oraz implementacja aplikacji
@@ -700,7 +713,7 @@ w~\cite{book:pracaKubika}.
 
 Dodatek NSCAv2 jest to zaimplementowany w~ramach tej pracy zamiennik
 dla dodatku NSCA. Podobnie jak NSCA dodatek ten służy do przekazywania
-wyników pasywnego monitorowania z~urządzeń innych, niz to na którym
+wyników pasywnego monitorowania z~urządzeń innych, niż to na którym
 uruchomiony jest system monitorujący. Istotną różnicą pomiędzy tymi
 dodatkami jest wykorzystywany protokół komunikacyjny. W~dodatku NSCAv2
 zaimplementowano opracowany w~ramach tej pracy protokół komunikacyjny
@@ -708,12 +721,12 @@ zaimplementowano opracowany w~ramach tej pracy protokół komunikacyjny
 
 NSCAv2 w~znaczący sposób różni się pod względem koncepcyjnym od
 swojego poprzednika. Przede wszystkim dodano logiczną reprezentację
-klienta\footnote{Należy zwrócić uwagę na różnicę znaczeniową pomiedzy
+klienta\footnote{Należy zwrócić uwagę na różnicę znaczeniową pomiędzy
   klient --- osoba posiadająca urządzenie oraz klient mobilny
-  czyli urządzenie mobilne, a takze klient statyczny czyli
+  czyli urządzenie mobilne, a także klient statyczny czyli
   urządzenie statyczne, stacjonarne (patrz rozdział
   \ref{chap:Wymagania}).} jako posiadacza kilku urządzeń. Oznacza to
-zdefiniowanie następującej hierarchi bytów w programie:
+zdefiniowanie następującej hierarchii bytów w programie:
 
 \begin{description}
 \item[klient] --- posiadacz pewnej liczby urządzeń, którego tożsamość
@@ -745,23 +758,23 @@ architekturze logicznej. Dodatek NSCA posiadał budowę monolityczną,
 przez co możliwe było dostarczanie do niego danych tylko i~wyłącznie
 jedną drogą (zdefiniowany przez dodatek protokół komunikacyjny)
 i~przekazywanie ich jedynie do jednego miejsca (plik komend
-zewnątrznych). NSCAv2 posiada natomiast budowę modularną, której
+zewnętrznych). NSCAv2 posiada natomiast budowę modularną, której
 schemat logiczny został przedstawiony na rys.~\ref{fig:odbiorczy}.
 
 Elementem, który odbiera dane od klienta jest dostawca danych. Jest to
 implementacja pewnego protokołu komunikacyjnego pomiędzy dodatkiem,
-a~aplikacją znajdującą sie na urządzeniem mobilnym. W~ramach tej pracy
+a~aplikacją znajdującą się na urządzeniem mobilnym. W~ramach tej pracy
 przygotowano jednego dostawcę danych, który implementuje zaproponowany
 w~niej protokół komunikacyjny. Architektura programu zakłada możliwość
 istnienia wielu niezależnych od siebie dostawców danych.
 
 Modułem odpowiedzialnym, za przekazywanie danych do systemu
-monitorujacego jest konsument danych. Jest to implementacja metody
+monitorującego jest konsument danych. Jest to implementacja metody
 przekazywania danych w~zależności od miejsca docelowego. W~ramach tej
 pracy dostarczono konsumenta danych, który zapisuje otrzymane dane do
 pliku komend zewnętrznych systemu Icinga oraz konsumenta danych, który
 wypisuje otrzymane dane w~postaci logów programu. Konsumentów danych
-również moze być więcej niż jeden.
+również może być więcej niż jeden.
 
 Istnienie wielu konsumentów oraz wielu dostawców danych powoduje
 konieczność dodania obiektu, który będzie definiował powiązania
@@ -772,7 +785,7 @@ te definiowane są przez administratora w~pliku konfiguracyjnym.
 
 Wymagania przedstawione w~\ref{chap:Wymagania} wymuszają umożliwienie
 dodawania nowych algorytmów zarówno kryptograficznych jak i~algorytmów
-uwierzytelnienie klienta. Aby spełnic wymagania, wyróżnione zostały
+uwierzytelnienie klienta. Aby spełnić wymagania, wyróżnione zostały
 w~programie dwa moduły pomocnicze:
 
 \begin{itemize}
