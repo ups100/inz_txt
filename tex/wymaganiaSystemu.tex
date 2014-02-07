@@ -11,8 +11,8 @@ z~popularyzacji podejścia BYOD czyli przynieś swoje własne urządzenie
 (ang. {\em Bring Your Own Device}). W~firmach, które stosują to
 podejście pracownicy upoważnieni są do przynoszenia do pracy swoich
 prywatnych urządzeń, takich jak tablety, telefony czy
-laptopy. Urządzenia te uzyskują dostęp dostęp do wielu chronionych
-zasobów firmowych przez co konieczne jest zapewnienie w~organizacji
+laptopy. Urządzenia te uzyskują dostęp do wielu chronionych zasobów
+firmowych przez co konieczne jest zapewnienie w~organizacji
 odpowiedniego poziomu bezpieczeństwa. Wraz z~popularyzacją rozwiązań
 chmurowych pozwalających na realizację idei IaaS ({\em Infrastructure
   as a~Service}) możliwa jest tania i~wydajna wirtualizacja nie tylko
@@ -20,23 +20,23 @@ serwerów usługowych ale coraz częściej również stacji klienckich czy
 całych aplikacji. Użytkownik może dzięki temu pracować w~tym samym
 środowisku, niezależnie od urządzenia, które aktualnie
 wykorzystuje. Zwiększa to elastyczność pracy, jednak niesie również za
-sobą potrzebę monitorowanie urządzeń mobilnych. W~przypadku urządzeń
-firmowych, pozwoli to na skorelowanie awarii występujących na
+sobą potrzebę monitorowania urządzeń mobilnych. W~przypadku urządzeń
+firmowych pozwoli to np. na skorelowanie awarii występujących na
 urządzeniach mobilnych, z~tymi, które występują na urządzeniach
-stacjonarnych, które są wykorzystywane do wirtualizacji. W~przypadku
-osób prywatnych monitoring urządzeń mobilnych może służyć wykrywaniu
-zachowań potencjalnie niebezpiecznych lub kontroli rodzicielskiej.
-W~tym rozdziale przedstawiono charakterystykę monitorowania klasycznej
-infrastruktury oraz takiej, w~której znajdują się urządzenia
-mobilne. Ponieważ zagadnienie monitorowania tych ostatnich jest
-rozwijane od niedawna, konieczna jest również definicja wymagań
-stawianych tego typu systemom.
+stacjonarnych, oceny jakości urządzeń różnych producentów
+itp. W~przypadku osób prywatnych monitoring urządzeń mobilnych może
+służyć wykrywaniu zachowań potencjalnie niebezpiecznych lub kontroli
+rodzicielskiej.  W~tym rozdziale przedstawiono charakterystykę
+monitorowania klasycznej infrastruktury oraz takiej, w~której znajdują
+się urządzenia mobilne. Ponieważ zagadnienie monitorowania tych
+ostatnich jest rozwijane od niedawna, konieczna jest również definicja
+wymagań stawianych tego typu systemom.
 
 \section[Monitorowanie rozproszone][Monitorowanie rozproszone klientów
 statycznych]{Monitorowanie rozproszone klientów statycznych}
 
-Poprzez klienta statycznego rozumiemy wszelkie urządzenia wchodzące
-w~skład infrastruktury IT przedsiębiorstwa, które pracują
+Poprzez klienta statycznego rozumiemy wszelkie urządzenia stacjonarne
+wchodzące w~skład infrastruktury IT przedsiębiorstwa, które pracują
 nieprzerwanie lub w~dobrze określonych przedziałach czasowych
 i~posiadają dobrze zdefiniowaną hierarchię. Wzajemne relacje pomiędzy
 tymi urządzeniami wynikają w~dużej mierze ze~struktury sieci, lecz
@@ -106,12 +106,13 @@ systemu jest gromadzenie i~analiza danych historycznych.
 Wieloinstancyjny system monitorujący wymaga zdecydowanie więcej
 zasobów, jednak pozwala na osiągnięcie znacznie wygodniejszego
 i~bardziej niezawodnego systemu. Ponadto dzięki takiej konfiguracji
-nie ma potrzeby ingerencji w~monitorowane serwery, co redukuje ich
-obciążenie, a~także zwiększa bezpieczeństwo. Warto również wspomnieć,
-że na przykład system Icinga daje możliwość integracji wielu instancji
+nie ma potrzeby ingerencji w~monitorowane serwery, gdyż możliwe jest
+monitorowanie ich usług w sposób aktywny. Redukuje to ich obciążenie,
+a~także zwiększa bezpieczeństwo. Warto również wspomnieć, że na
+przykład system Icinga daje możliwość integracji wielu instancji
 rdzenia monitorującego przy pomocy wspólnej bazy danych. Dzięki temu
 administrator danej sieci ma możliwość monitorowania i~konfigurowania
-wielu instancji przy pomocy wspólnego interfejsu. Niestety w~systemie
+wielu instancji przy pomocy wspólnego interfejsu. Niestety, w~systemie
 Nagios rozwiązanie to zaliczane jest do części korporacyjnej tego
 systemu, przez co posiada zamknięte źródła i~jego wykorzystanie wymaga
 zakupu licencji. Rozwiązania oparte na istnieniu jednej centralnej
@@ -126,35 +127,34 @@ mobilnych]{Monitorowanie rozproszone klientów mobilnych}
 
 Rosnąca w~ostatnich latach popularność technologii mobilnych
 przyczyniła się do pojawienia się w~firmach bardzo dużej liczby
-urządzeń mobilnych, które wymagają zarządzania
+urządzeń mobilnych, które również wymagają zarządzania
 i~monitorowania. Urządzenia mobilne są używane bardzo często przez
 przedstawicieli handlowych oraz menadżerów w~celu wykonywania pracy
-poza obszarem firmy. Ponadto coraz więcej firm świadczących
-zaawansowane technicznie usługi wyposaża swoich pracowników w~bardzo
-drogi sprzęt, który wymaga ciągłego monitorowania. Duże korporacje
-coraz częściej decydują się również na wyposażenie swoich pracowników
-w~smartfony lub tablety, które mają ułatwić współpracę z~firmą w
-trakcie podróży służbowych czy spotkań z~klientami.
+poza obszarem firmy. Duże korporacje coraz częściej decydują się
+również na wyposażenie swoich pracowników w~smartfony lub tablety,
+które mają ułatwić współpracę z~firmą w trakcie podróży służbowych czy
+spotkań z~klientami.
 
 Klient mobilny posiada szereg cech, które znacząco odróżniają go od
 klientów statycznych. Przede wszystkim należy zauważyć, że urządzenia
 o~których mowa, bardzo często pracują poza obszarem firmy. Wynika
 z~tego, że nie zawsze możliwe jest utrzymywanie takich urządzeń
 w~wirtualnej sieci prywatnej, gdyż urządzenie może znaleźć się
-w~obszarze, gdzie nie ma dostępu do Internetu. Ponadto nie zawsze
-konieczne jest, aby urządzenia mobilne pracowały podłączone do sieci
-firmowej. Użytkownicy często wymagają jedynie dostępu do internetu
-i~innych funkcji tego urządzenia. Warto więc zauważyć, że urządzenia
-te są często narażone na dostęp do sieci o~bardzo niskim poziomie
-zaufania i~wielu zagrożeniach. Oznacza to w~szczególności, iż
+w~obszarze, gdzie w~ogóle nie ma dostępu do Internetu. Ponadto, nie
+zawsze konieczne jest, aby urządzenia mobilne pracowały podłączone do
+sieci firmowej. Użytkownicy często wymagają jedynie dostępu do
+internetu i~innych funkcji tego urządzenia. Warto więc zauważyć, że
+urządzenia te są często narażone na dostęp do sieci o~bardzo niskim
+poziomie zaufania i~wielu zagrożeniach. Oznacza to w~szczególności, iż
 urządzenie mobilne zazwyczaj posiada zmienny adres IP, który rzadko
 jest adresem globalnym. Również struktura sieci, z~której korzystają
 klienty mobilne jest dynamiczna i~znajduje się poza obszarem
 monitorowania administratorów danego przedsiębiorstwa. Oznacza to, że
 w~przeciwieństwie do klienta statycznego, gdzie każda utrata łączności
 była awarią, utrata łączności jest normalnym elementem działania
-systemu. Stwarza to konieczność gromadzenia oraz synchronizacji danych
-na urządzeniu mobilnym.
+systemu. Stwarza to konieczność okresowego gromadzenia danych
+bezpośrednio na urządzeniu mobilnym oraz ich odsyłania w~dogodnym
+czasie.
 
 Znacząca większość klientów mobilnych dzięki kontaktom z~siecią
 pozafirmową posiada, w~przeciwieństwie do klientów statycznych,
@@ -164,7 +164,7 @@ urządzenia mobilnego z~urządzeniami w~firmie prowadzić może do
 istotnych problemów funkcjonalnych (np. brak możliwości
 uwierzytelnienia, trudność w śledzeniu kolejności zdarzeń). Warto
 jednak przyjąć pewne określone zakresy tolerancji czasowych. Wśród
-serwerów czas jest synchronizowany z~dokładnością do mili sekund. Taka
+serwerów czas jest synchronizowany z~dokładnością do milisekund. Taka
 dokładność w~przypadku klienta mobilnego jest zazwyczaj
 zbędna. Bardzo często istotnymi jednostkami czasu stają się dopiero
 sekundy lub nawet minuty.
@@ -193,23 +193,22 @@ utraty urządzenia nie powinno się na nim przechowywać tajnych danych,
 dzięki którym można by skompromitować cały system z~którego korzysta
 klient.
 
-Klient mobilny znacznie różni się swoją charakterystyką od klienta
-statycznego. Różni się również zbiór elementów, które są
-monitorowane. W~przypadku klientów statycznych znaczna część wysiłków
-jest ukierunkowana na pomiar usług świadczonych przez dany system na
-rzecz innych systemów lub systemów świadczących określone usługi dla
-systemu klienckiego (pomiar jakości usługi z punktu widzenia
-urządzenia klienckiego). Natomiast w~przypadku klientów mobilnych
-istotniejsze wydaje się być monitorowanie parametrów wewnętrznych
-danego klienta i~ewentualnie usług świadczonych przez klienta w ramach
-grupy klientów mobilnych. Przykładem może być laptop oraz telefon
-komórkowy, który pozwala mu na dostęp do internetu. Istotne z~punktu
-widzenia monitorowania są parametry wewnętrzne obu tych urządzeń takie
-jak stan baterii, siła sygnału itd. oraz jakość usługi --- w~tym
-przypadku usługi dostępu do internetu świadczonej przez telefon na
-rzecz laptopa. Sytuacja ta jest typowa i~nie jest zazwyczaj spotykane,
-aby klient mobilny udostępniał swoje usługi poza grupę klientów
-w~której on operuje.
+Klient mobilny znacznie różni również zbiorem elementów elementów,
+które są monitorowane. W~przypadku klientów statycznych znaczna część
+wysiłków jest ukierunkowana na pomiar usług świadczonych przez dany
+system na rzecz innych systemów lub systemów świadczących określone
+usługi dla systemu klienckiego (pomiar jakości usługi z punktu
+widzenia urządzenia klienckiego). Natomiast w~przypadku klientów
+mobilnych istotniejsze wydaje się być monitorowanie parametrów
+wewnętrznych danego klienta i~ewentualnie usług świadczonych przez
+klienta w ramach grupy klientów mobilnych. Przykładem może być laptop
+oraz telefon komórkowy, który pozwala mu na dostęp do
+Internetu. Istotne z~punktu widzenia monitorowania są parametry
+wewnętrzne obu tych urządzeń takie jak stan baterii, siła sygnału
+itd. oraz jakość usługi --- w~tym przypadku usługi dostępu do
+internetu świadczonej przez telefon na rzecz laptopa. Sytuacja ta jest
+typowa i~nie jest zazwyczaj spotykane, aby klient mobilny udostępniał
+swoje usługi poza grupę klientów, w~której on operuje.
 
 \section[Wymagania][Wymagania dla systemu monitorowania]{Wymagania dla systemu monitorowania}
 
@@ -351,17 +350,17 @@ system monitoringu klienta mobilnego oparty był na jednym z~dostępnych
 darmowych systemów monitorowania. 
 
 Na podstawie analizy systemów monitorujących dostępnych na rynku,
-dokonanej w~\ref{chap:Systemy}, został wybrany system monitorujący
-Icinga. Wybór ten podyktowany jest wieloma zaletami tego
+dokonanej w~rozdz.~\ref{chap:Systemy}, został wybrany system
+monitorujący Icinga. Wybór ten podyktowany jest wieloma zaletami tego
 systemu. Przede wszystkim należy zauważyć przemyślaną
 architekturę. System ten posiada budowę modularną, dzięki czemu
 możliwe jest instalowanie jego komponentów na wielu fizycznych
 urządzeniach, co umożliwia lepsze zarządzenie obciążeniem
-serwerów. Ponadto posiada on bogaty zestaw wtyczek przeznaczonych do
-monitorowania wielu popularnych urządzeń i usług. Umożliwia to wzrost
-przepustowości całego systemu, a~zatem pozwala na monitorowanie
-bardziej rozbudowanej sieci i infrastruktury w~sposób
-rozproszony. System ten umożliwia zarówno monitorowanie pasywne, jak
+serwerów. Umożliwia to wzrost przepustowości całego systemu, a~zatem
+pozwala na monitorowanie bardziej rozbudowanej sieci i infrastruktury
+w~sposób rozproszony. Ponadto posiada on bogaty zestaw wtyczek
+przeznaczonych do monitorowania wielu popularnych urządzeń i
+usług. System ten umożliwia zarówno monitorowanie pasywne, jak
 i~wieloinstancyjne. Należy również wyróżnić system Icinga, gdyż jako
 jedyny udostępnia on w~sposób darmowy możliwość wspólnego zarządzania
 i~podglądu wieloinstancyjnego systemu monitorującego. Nowoczesny
@@ -392,8 +391,8 @@ o~wykorzystaniu do komunikacji z~klientem mobilnym gotowego dodatku do
 systemu Icinga lub zaprojektowaniu i~zaimplementowaniu nowego
 rozwiązania.
 
-Wstępna analiza wymagań wykazała konieczność implementacji aplikacji
-mobilnej pozwalającej na monitorowanie danego urządzenia i~przesyłanie
-rezultatów do rdzenia monitorującego. Taka aplikacja przeznaczona dla
-platformy Android została wykonana przez Pana Marcina Kubika
-w~\cite{book:pracaKubika}.
+Wstępna analiza wymagań wykazała też konieczność implementacji
+aplikacji mobilnej pozwalającej na monitorowanie danego urządzenia
+i~przesyłanie rezultatów do rdzenia monitorującego. Taka aplikacja
+przeznaczona dla platformy Android została wykonana przez Pana Marcina
+Kubika i~przedstawiona w~\cite{book:pracaKubika}.
