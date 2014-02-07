@@ -2,7 +2,7 @@
 
 Komputery oraz inne urządzenia tworzące infrastrukturę informatyczną
 przedsiębiorstwa odgrywają bardzo ważną rolę dla procesów biznesowych
-firmy. Wiele współczesnych ośrodków badawczych, jak i~firm nie może
+firmy. Wiele współczesnych ośrodków badawczych, jak i~firm, nie może
 w~ogóle funkcjonować, jeśli zostaną pozbawione swojej
 infrastruktury~IT. Znaczna część urządzeń połączona jest ze sobą
 tworząc sieć prywatną --- intranet. Do ich połączenia konieczna jest
@@ -112,49 +112,52 @@ zarówno w~sposób aktywny, jak i~pasywny. Po wstępnym przetworzeniu
 takich danych muszą one zostać zsynchronizowane pomiędzy instancjami,
 a~następnie umieszczone w~instancji nadrzędnej lub innym zbiorczym
 miejscu docelowym. Rozwiązanie to posiada liczne zalety i~jest bardzo
-często stosowane. Dodatkowo niektóre z~systemów umożliwiają wymianę
-danych pomiędzy instancjami bez konieczności istnienia wyróżnionej
-instancji nadrzędnej.
+często stosowane. Dodatkowo niektóre z~systemów (np. Icinga)
+umożliwiają wymianę danych pomiędzy instancjami bez konieczności
+istnienia wyróżnionej instancji nadrzędnej.
 
 Niezależnie od przyjętej architektury monitorowania, samo
 przedstawienie administratorowi danych bieżących jest często
-niewystarczające. Precyzyjna diagnoza awarii w~możliwe krótkim czasie od
-jej wystąpienia jest bardzo ważna. Jednak istotna jest również
-możliwość analizy historycznych awarii, aby umożliwić wykrycie
+niewystarczające. Precyzyjna diagnoza awarii w~możliwe krótkim czasie
+od jej wystąpienia jest bardzo ważna. Jednak istotna jest również
+możliwość analizy danych historycznych awarii, aby umożliwić wykrycie
 potencjalnie krytyczniejszej awarii jeszcze przed jej
-wystąpieniem. Dostępne są na rynku systemy, które pozwalają na
-gromadzenie danych o~odczytach w~bazach danych. Kolejnym krokiem może
-być analiza takiej bazy z~wykorzystaniem systemu eksperckiego,
-który wykaże odpowiednie zależności i~na tej podstawie umożliwi
-wykrycie potencjalnej awarii jeszcze przed jej wystąpieniem.
+wystąpieniem. Dostępne są na rynku systemy monitorujące, które
+pozwalają na gromadzenie informacji w~bazach danych. Kolejnym krokiem
+może być wówczas analiza takiej bazy z~wykorzystaniem systemu
+eksperckiego, który wykaże odpowiednie zależności i~na tej podstawie
+umożliwi wykrycie potencjalnej awarii jeszcze przed jej wystąpieniem.
 
 Współczesne korporacje posiadają nie tylko rozbudowaną infrastrukturę
 sieciową, lecz również bardzo dużą liczbę urządzeń mobilnych, takich
 jak laptopy, tablety czy inne urządzenia specyficzne dla danej
-firmy. Bardzo często okazuje się, że poprawne działanie tych urządzeń
-wpływa znacząco na efektywność pracy osób, które ich
-używają. Monitorowanie takiego urządzenie jest zadaniem
+firmy. Wraz z upowszechnieniem się rozwiązań chmurowych i
+wirtualizacji stacji roboczych popularność zyskuje idea BYOD
+(ang. Bring Your Own Device). Bardzo często okazuje się, że poprawne
+działanie tych urządzeń wpływa znacząco na efektywność pracy osób,
+które ich używają. Monitorowanie takiego urządzenie jest zadaniem
 nietrywialnym. Należy pamiętać, iż urządzenie mobilne może nie mieć
 chwilowej możliwości komunikacji z~systemem monitorującym. Jeśli
 przerwy w~łączności występują stosunkowo często, to w~przypadku braku
 późniejszej synchronizacji danych można doprowadzić do fałszywych
 predykcji systemu eksperckiego. Aby tego uniknąć, konieczne jest
-dostarczenie wyników wszystkich pomiarów do systemu, kiedy tylko
-stanie się to możliwe. W~przypadku klienta mobilnego niezwykle istotna
-jest również kwestia bezpieczeństwa. Urządzenia takie często nie
-pracują wewnątrz sieci firmowej, lecz używają do komunikacji wielu
-różnych, niezaufanych sieci. Dane zebrane podczas monitorowania
-klienta mobilnego mogą zawierać tajemnice handlowe firmy
+lokalne buforowanie danych podlegających analizie i~ich dostarczenie,
+kiedy tylko stanie się to możliwe. W~przypadku klienta mobilnego
+niezwykle istotna jest również kwestia bezpieczeństwa. Urządzenia
+takie często nie pracują wewnątrz sieci firmowej, lecz używają do
+komunikacji wielu różnych, niezaufanych sieci. Dane zebrane podczas
+monitorowania klienta mobilnego mogą zawierać tajemnice handlowe firmy
 (np. adresację wewnętrzną, nazwy zasobów sieciowych). Konieczne jest
-zatem zapewnienie zarówno poufności, jak i~integralności danych podczas
-synchronizacji.
+zatem zapewnienie zarówno poufności, jak i~integralności danych
+podczas synchronizacji.
 
 W~chwili pisania tej pracy, nie udało się odnaleźć na rynku systemu,
-który umożliwiałby monitorowanie klienta mobilnego. Ważne jest
-dostarczenie odpowiedniego systemu, który pozwoli na kompleksowe
-monitorowanie wszystkich urządzeń występujących w~firmie, zarówno
-mobilnych, jak i~statycznych. W~związku z~powyższym w~niniejszej pracy
-wykonano rozbudowę popularnego systemu monitorowania, aby umożliwić
+który umożliwiałby monitorowanie klienta mobilnego zarówno wśród
+systemów bezpłatnych jak i~komercyjnych. Ważne jest dostarczenie
+odpowiedniego systemu, który pozwoli na kompleksowe monitorowanie
+wszystkich urządzeń występujących w~firmie, zarówno mobilnych, jak
+i~statycznych. W~związku z~powyższym w~niniejszej pracy wykonano
+rozbudowę popularnego systemu monitorowania Icinga, aby umożliwić
 monitorowanie przy jego użyciu obu typów urządzeń. W~ramach pracy
 zaproponowany został protokół komunikacyjny pozwalający na przekazanie
 danych z~urządzenia mobilnego do systemu monitorującego. Ponadto
@@ -162,22 +165,25 @@ opracowano i~zaimplementowano dodatek do systemu Icinga pozwalający na
 dostarczenie danych do systemu monitorującego używając zaproponowanego
 protokołu. Praca ta jest częścią systemu monitorowania urządzeń
 mobilnych opracowywanego na Wydziale Elektroniki i~Technik
-Informacyjnych. Ważnym elementem składowym tego systemu jest również
-praca inżynierska Pana Marcina Kubika\cite{book:pracaKubika}, w~której
-zawarto opis implementacji aplikacji monitorującej przeznaczonej dla
-platformy Android. Istotnym etapem tej pracy było również utworzenie
-zaproponowanego systemu monitorowania w~środowisku testowym. Na
-podstawie danych pochodzących z~kilkutygodniowego okresu testowego
-użytkowania systemu potwierdzono konieczność monitorowania zarówno
-urządzeń stacjonarnych, jak i~mobilnych. Podczas testów wykorzystana
-została też wcześniej wspomniana aplikacja opracowana przez Pana Kubika.
+Informacyjnych. Istotnym etapem tej pracy było również utworzenie
+zaproponowanego systemu monitorowania w~środowisku testowym. Ważnym
+elementem składowym tego systemu jest również praca inżynierska Pana
+Marcina Kubika\cite{book:pracaKubika}, w~której zawarto opis
+implementacji aplikacji monitorującej przeznaczonej dla platformy
+Android. Aplikacja ta wykorzystuje opracowany w~ramach niniejszej
+pracy protokół i~dodatek do rejestrowania w~systemie Icinga zbieranych
+danych o~monitorowanym urządzeniu mobilnym. Na podstawie danych
+pochodzących z~kilkutygodniowego okresu testowego użytkowania systemu
+potwierdzono konieczność monitorowania zarówno urządzeń stacjonarnych,
+jak i~mobilnych. Podczas testów wykorzystana została też wcześniej
+wspomniana aplikacja opracowana przez Pana Kubika.
 
 Układ pracy jest następujący. Rozdział~\ref{chap:Systemy} zawiera opis
-oraz porównanie dostępnych na rynków systemów
-monitorowania. W~rozdziale \ref{chap:Wymagania} przedstawiono
-problematykę monitorowania klienta statycznego oraz mobilnego. Ponadto
-po wykonaniu analizy przedstawiono wymagania, jakie są stawiane przed
-systemem kompleksowego monitorowania przedsiębiorstwa. Rozdział
+oraz porównanie kilku wybranych systemów monitorowania o~otwartym
+kodzie. W~rozdziale \ref{chap:Wymagania} przedstawiono problematykę
+monitorowania klienta statycznego oraz mobilnego. Ponadto po wykonaniu
+analizy, przedstawiono wymagania, jakie są stawiane przed systemem
+kompleksowego monitorowania przedsiębiorstwa. Rozdział
 \ref{chap:Icinga} zawiera opis systemu Icinga, na bazie którego
 budowany jest projektowany system. W~rozdziale
 \ref{chap:ProjektSystemu} przedstawiono projekt systemu monitorowania
@@ -186,7 +192,6 @@ zawiera opis wykonanej w~ramach niniejszej pracy implementacji dodatku
 pozwalającego na przekazanie danych o~stanie urządzenia pochodzących
 z~monitorowanego urządzenia mobilnego do systemu Icinga. W~rozdziale
 \ref{chap:Testy} znajduje się opis konfiguracji testowej wykonanego
-systemu, a~także sprawozdanie z~jego użytkowania. Rozdział
-\ref{chap:Podsumowanie} stanowi natomiast podsumowanie niniejszej
-pracy, a~także wskazuje potencjalne możliwości rozwoju wykonanego
-systemu.
+systemu, a~także sprawozdanie z~jego użytkowania. Podsumowanie
+niniejszej pracy zawarto w~rozdz.~\ref{chap:Podsumowanie}, w~którym
+wskazano również potencjalne możliwości rozwoju wykonanego systemu.
