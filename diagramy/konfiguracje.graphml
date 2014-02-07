@@ -1229,8 +1229,7 @@ inGraph<y:LabelModel>
               <y:Geometry height="64.96826171875" width="174.625" x="156.07009936912323" y="3993.5663574218747"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="41.25" modelName="custom" textColor="#000000" visible="true" width="118.578125" x="28.0234375" y="11.859130859375">Moduł odbioru
-danych<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="67.890625" x="53.3671875" y="21.171630859375">NSCAv2<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -1504,14 +1503,14 @@ icinga-web<y:LabelModel>
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="95.4609375" width="164.0" x="-201.96872291746865" y="4185.857275390625"/>
+              <y:Geometry height="110.5381851196289" width="190.5252578678899" x="-222.7924753969969" y="4185.857275390625"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="164.0" x="0.0" y="0.0">Android1</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="190.5252578678899" x="0.0" y="0.0">Android1</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+              <y:BorderInsets bottom="0" bottomF="0.0" left="6" leftF="5.78125" right="0" rightF="0.0" top="0" topF="0.0"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="0.0" y="60.0"/>
@@ -1530,10 +1529,11 @@ icinga-web<y:LabelModel>
         <node id="n61::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
-              <y:Geometry height="44.0" width="134.0" x="-186.96872291746865" y="4222.318212890625"/>
+              <y:Geometry height="59.077247619628906" width="154.7440078678899" x="-202.0112253969969" y="4222.318212890625"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="121.5546875" x="6.22265625" y="10.6875">Moduł mobilny<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="41.25" modelName="custom" textColor="#000000" visible="true" width="145.5625" x="4.590753933944939" y="8.913623809814453">Aplikacja mobilna
+IcingaMini<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -1551,14 +1551,14 @@ icinga-web<y:LabelModel>
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="95.4609375" width="171.5" x="-60.42990063087677" y="4354.6640625"/>
+              <y:Geometry height="108.44941874330289" width="190.5252578678899" x="-73.67390849876668" y="4354.641531307339"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="171.5" x="0.0" y="0.0">Android2</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="190.5252578678899" x="0.0" y="0.0">Android2</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="8" leftF="7.5" right="0" rightF="0.0" top="0" topF="0.0"/>
+              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="6" rightF="5.78125" top="0" topF="0.022531192660608212"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="0.0" y="60.0"/>
@@ -1577,10 +1577,11 @@ icinga-web<y:LabelModel>
         <node id="n62::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
-              <y:Geometry height="44.0" width="134.0" x="-37.92990063087677" y="4391.125"/>
+              <y:Geometry height="56.96595005064228" width="154.7440078678899" x="-58.67390849876668" y="4391.125"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="121.5546875" x="6.22265625" y="10.6875">Moduł mobilny<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="41.25" modelName="custom" textColor="#000000" visible="true" width="145.5625" x="4.590753933944953" y="7.857975025321139">Aplikacja mobilna
+IcingaMini<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -3940,7 +3941,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n92" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -3969,7 +3969,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n92:">
         <node id="n92::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="3116.532078440425" y="3947.3627843934864"/>
@@ -3994,7 +3993,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n93" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -4023,7 +4021,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n93:">
         <node id="n93::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="3342.5649396899917" y="3952.9061242570187"/>
@@ -4048,7 +4045,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n94" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -4077,7 +4073,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n94:">
         <node id="n94::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="3568.5978009395585" y="3952.9061242570187"/>
@@ -4228,7 +4223,7 @@ danych<y:LabelModel>
               <y:Geometry height="64.96826171875" width="183.61099016517562" x="1857.6708652935745" y="4052.6254551526276"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="67.109375" x="58.25080758258764" y="21.171630859375">IDO2DB<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.625" modelName="custom" textColor="#000000" visible="true" width="67.109375" x="58.25080758258787" y="21.171630859374545">IDO2DB<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -4475,7 +4470,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n100" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -4504,7 +4498,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n100:">
         <node id="n100::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="1598.4822517699233" y="3623.453187087073"/>
@@ -4529,7 +4522,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n101" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -4558,7 +4550,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n101:">
         <node id="n101::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="1824.5151130194902" y="3628.996526950605"/>
@@ -4583,7 +4574,6 @@ icinga-web<y:LabelModel>
     </node>
     <node id="n102" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -4612,7 +4602,6 @@ icinga-web<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n102:">
         <node id="n102::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="56.96595005064228" width="34.85371878165097" x="2050.547974269057" y="3628.996526950605"/>
@@ -6412,7 +6401,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e96" source="n92" target="n89::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6423,7 +6411,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e97" source="n93" target="n89::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -6436,7 +6423,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e98" source="n94" target="n89::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6447,7 +6433,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e99" source="n92" target="n89::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6458,7 +6443,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e100" source="n93" target="n89::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6469,7 +6453,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e101" source="n94" target="n89::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6480,7 +6463,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e102" source="n93" target="n95">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6627,7 +6609,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e110" source="n100" target="n97::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6638,7 +6619,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e111" source="n101" target="n97::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6649,7 +6629,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e112" source="n102" target="n97::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -6660,7 +6639,6 @@ wydajnościowe<y:LabelModel>
       </data>
     </edge>
     <edge id="e113" source="n101" target="n103">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

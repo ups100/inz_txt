@@ -5,22 +5,22 @@ Testowanie systemów składających się z~wielu komunikujących się
 ze~sobą elementów jest zadaniem bardzo skomplikowanym. Każdy protokół
 komunikacyjny stanowi system rozproszony, którego testowanie
 i~implementacja jest zadaniem nietrywialnym. Ze względu na
-rozproszoność systemu, a~także wpływ czynników zewnętrznych takich jak
-jakość sygnału czy próby ataków dostarczenie jedynie testów
+rozproszoność systemu, a~także wpływ czynników zewnętrznych, takich
+jak jakość sygnału czy próby ataków, dostarczenie jedynie testów
 jednostkowych czy scenariuszowych jest niewystarczające. W~związku
 z~powyższym w~ramach tej pracy wykonano testową konfigurację systemu,
 która została uruchomiona w~niewielkiej sieci domowej. Pozwoliło to na
-uruchomienie kompletnego systemu oraz weryfikację zarówno poprawności
-implementacji jak i~zdefiniowanych wymagań.
+uruchomienie kompletnego systemu oraz weryfikację poprawności
+implementacji i~zdefiniowanych wymagań.
 
 \section[Opis infrastruktury][Opis infrastruktury testowej]{Opis infrastruktury testowej}
 
-Konfiguracja została wykonana w~mieszkaniu autora w~oparciu na
-istniejącej infrastrukturze sieci lokalnej. Sercem konfiguracji jest
+Konfiguracja została wykonana w~mieszkaniu autora w~oparciu
+o~istniejącą infrastrukturę sieci lokalnej. Sercem konfiguracji jest
 laptop HP Compaq 6710b. Został na nim zainstalowany system operacyjny
-Linux. Wybrano najnowszą dostępną w~czasie wykonywania konfiguracji
-wersję dystrybucji Ubuntu - 13.10. System został zainstalowany
-w~wersji 64 bitowej. W~celu zapewnienia możliwości łatwego
+Linux. Wybrano najnowszą dostępną w~czasie wykonywania konfiguracji,
+wersję dystrybucji Ubuntu --- 13.10. System został zainstalowany
+w~wersji 64-bitowej. W~celu zapewnienia możliwości łatwego
 przeniesienia wykonanej konfiguracji systemu monitorującego, utworzono
 na tym serwerze maszynę wirtualną. Do jej stworzenia użyto narzędzi
 opartych o bibliotekę libvirt. Maszyna wirtualna uruchamiana jest jako
@@ -35,32 +35,31 @@ adresach MAC.
 
 Poza laptopem oraz maszyną wirtualną w~sieci dostępne są również inne
 urządzenia. Pierwszym z~tych urządzeń jest drukarka sieciowa Samsung
-CLP-610ND. Posiada ona interfejs sieciowy na którym udostępniana jest
-usługa zarówno bezpośredniego drukowania jak i~administracji poprzez
-stronę internetową z~użyciem protokołu HTTP. Drugie urządzenie jest to
-router ASUS WL-500GPv2. Jest to element odpowiedzialny za przydział
-adresów w~całej sieci z~użyciem protokołu DHCP. Ponadto jest on bramą
-domyślną dla wszystkich urządzeń znajdujących się w~sieci
-lokalnej. Wyposażony jest on zarówno w~interfejs przewodowy jak
-i~bezprzewodowy. Urządzenie to udostępnia panel administracyjny
-w~formie strony internetowej poprzez protokół HTTP. Ponadto w~sieci
-znajduje się przełącznik ASUS GigaX 1005/G, dzięki któremu urządzenia
-połączone są w~sieć lokalną bez konieczności korzystania
-z~routera. W~dalszych rozważaniach, urządzenie to zostało pominięte,
-ponieważ jest to prosty przełącznik warstwy drugiej i~nie jest możliwe
-jego monitorowanie.
+CLP-610ND. Posiada ona interfejs sieciowy, na którym udostępniana jest
+usługa bezpośredniego drukowania i~administracji poprzez stronę
+internetową z~użyciem protokołu HTTP. Drugie urządzenie to router ASUS
+WL-500GPv2. Jest to element odpowiedzialny za przydział adresów
+w~całej sieci z~użyciem protokołu DHCP. Ponadto jest on bramą domyślną
+dla wszystkich urządzeń znajdujących się w~sieci lokalnej. Wyposażony
+jest w~interfejs zarówno przewodowy, jak i~bezprzewodowy. Urządzenie
+to udostępnia panel administracyjny w~formie strony internetowej
+poprzez protokół HTTP. Ponadto w~sieci znajduje się przełącznik ASUS
+GigaX 1005/G, dzięki któremu urządzenia połączone są w~sieć lokalną
+bez konieczności korzystania z~routera. W~dalszych rozważaniach
+urządzenie to zostało pominięte, ponieważ jest to prosty przełącznik
+warstwy drugiej i~nie jest możliwe jego monitorowanie.
 
 Testowa sieć lokalna zawiera zdecydowanie zbyt mało elementów, aby móc
 w~pełni przetestować działanie systemu. Ponadto jest ona w~znacznym
 stopniu odizolowana od czynników zewnętrznych mogących wpływać na
-pracę systemu monitorującego. W~celu umożliwienia wykonania bardziej
-realistycznych testów postanowiono monitorować dwa dostępne publicznie
-serwery. Pierwszym z~nich jest serwer google.com. Drugi natomiast jest
+pracę systemu monitorującego. W~celu wykonania bardziej realistycznych
+testów postanowiono monitorować dwa dostępne publicznie
+serwery. Pierwszym z~nich jest serwer google.com. Drugi natomiast to
 serwer mion.elka.pw.edu.pl przeznaczony dla studentów Wydziału
 Elektroniki i~Technik Informacyjnych Politechniki Warszawskiej.
 
-W~ramach niniejszej pracy wykonano projekt oraz implementację systemu
-monitorowania klienta mobilnego jak i~stacjonarnego. W~związku
+W~ramach niniejszej pracy wykonano rozbudowę systemu monitorującego
+Icinga o~funkcjonalność monitorowania klienta mobilnego. W~związku
 z~powyższym konieczne było uwzględnienie również klientów mobilnych
 w~konfiguracji testowej. Dzięki uprzejmości Pana Marcina Kubika
 możliwe było wykorzystanie opracowanego przez niego modułu mobilnego
@@ -70,9 +69,9 @@ systemu. Oba urządzenia były w~trakcie testów używane do codziennych
 czynności, co pozwoliło na symulacje normalnych warunków pracy
 systemu.
 
-W celu umożliwienia komunikacji klienta mobilnego z~modułem odbiorczym
-spoza sieci domowej, konieczne było użycie mechanizmu przekazywania
-portów na wspomnianym wcześniej routerze. Schemat wykonanej testowej
+Aby umożliwić komunikację aplikacji mobilnej z~NSCAv2 spoza sieci
+domowej, konieczne było użycie mechanizmu przekazywania portów na
+wspomnianym wcześniej routerze. Schemat wykonanej testowej
 infrastruktury przedstawiono na \ref{fig:schematSieci}. Na schemacie
 zachowano porządek oznaczeń urządzeń przedstawiony w tabeli
 \ref{tab:devices}.
@@ -90,26 +89,26 @@ zachowano porządek oznaczeń urządzeń przedstawiony w tabeli
 \caption{Objaśnienia nazw urządzeń wykorzystywanych w~infrastrukturze.}
 \label{tab:devices}
 \begin{tabular}{|p{4cm}||p{10cm}|}
-\hline
-Nazwa & Opis \\
-\hline \hline
-notebook-old & System zainstalowany natywne na laptopie HP 6710b. \\
-\hline
-icinga-srv & System uruchomiony na maszynie wirtualnej na urządzeniu notebook-old. \\
-\hline
-samsung-clp610nd & Drukarka Samsung CLP-610ND znajdująca się w sieci lokalnej \\
-\hline
-\raggedright{wl-500gPv2 175.235.203.163} & \raggedright{Router ASUS WL-500GPv2 o zewnętrznym adresie IP 175.235.203.163}
-\tabularnewline
-\hline
-google.com & Serwer popularnej wyszukiwarki internetowej google. \\
-\hline
-mion.elka.pw.edu.pl & Serwer mion zarządzany przez WEiTI PW. \\
-\hline
-Android 1 & Telefon Samsung Galaxy Note 3. \\
-\hline
-Android 2 & Telefon Samsung Galaxy S2 Plus. \\
-\hline
+  \hline
+  Nazwa & Opis \\
+  \hline \hline
+  notebook-old & System zainstalowany natywnie na laptopie HP 6710b. \\
+  \hline
+  icinga-srv & System uruchomiony na maszynie wirtualnej na urządzeniu notebook-old. \\
+  \hline
+  samsung-clp610nd & Drukarka Samsung CLP-610ND znajdująca się w sieci lokalnej \\
+  \hline
+  \raggedright{wl-500gPv2 175.235.203.163} & \raggedright{Router ASUS WL-500GPv2 o zewnętrznym adresie IP 175.235.203.163}
+  \tabularnewline
+  \hline
+  google.com & Serwer popularnej wyszukiwarki internetowej Google. \\
+  \hline
+  mion.elka.pw.edu.pl & Serwer mion zarządzany przez WEiTI PW. \\
+  \hline
+  Android 1 & Telefon Samsung Galaxy Note 3. \\
+  \hline
+  Android 2 & Telefon Samsung Galaxy S2 Plus. \\
+  \hline
 \end{tabular}
 \end{table}
 
@@ -120,9 +119,9 @@ Monitorowana infrastruktura jest dość prosta i~mała. Pozwala to na
 użycie jednego rdzenia monitorującego zarówno do monitorowania
 infrastruktury statycznej, jak i~do przetwarzania danych pochodzących
 od klientów mobilnych. W~celu zapewnienia konfiguracji zbliżonej do
-warunków użytkowania systemu, wykonano zalecaną konfigurację dla
-całego systemu. Konfiguracja całego systemu składa się z~następujących
-elementów:
+warunków użytkowania systemu, wykonano konifgurację wraz z dodatkien
+inGraph oraz baza danych dla systemu Icinga. Konfiguracja całego
+systemu składa się z~następujących elementów:
 
 \begin{itemize}
 \item rdzeń monitorujący Icinga,
@@ -135,22 +134,23 @@ elementów:
     przechowywane są dane warstwy prezentacji. Baza ta nie została
     wymieniona w~opisie, gdyż nie zawiera ona danych o stanie sieci,
     a~jedynie dane interfejsu graficznego.},
-\item wykonany w tej pracy moduł odbiorczy,
-\item moduł mobilny dla platformy Android,
+\item wykonany w~tej pracy dodatek NSCAv2,
+\item aplikacja mobilna dla platformy Android, napisana przez Pana
+  Kubika,
 \item zestaw wtyczek.
 \end{itemize}
 
 Aby zapewnić możliwość łatwego przeniesienia wykonanej konfiguracji
-testowej wszystkie elementy poza modułem mobilnym zostały utworzone na
-systemie zainstalowanym na maszynie wirtualnej\footnote{Możliwa jest
-  oczywiście separacja elementów zgodnie z~opisem zawartym w~
+testowej wszystkie elementy poza aplikacjom mobilną zostały utworzone
+na systemie zainstalowanym na maszynie wirtualnej\footnote{Możliwa
+  jest oczywiście separacja elementów zgodnie z~opisem zawartym w~
   \ref{chap:ProjektSystemu}. Wykonanie jej w~tym przypadku jest jednak
-  nieuzasadnione i doprowadziło by jedynie do licznych utrudnień
-  w~przypadku przeniesienie na inne urządzenie.}. Schemat
+  nieuzasadnione i doprowadziłoby jedynie do licznych utrudnień
+  w~przypadku przeniesienia na inne urządzenie.}. Schemat
 rozmieszczenia oraz współpracy poszczególnych elementów został
 przedstawiony na \ref{fig:deployment}. System monitorowania do
-poprawnego funkcjonowania potrzebuje zarówno serwera bazy danych MySQL
-jak i~serwera http. W~wykorzystywanej wersji dystrybucji Ubuntu
+poprawnego funkcjonowania potrzebuje zarówno serwera bazy danych
+MySQL, jak i~serwera http. W~wykorzystywanej wersji dystrybucji Ubuntu
 wymagane pakiety zostały zainstalowane domyślnie podczas instalacji
 systemu.
 
@@ -163,16 +163,16 @@ systemu.
 
 Rdzeń systemu monitorowania został skonfigurowany tak, aby monitorować
 w~sposób aktywny wszystkie usługi klientów statycznych. Do
-monitorowania użyto zestaw standardowych wtyczek rozwijanych
+monitorowania użyto zestawu standardowych wtyczek rozwijanych
 pierwotnie dla systemu Nagios. Lista monitorowanych usług dla każdego
 urządzenia została przedstawiona w~formie tabeli
 \ref{tab:hostServiceStatic}. Niektóre z~monitorowanych wartości
 wymagają użycia dodatkowego narzędzi - NRPE\footnote{ang. {\em Nagios
     Remote Plugin Executor} -- narzędzie do zdalnego uruchamiania
-  wtyczek. Dokładny opis można znaleźć w XXX}. Jest to narzędzie,
-które pozwala na uruchomienie wtyczki na zdalnej maszynie. Jest on
-niezbędny do pomiaru parametrów wewnętrznych danego urządzenia, takich
-jak zużycie procesora czy pamięci.
+  wtyczek. Dokładny opis można znaleźć w~\cite{www:NRPE}.}. Jest to
+narzędzie, które pozwala na uruchomienie wtyczki na zdalnej
+maszynie. Jest on niezbędny do pomiaru parametrów wewnętrznych danego
+urządzenia, takich jak zużycie procesora czy pamięci.
 
 \begin{table}
 \centering
@@ -226,7 +226,7 @@ SMTP &  &  &  &  &  & \multicolumn{1}{|c|}{Tak} \\
 W celu umożliwienia monitorowania klienta mobilnego konieczne było
 również zdefiniowanie w~systemie Icinga urządzeń Android1 oraz
 Android2, a~także odpowiednich usług. Udostępniona przez Pana Marcina
-Kubika wersja modułu mobilnego posiada duży zbiór parametrów
+Kubika wersja aplikacji mobilnej posiada duży zbiór parametrów
 urządzenia, które można monitorować. Spośród dostępnych parametrów
 wybrano następujące:
 
@@ -237,38 +237,38 @@ wybrano następujące:
 \item obciążenie procesora.
 \end{itemize}
 
-Konieczna była również konfiguracja modułu odbiorczego. Ponieważ
-telefony posiadały różnych użytkowników, zostały utworzone dwa konta
+Konieczna była również konfiguracja dodatku NSCAv2. Ponieważ telefony
+posiadały różnych użytkowników, zostały utworzone dwa konta
 klientów. Jako jedyną dopuszczalną metodę uwierzytelnienia wybrano
 login oraz hasło. W~celu zapewnienia transportu danych konieczne było
-również nadanie utworzonym użytkownikom uprawnień do przesyłania
-danych o~ich urządzeniu oraz usługach. W~celu umożliwienia przesłania
-danych od klienta konieczna była konfiguracja dostawcy
-danych. Pierwszym jej etapem było wygenerowanie pary kluczy RSA
-i~umieszczenie klucza prywatnego i~publicznego na serwerze,
-a~publicznego na urządzeniach mobilnych. Konieczne było również
-podanie w~pliku konfiguracyjnym modułu odbiorczego ścieżki do klucza
-prywatnego, a~także numeru portu na którym powinien on czekać na
-przychodzące połączenia. Ponieważ plik komend zewnętrznych w~wykonanej
-instalacji systemu Icinga znajduje się w~standardowym miejscu,
-konieczna była jedynie bezparametrowa deklaracja konsumenta
-danych. Ostatnim etapem konfiguracji było zdefiniowanie ścieżki danych
-dla klientów prowadzącej od dostawcy danych do odbiorcy.
+również nadanie utworzonym użytkownikom uprawnień dotyczących urządzeń
+i usług. W~celu umożliwienia przesłania danych od klienta konieczna
+była konfiguracja dostawcy danych. Pierwszym jej etapem było
+wygenerowanie pary kluczy RSA oraz umieszczenie klucza prywatnego
+i~publicznego na serwerze, a~publicznego na urządzeniach
+mobilnych. Konieczne było również podanie w~pliku konfiguracyjnym
+dodatku NSCAv2 ścieżki do klucza prywatnego, a~także numeru portu na
+którym powinien on czekać na przychodzące połączenia. Ponieważ plik
+komend zewnętrznych w~wykonanej instalacji systemu Icinga znajduje się
+w~standardowym miejscu, konieczna była jedynie bezparametrowa
+deklaracja konsumenta danych. Ostatnim etapem konfiguracji było
+zdefiniowanie ścieżki danych dla klientów, prowadzącej od dostawcy
+danych do odbiorcy.
 
-Przedstawiona na \ref{fig:schematSieci} topologia sieci wyraźnie
+Przedstawiona na rys.~\ref{fig:schematSieci} topologia sieci wyraźnie
 pokazuje, że istnieje w~sieci urządzenie, którego awaria może
 spowodować utratę łączności z~wieloma urządzeniami. Elementem tym jest
 router wl-500gpv2. Awaria tego urządzenia powoduje, że serwer icinga
 traci możliwość wykonywania sprawdzeń zarówno tego urządzenia, jak
 i~wszystkich urządzeń znajdujących się poza siecią lokalną. W~celu
-ograniczenia liczby komunikatów otrzymywanych w ~przypadku takiej
+ograniczenia liczby komunikatów otrzymywanych w~przypadku takiej
 awarii konieczne było zdefiniowanie odpowiedniej struktury
 sieci. Rysunek \ref{fig:logicznySchematSieci} przedstawia logiczną
-strukturę połączeń. Została ona wygenerowane przez program Icinga, na
+strukturę połączeń. Została ona wygenerowane przez program Icinga na
 podstawie plików konfiguracyjnych monitorowanych urządzeń. Łatwo
-zauważyć, że jedyna ścieżka od systemu monitorującego, do wszystkich
+zauważyć, że jedyna ścieżka od systemu monitorującego do wszystkich
 urządzeń spoza sieci lokalnej prowadzi przez router
-wl-500gpv2. Odpowiada to oczywiście fizycznym zależnością w~sieci
+wl-500gpv2. Odpowiada to oczywiście fizycznym zależnościom w~sieci
 i~umożliwi precyzyjną diagnozę ewentualnej awarii.
 
 \begin{figure}[ht]
@@ -291,19 +291,19 @@ zauważyć, że system monitorowania działał przez cały ten czas bez
 
 Testowanie monitorowania sieci lokalnej przebiegło zgodnie
 z~oczekiwaniami. Zgromadzone dane wykazały stałą jakość usług
-świadczonych świadczonych w~sieci lokalnej. Ze względu na niski poziom
-skomplikowania infrastruktury testowej otrzymywane wartości czasu od
+świadczonych w~sieci lokalnej. Ze względu na niski poziom
+skomplikowania infrastruktury testowej, otrzymywane wartości czasu od
 wysłania pakietu do jego powrotu były rzędu pojedynczych
 milisekund. Dzięki wykorzystaniu dodatku inGraph możliwe było
 przedstawienie zgromadzonych danych w~formie wykresów.
 
 Przykładowy wykres czasu podróży pakietów oraz poziomu utraconych
 podczas komunikacji pakietów dla router wl-500gPv2 przedstawiono na
-\ref{fig:pingRoutera}. Na wykresie kolorem zielonym zostały zaznaczone
-średnie czasy podróży dla zadanych przedziałów. Kolor szary prezentuje
-natomiast wartości minimalne i maksymalne dla bieżących przedziałów
-agregacji. Kolor czerwony pokazuje udział utraconych pakietów wobec
-wszystkich przesłanych.
+rys.~\ref{fig:pingRoutera}. Na wykresie kolorem zielonym zostały
+zaznaczone średnie czasy podróży dla zadanych przedziałów. Kolor szary
+prezentuje natomiast wartości minimalne i~maksymalne dla bieżących
+przedziałów agregacji. Kolor czerwony pokazuje udział utraconych
+pakietów wobec wszystkich przesłanych.
 
 \begin{figure}[ht]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
@@ -316,9 +316,9 @@ wszystkich przesłanych.
 
 Przedstawiony wykres potwierdza prawidłowe wyniki przeprowadzonych
 testów systemu. Średni czas podróży pakietu wynosi poniżej 2
-ms. Uzyskane wartości maksymalne są rzędu 6 ms co również jest
+ms. Uzyskane wartości maksymalne są rzędu 6 ms, co również jest
 zjawiskiem normalnym w~sieciach komputerowych, ze względu na zmienne
-obciążenie routera. Należy zauważyć, ze na wykresie wystąpił chwilowy
+obciążenie routera. Należy zauważyć, że na wykresie wystąpił chwilowy
 wzrost stopnia utraconych pakietów w~okolicach 29 stycznia. Dodatek
 inGraph pozwala administratorowi, po zauważeniu takiej sytuacji
 wygenerować wykres dokładniejszych wartości we wskazanym
@@ -327,7 +327,7 @@ interesującego obszaru pozwoliła na łatwe przedstawienie dokładnych
 danych z~okresu wystąpienia wzrostu mierzonej wartości. Wykres ten
 został przedstawiony na \ref{fig:pingRouteraDokladny}. Na podstawie
 tego wykresu można określić dokładny czas wystąpienia interesującego
-zdarzenia. W~przypadku wystąpienia usterki, może to zostać
+zdarzenia. W~przypadku wystąpienia usterki może to zostać
 wykorzystane do diagnozowania jej przyczyny poprzez badanie zdarzeń
 tuż przed jej wystąpieniem.
 
@@ -343,21 +343,21 @@ tuż przed jej wystąpieniem.
 
 Sieć lokalna jest wykorzystywana jedynie przez wąskie grono
 użytkowników. Powoduje to niewielką zmienność monitorowanych w~niej
-parametrów. Dzięki monitorowaniu również serwerów zewnętrznych możliwe
-było przetestowanie systemu w~dużo bardziej realistycznych warunkach.
+parametrów. Dzięki monitorowaniu serwerów zewnętrznych możliwe było
+przetestowanie systemu w~dużo bardziej realistycznych warunkach.
 
 Monitorowanie popularnego i~ogólnodostępnego serwera google.com
 pozwoliło na przetestowanie systemu z~realnym systemem o~dużym
 i~bardzo zmiennym obciążeniu. Rezultaty monitorowania serwisu zostały
-przedstawione w~formie wykresu na \ref{fig:pingiGoogle}. Nawet
-pobieżna analiza takiego wykresu pozwala, zauważyć obecne w~nim
+przedstawione w~formie wykresu na rys.~\ref{fig:pingiGoogle}. Nawet
+pobieżna analiza takiego wykresu pozwala zauważyć obecne w~nim
 trendy. Na podstawie wykresu miesięcznego można zauważyć cykliczne
 wzrosty wartości maksymalnej dla zadanych przedziałów
 agregacji. Wykres ten pokazuje, iż występują one praktycznie
 codziennie. Analiza wykresu tygodniowego pozwala dodatkowo na
 określenie, że wspomniane skoki wartości maksymalnej występują
-w~godzinach wieczornych. Ponadto łatwo zauważyć, że każdego dnia w
-godzinach popołudniowych i~wieczornych występuje znaczny wzrost
+w~godzinach wieczornych. Ponadto łatwo zauważyć, że każdego dnia
+w~godzinach popołudniowych i~wieczornych występuje znaczny wzrost
 średniego czasu odpowiedzi serwera. Dzięki dynamicznemu charakterowi
 wykresów programu inGraph możliwe jest dokonanie dokładnej analizy
 widocznych na wykresie tendencji.
@@ -373,24 +373,24 @@ widocznych na wykresie tendencji.
 
 
 Rysunki \ref{fig:google3001}, \ref{fig:google2801} oraz
-\ref{fig:google2701} przedstawiają dokładniejsze dane z~przedziałów
+\ref{fig:google2701} przedstawiają dokładniejsze dane z~przedziałów,
 w~których notowano wzrosty czasu odpowiedzi. Analiza tych wykresów
 pozwoliła na potwierdzenie tezy o~powtarzającej się tendencji. Łatwo
-można zauważyć, że w~każdym z~pokazanych przedziałów notowany
-stopniowy jest wzrost czasu odpowiedzi serwera od godziny 15. Godziny
-wieczorne to na każdym z wykresów zdecydowany wzrost czasu odpowiedzi,
-a~także jego chwilowe piki. Od okolic godziny 12 w~nocy pojawia się
+można zauważyć, że w~każdym z~pokazanych przedziałów notowany jest
+stopniowy wzrost czasu odpowiedzi serwera od godziny 15. Godziny
+wieczorne to na każdym z~wykresów zdecydowany wzrost czasu odpowiedzi,
+a~także jego chwilowe piki. Od około godziny 12 w~nocy pojawia się
 spadek czasu odpowiedzi serwera, który utrzymuje się na niskim
 poziomie aż do godziny 15. Uzyskane rezultaty są zgodne
-z~oczekiwanymi. Okres w~którym czas odpowiedzi serwera znacząco
-wzrasta przypada na tak zwane internetowe godziny szczytu czyli okres
-pomiędzy godziną 19 i 21. Zjawisko to zostało opisane
+z~oczekiwanymi. Okres, w~którym czas odpowiedzi serwera znacząco
+wzrasta, przypada na tak zwane internetowe godziny szczytu, czyli
+okres pomiędzy godziną 19 i 21. Zjawisko to zostało opisane
 w~\cite{www:RushHours}.
 
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 30.01.2014}
+    utraconych pakietów dla google.com dnia 30.01.2014.}
   \label{fig:google3001}
   \centering
 \includegraphics[width=1\textwidth]{img/google3001.png}
@@ -398,7 +398,7 @@ w~\cite{www:RushHours}.
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 28.01.2014}
+    utraconych pakietów dla google.com dnia 28.01.2014.}
   \label{fig:google2801}
   \centering
 \includegraphics[width=1\textwidth]{img/google2801.png}
@@ -406,7 +406,7 @@ w~\cite{www:RushHours}.
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 27.01.2014}
+    utraconych pakietów dla google.com dnia 27.01.2014.}
   \label{fig:google2701}
   \centering
 \includegraphics[width=1\textwidth]{img/google2701.png}
@@ -424,23 +424,23 @@ Przeprowadzone testy pozwoliły wykazać poprawność działania wszystkich
 pożądanych mechanizmów. Pierwszym z~przetestowanych mechanizmów było
 zapewnienie monitorowania stanu bieżącego usług i~parametrów urządzeń
 mobilnych w~sposób analogiczny jak urządzeń statycznych. System
-działał zgodnie z~oczekiwaniami, dzięki czemu, wszystkie ostrzeżenia
+działał zgodnie z~oczekiwaniami, dzięki czemu wszystkie ostrzeżenia
 były odpowiednio generowane. Przykładem takiego komunikatu jest
 powiadomienie administratora o~stanie krytycznym baterii, które
 zostało przedstawione na~\ref{fig:criticalBat}.
 
 \begin{figure}[ht]
   \caption{Pulpit stanów poszczególnych usług i~parametrów klientów
-    mobilnych}
+    mobilnych.}
   \label{fig:criticalBat}
   \centering
 \includegraphics[width=1\textwidth]{img/criticalBat.png}
 \end{figure}
 
-Kolejną istotną funkcjonalnością, która była w~tym czasie testowana
+Kolejną istotną funkcjonalnością, która była w~tym czasie testowana,
 jest gromadzenie danych historycznych pochodzących od klienta
-mobilnego. Mechanizm gromadzenia tych danych jak i~ich analizy podczas
-testów działał bez zarzutu. Pozwoliło to na wykonanie wykresów
+mobilnego. Mechanizm gromadzenia tych danych i~ich analizy działały
+podczas testów bez zarzutu. Pozwoliło to na wykonanie wykresów
 mierzonych wartości. Przykładowy wykres stanu baterii dla obu urządzeń
 wygenerowany na podstawie danych zebranych w~czasie testów zawarto na
 \ref{fig:baterie}.
@@ -448,14 +448,14 @@ wygenerowany na podstawie danych zebranych w~czasie testów zawarto na
 \begin{figure}[ht]
   \caption{Wykres stanu baterii urządzeń mobilnych w okresie
     testowania systemu. Pierwszy wykres (u góry) pokazuje stan baterii
-    urządzenia Android 1, drugi (na dole) urządzenia Android2.}
+    urządzenia Android 1, drugi (na dole) --- urządzenia Android2.}
   \label{fig:baterie}
   \centering
 \includegraphics[width=1\textwidth]{img/battery.png}
 \end{figure}
 
 Widoczna na jednym z~wykresów przerwa wynika z~braku danych w~tym
-okresie. Ze względu na powstawanie równolegle pracy inżynierskiej Pana
+okresie. Ze względu na równolegle powstawanie pracy inżynierskiej Pana
 Marcina Kubika, który jest właścicielem tego urządzenia, konieczne było
 wyłączenie go na jeden dzień z~testów systemu. Na przedstawionych
 wykresach można wyróżnić dwie fazy. Pierwsza z~nich to rozładowywanie
@@ -480,7 +480,7 @@ Możliwość analizy sposobu użytkowania danego urządzenia może być dla
 Administratora bardzo pomocne. Może to zostać wykorzystane np. do
 lepszego zarządzania rozdziałem urządzeń mobilnych w firmie. Ponadto
 jeśli monitorowane urządzenia mobilne posiadają znaczną wartość, to
-śledzenie stylu ich użytkowania również jest niezwykle istotne aby
+śledzenie stylu ich użytkowania również jest niezwykle istotne, aby
 zapewnić ich długą żywotność.
 
 W~trakcie testów monitorowano również siłę sygnały Wi-Fi. Rezultaty
@@ -488,7 +488,7 @@ pomiarów przedstawiono na rysunku \ref{fig:signals}. Ponownie na
 wykresie dla urządzenia drugiego widoczna jest przerwa wynikająca
 z~chwilowego wyłączenia urządzenia z~testów. Na podstawie tych
 wykresów łatwo można zauważyć, że urządzenie Android1 posiada znacznie
-częściej i~znacznie lepszy dostęp do sieci Wi-Fi niż urządzenie
+częstszy i~znacznie lepszy dostęp do sieci Wi-Fi niż urządzenie
 Android2. Można wręcz zauważyć, iż urządzenie Android2 jest typowym
 klientem mobilnym, który dostęp do sieci uzyskuje bardzo
 sporadycznie. Słaba siła sygnału sieci Wi-Fi powoduje oczywiście
@@ -498,8 +498,8 @@ zwiększone zużycie baterii, co jest widoczne na wykresie
 \begin{figure}[ht]
   \caption{Wykres sygnału sieci Wi-Fi w okresie testowania
     systemu. Pierwszy wykres (u góry) pokazuje sygnał dla urządzenia
-    Android1, drugi (na dole) urządzenia Android2.}
-  \label{fig:baterie}
+    Android1, drugi (na dole) --- urządzenia Android2.}
+  \label{fig:signals}
   \centering
 \includegraphics[width=1\textwidth]{img/wifi.png}
 \end{figure}
@@ -508,10 +508,10 @@ W~zastosowaniu produkcyjnym analiza takich danych jak dostępność sieci
 Wi-Fi w~miejscu codziennego użytku urządzenia mobilnego jest niezwykle
 istotna. Firmy wydają bardzo duże pieniądze na zakup pakietów danych
 u~operatorów sieci komórkowych w~celu zapewnienia swoim pracownikom
-łączności z~internetem. Na podstawie analizy siły sygnału sieci dla
+łączności z~Internetem. Na podstawie analizy siły sygnału sieci dla
 każdego klienta można w~dużo lepszy sposób zarządzać limitami danych
 otrzymanymi od operatora. Jeśli część klientów mobilnych przebywa
-przez większość czasu w~zasięgu sieci Wi-Fi to być może należy
+przez większość czasu w~zasięgu sieci Wi-Fi, to być może należy
 ograniczyć przyznane dla nich limity na rzecz zwiększenia
 przepustowości sieci bezprzewodowej. Ponadto dane o~sile sygnałów
 pochodzące z~wielu urządzeń pozwalają na badanie wpływu rozmieszczenia
