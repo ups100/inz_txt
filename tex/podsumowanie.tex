@@ -1,76 +1,66 @@
 \chapter{Podsumowanie}
 \label{chap:Podsumowanie}
 
-W~ramach tej pracy wykonano projekt oraz implementację systemu
-monitorowania klientów statycznych i~mobilnych. Zaprojektowany system
-został oparty na istniejących już elementach, których wykorzystanie
-pozwoliło na uzyskanie bardzo rozbudowanej funkcjonalności stosunkowo
-niskim nakładem pracy.
+W~ramach tej pracy wykonano projekt oraz implementację rozszerzenia
+systemu Icinga na potrzeby monitorowania klientów mobilnych.
+Zaprojektowany system został oparty na istniejących już elementach,
+których wykorzystanie pozwoliło na uzyskanie bardzo rozbudowanej
+funkcjonalności stosunkowo ograniczając nakład niezbędnej pracy.
 
 Przed wykonaniem projektu przeprowadzono analizę dostępnych na rynku
-systemów monitorujących. W~ramach tej analizy przedstawiono podstawowe
-możliwości systemu Cacti, Nagios oraz {\em Icinga}. Przeprowadzone
-porównanie systemów wykazało, że najlepszym systemem do rozbudowy
-w~ramach tej pracy będzie system {\em Icinga}.
-
-Przed wykonaniem szczegółowego projektu systemu konieczne było
-określenie docelowego zastosowania systemu. Zdefiniowano w~sposób
-jasny i~czytelny problematykę monitorowania zarówno klientów
-mobilnych, jak i~statycznych. Na podstawie przedstawionych
-charakterystyk obu typów urządzeń sporządzono wymagania, jakie powinny
-zostać spełnione przez projektowany system.
+systemów monitorujących. Zidentyfikowane problemy monitorowania
+klientów statycznych oraz szczególny charakter klientów mobilnych
+wskazały na potrzebę opracowania nowych rozwiązań.  W~ramach analizy
+przedstawiono podstawowe możliwości otwartoźódłowych systemów {\em
+  Cacti}, {\em Nagios} oraz {\em Icinga}. Porównanie tych systemów
+wykazało, że najlepszym systemem do rozbudowy w~ramach tej pracy
+będzie system {\em Icinga}.  Przedstawiono wymagania, jakie powinny
+zostać spełnione przez projektowany system monitorujący, aby
+umożliwiał on efektywne monitorowanie systemów mobilnych.
 
 Kolejnym etapem przygotowania projektu była dokładna analiza
 możliwości systemu {\em Icinga} w~kontekście zdefiniowanych
 wymagań. W~ramach tej analizy przedstawiono ogólną architekturę
 systemu oraz zestaw dopuszczalnych jego konfiguracji. Dokonano również
 analizy dostępnych dodatków w~kontekście ich funkcjonalności i~jakości
-ich wykonania. Analiza ta wykazała, iż system {\em Icinga} nie posiada
-żadnych mechanizmów wspierających monitorowanie klienta mobilnego,
-a~narzędzia przeznaczone dla klientów statycznych nie spełniałją
-specyficznych wymagań dla projektowanego systemu.
+ich wykonania. Ze względu na brak gotowych rozwiązań pozwalających na
+monitorowanie klienta mobilnego zdefiniowano własny bezpieczny
+protokół komunikacyjny. Zapewnia on bezpieczny transport danych
+pomiędzy urządzeniem mobilnym a~serwerem monitorującym. Konieczne było
+również wykonanie odpowiedniego dodatku do systemu {\em Icinga}, który
+umożliwiłby odbiór danych od klientów mobilnych i~przekazanie ich do
+miejsc zgodnych z~polityką całego systemu
+monitorującego. 
 
-Po dokładnym rozpoznaniu dostępnych elementów do budowy kompletnego
-rozwiązania wykonano projekt całościowej architektury
-systemu. Przedstawiono wybraną konfigurację systemu {\em Icinga}, a także
-zbiór dodatków koniecznych do spełnienia wymagań. Ze względu na brak
-gotowych rozwiązań pozwalających na monitorowanie klienta mobilnego
-zdefiniowano własny bezpieczny protokół komunikacyjny. Zapewni on
-transport danych pomiędzy urządzeniem mobilnym, a~serwerem
-monitorującym. Konieczne było również wykonanie odpowiedniego dodatku
-do systemu {\em Icinga}, który umożliwiłby odbiór danych od klientów
-mobilnych i~przekazanie ich do miejsc zgodnych z~polityką całego
-systemu. W szczególności tym miejscem docelowym jest system
-monitorujący {\em Icinga}.
-
-Na podstawie projektu wykonano implementację omawianego wcześniej
-dodatku NSCAv2 w~języku C++. W~trakcie prac wykorzystany został
-szkielet aplikacji Qt, a także biblioteka boost. Wszystkie algorytmy
+Na podstawie projektu wykonano w~języku C++ implementację dodatku
+NSCAv2. W~trakcie prac wykorzystany został szkielet aplikacji {\em
+  Qt}, a~także biblioteka {\em boost}. Wszystkie algorytmy
 kryptograficzne wymagane do implementacji protokółu komunikacyjnego
-zostały zaimplementowane z~użyciem biblioteki Crypto++.
+zostały zaimplementowane z~użyciem biblioteki {\em Crypto++}.
 
-Końcowym etapem tej pracy było wykonanie przykładowej konfiguracji
-systemu zgodnie z~przedstawionym projektem i~z~użyciem
+Końcowym etapem tej pracy było wdrożenie przykładowej konfiguracji
+systemu {\em Icinga} zgodnie z~przedstawionym projektem i~z~użyciem
 zaimplementowanego dodatku. Środowisko testowe zostało wykonane
 w~domowej sieci lokalnej, jednak monitorowaniu podlegały również
-publiczne serwery google.com oraz mion.elka.pw.edu.pl. Dzięki
-życzliwości Pana Marcina Kubika, który wykonał implementację aplikacji
-mobilnej przeznaczonego na platformę Android, możliwe było włączenie do
-środowiska testowego również dwóch urządzeń pracujących pod kontrolą
-tego systemu.
+publiczne serwery {\em google.com} oraz {\em
+  mion.elka.pw.edu.pl}. Dzięki życzliwości Pana Marcina Kubika, który
+wykonał implementację aplikacji mobilnej przeznaczonej na platformę
+Android, możliwe było włączenie do środowiska testowego również dwóch
+urządzeń pracujących pod kontrolą tego systemu.
 
-Środowisko testowe funkcjonowało nieprzerwanie przez trzy tygodnie, co
-zapewniło zgromadzenie reprezentatywnego zbioru danych. Wykorzystanie
-zewnętrznej infrastruktury zarówno do monitorowania publicznych
-serwerów, jak i~przekazywania danych od klientów mobilnych pozwoliło na
-symulację rzeczywistych warunków pracy takiego systemu.
+Instancja systemu {\em Icinga} funkcjonowała nieprzerwanie przez trzy
+tygodnie, co zapewniło zgromadzenie reprezentatywnego zbioru
+danych. Wykorzystanie zewnętrznej infrastruktury zarówno do
+monitorowania publicznych serwerów, jak i~przekazywania danych od
+klientów mobilnych pozwoliło na symulację rzeczywistych warunków pracy
+takiego systemu.
 
 Zebrane dane potwierdziły przydatność zaprojektowanego systemu. Na ich
 podstawie wskazano istotne trendy występujące w~sieciach
 publicznych. Przeprowadzone testy wykazały również przydatność systemu
 monitorującego klienta mobilnego. Dane zebrane w~trakcie monitorowania
 takiego urządzenia mogą posłużyć dużym firmom do redukcji kosztów
-utrzymania tych urządzeń i optymalizacji posiadanej infrastruktury
+utrzymania tych urządzeń i~optymalizacji posiadanej infrastruktury
 sieciowej.
 
 Jest bardzo wiele możliwych dróg rozwoju wykonanego projektu. Pierwszą
@@ -78,11 +68,8 @@ z~nich jest wykonanie narzędzia umożliwiającego w~łatwy i~intuicyjny
 sposób zarządzanie konfiguracją systemu monitorującego i~jego
 dodatków. Drugą, zdecydowanie ważniejszą i~dającą większe możliwości
 rozwoju systemu, jest wykonanie systemu eksperckiego. System taki
-mógłby na podstawie zgromadzonych danych o~historycznych awariach
-ostrzegać o~możliwości zaistnienia awarii. Pozwoliłoby to
-administratorowi podejmować odpowiednie kroki w~celu przygotowania
-sieci na awarię. Dzięki takiemu systemowi możliwe byłoby wcześniejsze
-wykonywanie zamówień na urządzenia sieciowe, jeszcze zanim przestaną
-one działać. Ponadto warto rozważyć możliwość implementacji dodatku
-pozwalającego na bardziej elastyczne gromadzenie informacji w~bazie
-danych i~generację na ich podstawie wykresów.
+mógłby na podstawie zgromadzonych danych historycznych (awariach,
+parametrach wydajnościowych, zdarzeniach itp.) wykrywać z
+wyprzedzeniem i~ostrzegać o~możliwości zaistnienia określonych
+sytuacji. Pozwoliłoby to administratorowi podejmować odpowiednie kroki
+zaradcze.

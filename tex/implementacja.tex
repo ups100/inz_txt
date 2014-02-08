@@ -13,28 +13,28 @@ i~zaimplementowany w~ramach niniejszej pracy. Rozdział ten zawiera
 dokładny opis funkcjonalny tego dodatku oraz przedstawia istotne
 elementy jego implementacji.
 
-Ponadto w~proponowanym systemie występuje aplikacja przeznaczona dla
+Ponadto, w~proponowanym systemie występuje aplikacja przeznaczona dla
 platformy mobilnej. Implementacja takiej aplikacji wykracza poza
 zakres tej pracy.  W~ramach serii prac dyplomowych przygotowywanych na
 Wydziale Elektroniki i~Technik Informacyjnych powstała również praca
 inżynierska Pana Marcina Kubika. Przedmiotem tej pracy jest projekt
 oraz implementacja dla platformy Android aplikacji
 IcingaMini. Pobieżny opis koncepcji i~potrzeby tej aplikacji można
-znaleźć w~\ref{sec:IcingaMini} natomiast szczegółowy opis
+znaleźć w~rozdz.~\ref{sec:IcingaMini} natomiast szczegółowy opis
 implementacji został zawarty w~\cite{book:pracaKubika}.
 
 \section[Opis architektury][Opis architektury]{Opis architektury}
 
 
 Konceptualny model dodatku został przedstawiony
-w~\ref{sec:ProjModOdb}. Fizyczna struktura programu jest dużo bardziej
-złożona. Została utworzona z~użyciem biblioteki Qt jako podstawowego
-szkieletu aplikacji. Wykorzystano również biblioteki boost oraz
-Crypto++. Dodatek ten przeznaczony jest, podobnie jak system
-monitorujący {\em Icinga}, dla komputerów pracujących pod kontrolą systemu
-operacyjnego Linux i~jest uruchamiany jako samodzielny
-serwis. Fizyczna struktura programu składa się z~następujących
-elementów:
+w~rozdz.~\ref{sec:ProjModOdb}. Fizyczna struktura programu jest dużo
+bardziej złożona. Została utworzona z~użyciem biblioteki Qt jako
+podstawowego szkieletu aplikacji. Wykorzystano również biblioteki
+boost oraz Crypto++. Dodatek ten przeznaczony jest, podobnie jak
+system monitorujący {\em Icinga}, dla komputerów pracujących pod
+kontrolą systemu operacyjnego Linux i~jest uruchamiany jako
+samodzielny serwis. Fizyczna struktura programu składa się
+z~następujących elementów:
 
 \begin{description}
 \item[szkielet programu] --- Zawiera elementy programu konieczne do
@@ -104,14 +104,14 @@ zasadniczych sekcji:
   takich jak ścieżka do pliku, do którego należy zapisywać dane. 
 \item[sekcja definicji klientów] --- zawiera definicję klientów oraz grup
   klientów. Każda definicja klienta składa się z następujących sekcji:
-  \begin{description}
-  \item[sekcja autoryzacji] --- zawiera dane o dozwolonych modułach
+  \begin{itemize}
+  \item sekcja autoryzacji zawiera dane o dozwolonych modułach
     autoryzacyjnych dla danego klienta. Umożliwia także dodatkową
     konfigurację instancji modułów przeznaczonych dla danego klienta.
-  \item[sekcja filtrowania] --- zawiera urządzenia oraz usługi, których
+  \item sekcja filtrowania zawiera urządzenia oraz usługi, których
     dane monitorowania mogą być przesyłane przez tego konkretnego
     klienta.
-  \end{description}
+  \end{itemize}
 \item[sekcja definicji ścieżek danych] --- zawiera definicję ścieżek
   danych w~programie. Pozwala na definiowanie, do którego odbiorcy
   danych mają trafić dane odebrane od wskazanego klienta.
@@ -163,29 +163,30 @@ znajdują się definicje podstawowych bytów logicznych
 programu. W~zależności od pełnionej funkcji można wyróżnić następujące
 grupy obiektów:
 
-\begin{description}
-\item[Grupa obiektów konfiguracyjnych] zawiera wszystkie obiekty
+\begin{itemize}
+\item Grupa obiektów konfiguracyjnych zawiera wszystkie obiekty
   używane do wczytania parametrów uruchomienia programu z~linii
   poleceń, jak również obiekty odpowiedzialne za dostarczenie do
   programu konfiguracji zawartej w pliku.
-\item[Grupa obiektów producentów danych] \raggedright{zawiera generyczny interfejs
-  producenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
-  z~tej grupy, a~także definicję dostępnych producentów danych.}
-\item[Grupa obiektów konsumentów danych] zawiera generyczny interfejs
+\item Grupa obiektów producentów danych \raggedright{zawiera
+  generyczny interfejs producenta danych oraz fabrykę, umożliwiającą
+  pozyskiwanie obiektów z~tej grupy, a~także definicję dostępnych
+  producentów danych.}
+\item Grupa obiektów konsumentów danych zawiera generyczny interfejs
   konsumenta danych oraz fabrykę, umożliwiającą pozyskiwanie obiektów
   z~tej grupy, a~także definicję dostępnych konsumentów danych.
-\item[Grupa obiektów filtrujących] zawiera obiekty pozwalające na
-  kontrolę danych otrzymywanych od klienta
-\item[Grupa obiektów kanału komunikacyjnego] zawiera obiekty powiązane
+\item Grupa obiektów filtrujących zawiera obiekty pozwalające na
+  kontrolę danych otrzymywanych od klienta.
+\item Grupa obiektów kanału komunikacyjnego zawiera obiekty powiązane
   z~kanałem komunikacyjnym pomiędzy producentami danych, a~ich
   konsumentami. Zawiera również mechanizmy formatowania danych oraz
   bufory przeznaczone na dane oczekujące na przekazanie.
-\item[Grupa obiektów zarządzających] zawiera zarządcę programu oraz
+\item Grupa obiektów zarządzających zawiera zarządcę programu oraz
   obiekty pomocnicze. Wykonywane są tutaj wszelkie czynności, które
   muszą wystąpić w~trakcie uruchamiania programu. Zachodzi tu także
   tworzenie oraz niszczenie obiektów implementujących elementy
   logiczne programu.
-\end{description}
+\end{itemize}
 
 \subsubsection[Grupa obiektów konfiguracyjnych][Grupa obiektów
 konfiguracyjnych]{Grupa obiektów konfiguracyjnych}
@@ -304,7 +305,7 @@ zdefiniowany w~pliku konfiguracyjnym zbiór urządzeń i~usług, o~których
 informacje może przesyłać. Obiekty z~tej grupy, które są
 odpowiedzialne za kontrolę odbieranych danych, pobierają z~analizatora
 składniowego wspomniane zbiory i~dokonują kontroli każdego wpisu
-dziennika otrzymanego od klienta. Jeśli klienta nadesłał dane
+dziennika otrzymanego od klienta. Jeśli klient nadesłał dane
 dotyczące urządzenia lub usługi, do których nie ma on uprawnień, nie
 będzie możliwe przekazanie ich do konsumentów.
 
@@ -502,7 +503,7 @@ odpowiadające za kolejne czynności w wyższych warstwach
 protokołu. Klasy te są odpowiedzialne za formowanie wiadomości,
 szyfrowanie oraz obliczanie i~kontrolę jej skrótu. Ponieważ kolejność
 czynności wykonywanych w~trakcie budowania wiadomości jest istotna,
-zastosowano rekurencyjne budowanie wiadomości. Każda klasa dekoratora
+zastosowano enkapsuowane budowanie wiadomości. Każda klasa dekoratora
 posiada tylko jedno wskazanie do obiektu, który znajduje się o~poziom
 niżej w hierarchii. Użytkownik zapisuje wiadomość, używając klasy
 z~najwyższej warstwy. Obiekt ten dokonuje przekształcenia wiadomości

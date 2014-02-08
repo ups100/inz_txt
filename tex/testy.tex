@@ -1,37 +1,37 @@
-\chapter{Testowanie wykonanego systemu}
+\chapter{Doświadczenia praktyczne z pracy z systemem}
 \label{chap:Testy}
 
-Testowanie systemów składających się z~wielu komunikujących się
-ze~sobą elementów jest zadaniem bardzo skomplikowanym. Każdy protokół
-komunikacyjny stanowi system rozproszony, którego testowanie
-i~implementacja jest zadaniem nietrywialnym. Ze względu na
-rozproszoność systemu, a~także wpływ czynników zewnętrznych, takich
-jak jakość sygnału czy próby ataków, dostarczenie jedynie testów
-jednostkowych czy scenariuszowych jest niewystarczające. W~związku
-z~powyższym w~ramach tej pracy wykonano testową konfigurację systemu,
-która została uruchomiona w~niewielkiej sieci domowej. Pozwoliło to na
-uruchomienie kompletnego systemu oraz weryfikację poprawności
-implementacji i~zdefiniowanych wymagań.
+ 
 
-\section[Opis infrastruktury][Opis infrastruktury testowej]{Opis infrastruktury testowej}
+ W~ramach tej pracy wykonano prototypową instalację i~konfigurację
+ rozbudowanego systemu {\em Icinga}, która została uruchomiona
+ w~niewielkiej sieci domowej. W ramach instalacji uruchomiono również
+ opracowany dodatek NSCAv2, do którego z powodzeniem podłaczono dwa
+ urządzenia mobilne pod kontrolą aplikacji monitorującej IcingaMini
+ \cite{book:pracaKubika}. Pozwoliło to na uruchomienie kompletnego
+ systemu oraz weryfikację poprawności jego implementacji
+ i~zdefiniowanych wymagań.
 
-Konfiguracja została wykonana w~mieszkaniu autora w~oparciu
-o~istniejącą infrastrukturę sieci lokalnej. Sercem konfiguracji jest
-laptop HP Compaq 6710b. Został na nim zainstalowany system operacyjny
+\section[Opis infrastruktury][Opis infrastruktury]{Opis infrastruktury}
+
+Konfiguracja systemu Icinga (wraz z~szeregiem dodatków) została
+wykonana w~mieszkaniu autora pracy w~oparciu o~istniejącą
+infrastrukturę sieci lokalnej. Sercem konfiguracji jest laptop HP
+Compaq 6710b. Został na nim zainstalowany system operacyjny
 Linux. Wybrano najnowszą dostępną w~czasie wykonywania konfiguracji,
 wersję dystrybucji Ubuntu --- 13.10. System został zainstalowany
 w~wersji 64-bitowej. W~celu zapewnienia możliwości łatwego
 przeniesienia wykonanej konfiguracji systemu monitorującego, utworzono
 na tym serwerze maszynę wirtualną. Do jej stworzenia użyto narzędzi
-opartych o bibliotekę libvirt. Maszyna wirtualna uruchamiana jest jako
-KVM\footnote{ang. {\em Kernel Virtual Machine} -- sposób wirtualizacji
-  w~systemach Linuksa, gdzie proces ten jest wspierany przez jądro
-  systemu gospodarza}, co zapewnia jej wysoką wydajność. Na utworzonej
-maszynie wirtualnej zainstalowany został ten sam system operacyjny, co
-na urządzeniu będącym jej gospodarzem. Interfejs sieciowy urządzenia
-został skonfigurowany w~taki sposób, aby urządzenie fizyczne i~maszyna
-wirtualna widziane były z~zewnątrz jako dwa interfejsy o~różnych
-adresach MAC.
+opartych o~bibliotekę {\em libvirt}. Maszyna wirtualna uruchamiana
+jest jako KVM\footnote{ang. {\em Kernel Virtual Machine} -- sposób
+  wirtualizacji w~systemach Linuksa, gdzie proces ten jest wspierany
+  przez jądro systemu gospodarza}, co zapewnia jej wysoką
+wydajność. Na utworzonej maszynie wirtualnej zainstalowany został ten
+sam system operacyjny, co na urządzeniu będącym jej
+gospodarzem. Interfejs sieciowy urządzenia został skonfigurowany
+w~taki sposób, aby urządzenie fizyczne i~maszyna wirtualna widziane
+były z~zewnątrz jako dwa interfejsy o~różnych adresach MAC.
 
 Poza laptopem oraz maszyną wirtualną w~sieci dostępne są również inne
 urządzenia. Pierwszym z~tych urządzeń jest drukarka sieciowa Samsung
@@ -54,26 +54,27 @@ w~pełni przetestować działanie systemu. Ponadto jest ona w~znacznym
 stopniu odizolowana od czynników zewnętrznych mogących wpływać na
 pracę systemu monitorującego. W~celu wykonania bardziej realistycznych
 testów postanowiono monitorować dwa dostępne publicznie
-serwery. Pierwszym z~nich jest serwer google.com. Drugi natomiast to
-serwer mion.elka.pw.edu.pl przeznaczony dla studentów Wydziału
-Elektroniki i~Technik Informacyjnych Politechniki Warszawskiej.
+serwery. Pierwszym z~nich jest serwer {\em google.com}. Drugi
+natomiast to serwer {\em mion.elka.pw.edu.pl} przeznaczony dla
+studentów Wydziału Elektroniki i~Technik Informacyjnych Politechniki
+Warszawskiej.
 
 W~ramach niniejszej pracy wykonano rozbudowę systemu monitorującego
-{\em Icinga} o~funkcjonalność monitorowania klienta mobilnego. W~związku
-z~powyższym konieczne było uwzględnienie również klientów mobilnych
-w~konfiguracji testowej. Dzięki uprzejmości Pana Marcina Kubika
-możliwe było wykorzystanie opracowanego przez niego modułu mobilnego
-dla platformy Android. Pozwoliło to na dodanie do monitorowanej
-infrastruktury dwóch urządzeń pracujących pod kontrolą tego
-systemu. Oba urządzenia były w~trakcie testów używane do codziennych
-czynności, co pozwoliło na symulacje normalnych warunków pracy
-systemu.
+{\em Icinga} o~funkcjonalność monitorowania klienta
+mobilnego. W~związku z~powyższym konieczne było uwzględnienie również
+klientów mobilnych w~konfiguracji testowej. Dzięki uprzejmości Pana
+Marcina Kubika możliwe było wykorzystanie opracowanego przez niego
+modułu mobilnego dla platformy Android (smartfon Samsung Galaxy Note 3
+oraz Samsung Galaxy S2 Plus). Pozwoliło to na dodanie do monitorowanej
+infrastruktury dwóch urządzeń mobilnych pracujących pod kontrolą tego
+systemu. Oba urządzenia były używane do codziennych czynności, co
+pozwoliło na symulacje normalnych warunków pracy systemu.
 
-Aby umożliwić komunikację aplikacji mobilnej z~NSCAv2 spoza sieci
-domowej, konieczne było użycie mechanizmu przekazywania portów na
-wspomnianym wcześniej routerze. Schemat wykonanej testowej
-infrastruktury przedstawiono na \ref{fig:schematSieci}. Na schemacie
-zachowano porządek oznaczeń urządzeń przedstawiony w tabeli
+Aby umożliwić komunikację aplikacji mobilnej z~dodatkiem NSCAv2 spoza
+sieci domowej, konieczne było użycie mechanizmu przekazywania portów
+na wspomnianym wcześniej routerze. Schemat wykonanej testowej
+infrastruktury przedstawiono na rysunku \ref{fig:schematSieci}. Na
+schemacie zachowano porządek oznaczeń urządzeń przedstawiony w~tabeli
 \ref{tab:devices}.
 
 \begin{figure}[ht]
@@ -120,7 +121,7 @@ użycie jednego rdzenia monitorującego zarówno do monitorowania
 infrastruktury statycznej, jak i~do przetwarzania danych pochodzących
 od klientów mobilnych. W~celu zapewnienia konfiguracji zbliżonej do
 warunków użytkowania systemu, wykonano konifgurację wraz z dodatkien
-inGraph oraz baza danych dla systemu {\em Icinga}. Konfiguracja całego
+inGraph oraz bazą danych dla systemu {\em Icinga}. Konfiguracja całego
 systemu składa się z~następujących elementów:
 
 \begin{itemize}
@@ -140,15 +141,8 @@ systemu składa się z~następujących elementów:
 \item zestaw wtyczek.
 \end{itemize}
 
-Aby zapewnić możliwość łatwego przeniesienia wykonanej konfiguracji
-testowej wszystkie elementy poza aplikacjom mobilną zostały utworzone
-na systemie zainstalowanym na maszynie wirtualnej\footnote{Możliwa
-  jest oczywiście separacja elementów zgodnie z~opisem zawartym w~
-  \ref{chap:ProjektSystemu}. Wykonanie jej w~tym przypadku jest jednak
-  nieuzasadnione i doprowadziłoby jedynie do licznych utrudnień
-  w~przypadku przeniesienia na inne urządzenie.}. Schemat
-rozmieszczenia oraz współpracy poszczególnych elementów został
-przedstawiony na \ref{fig:deployment}. System monitorowania do
+Schemat rozmieszczenia oraz współpracy poszczególnych elementów został
+przedstawiony na rysunku~\ref{fig:deployment}. System monitorowania do
 poprawnego funkcjonowania potrzebuje zarówno serwera bazy danych
 MySQL, jak i~serwera http. W~wykorzystywanej wersji dystrybucji Ubuntu
 wymagane pakiety zostały zainstalowane domyślnie podczas instalacji
@@ -172,7 +166,8 @@ wymagają użycia dodatkowego narzędzi - NRPE\footnote{ang. {\em Nagios
   wtyczek. Dokładny opis można znaleźć w~\cite{www:NRPE}.}. Jest to
 narzędzie, które pozwala na uruchomienie wtyczki na zdalnej
 maszynie. Jest on niezbędny do pomiaru parametrów wewnętrznych danego
-urządzenia, takich jak zużycie procesora czy pamięci.
+urządzenia, takich jak zużycie procesora czy pamięci. Użyto go do
+minitorowania systemu gospodarza (laptop).
 
 \begin{table}
 \centering
@@ -325,15 +320,16 @@ wygenerować wykres dokładniejszych wartości we wskazanym
 okresie. Funkcja szybkiego widoku, która pozwala na zaznaczenie
 interesującego obszaru pozwoliła na łatwe przedstawienie dokładnych
 danych z~okresu wystąpienia wzrostu mierzonej wartości. Wykres ten
-został przedstawiony na \ref{fig:pingRouteraDokladny}. Na podstawie
-tego wykresu można określić dokładny czas wystąpienia interesującego
-zdarzenia. W~przypadku wystąpienia usterki może to zostać
-wykorzystane do diagnozowania jej przyczyny poprzez badanie zdarzeń
-tuż przed jej wystąpieniem.
+został przedstawiony na rysunku \ref{fig:pingRouteraDokladny}. Na
+podstawie tego wykresu można określić dokładny czas wystąpienia
+interesującego zdarzenia. W~przypadku wystąpienia usterki może to
+zostać wykorzystane do diagnozowania jej przyczyny poprzez badanie
+zdarzeń tuż przed jej wystąpieniem.
 
 \begin{figure}[ht]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla wl-500gPv2 w okresie, gdzie wystąpił wzrost stopnia utraconych pakietów.}
+    utraconych pakietów dla wl-500gPv2 w okresie, gdzie wystąpił
+    wzrost stopnia utraconych pakietów.}
   \label{fig:pingRouteraDokladny}
   \centering
 \includegraphics[width=1\textwidth]{img/pingiRouterDokladny.png}
@@ -346,7 +342,7 @@ użytkowników. Powoduje to niewielką zmienność monitorowanych w~niej
 parametrów. Dzięki monitorowaniu serwerów zewnętrznych możliwe było
 przetestowanie systemu w~dużo bardziej realistycznych warunkach.
 
-Monitorowanie popularnego i~ogólnodostępnego serwera google.com
+Monitorowanie popularnego i~ogólnodostępnego serwera {\em google.com}
 pozwoliło na przetestowanie systemu z~realnym systemem o~dużym
 i~bardzo zmiennym obciążeniu. Rezultaty monitorowania serwisu zostały
 przedstawione w~formie wykresu na rys.~\ref{fig:pingiGoogle}. Nawet
@@ -379,7 +375,7 @@ pozwoliła na potwierdzenie tezy o~powtarzającej się tendencji. Łatwo
 można zauważyć, że w~każdym z~pokazanych przedziałów notowany jest
 stopniowy wzrost czasu odpowiedzi serwera od godziny 15. Godziny
 wieczorne to na każdym z~wykresów zdecydowany wzrost czasu odpowiedzi,
-a~także jego chwilowe piki. Od około godziny 12 w~nocy pojawia się
+a~także jego chwilowe skoki. Od około godziny 12 w~nocy pojawia się
 spadek czasu odpowiedzi serwera, który utrzymuje się na niskim
 poziomie aż do godziny 15. Uzyskane rezultaty są zgodne
 z~oczekiwanymi. Okres, w~którym czas odpowiedzi serwera znacząco
@@ -390,7 +386,7 @@ w~\cite{www:RushHours}.
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 30.01.2014.}
+    utraconych pakietów dla {\em google.com} dnia 30.01.2014.}
   \label{fig:google3001}
   \centering
 \includegraphics[width=1\textwidth]{img/google3001.png}
@@ -398,7 +394,7 @@ w~\cite{www:RushHours}.
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 28.01.2014.}
+    utraconych pakietów dla {\em google.com} dnia 28.01.2014.}
   \label{fig:google2801}
   \centering
 \includegraphics[width=1\textwidth]{img/google2801.png}
@@ -406,7 +402,7 @@ w~\cite{www:RushHours}.
 
 \begin{figure}[H]
   \caption{Wykres wartości czasu podróży pakietu oraz stopnia
-    utraconych pakietów dla google.com dnia 27.01.2014.}
+    utraconych pakietów dla {\em google.com} dnia 27.01.2014.}
   \label{fig:google2701}
   \centering
 \includegraphics[width=1\textwidth]{img/google2701.png}
@@ -427,7 +423,7 @@ mobilnych w~sposób analogiczny jak urządzeń statycznych. System
 działał zgodnie z~oczekiwaniami, dzięki czemu wszystkie ostrzeżenia
 były odpowiednio generowane. Przykładem takiego komunikatu jest
 powiadomienie administratora o~stanie krytycznym baterii, które
-zostało przedstawione na~\ref{fig:criticalBat}.
+zostało przedstawione na~rys.~\ref{fig:criticalBat}.
 
 \begin{figure}[ht]
   \caption{Pulpit stanów poszczególnych usług i~parametrów klientów
@@ -443,7 +439,7 @@ mobilnego. Mechanizm gromadzenia tych danych i~ich analizy działały
 podczas testów bez zarzutu. Pozwoliło to na wykonanie wykresów
 mierzonych wartości. Przykładowy wykres stanu baterii dla obu urządzeń
 wygenerowany na podstawie danych zebranych w~czasie testów zawarto na
-\ref{fig:baterie}.
+rysunku \ref{fig:baterie}.
  
 \begin{figure}[ht]
   \caption{Wykres stanu baterii urządzeń mobilnych w okresie
@@ -456,16 +452,16 @@ wygenerowany na podstawie danych zebranych w~czasie testów zawarto na
 
 Widoczna na jednym z~wykresów przerwa wynika z~braku danych w~tym
 okresie. Ze względu na równolegle powstawanie pracy inżynierskiej Pana
-Marcina Kubika, który jest właścicielem tego urządzenia, konieczne było
-wyłączenie go na jeden dzień z~testów systemu. Na przedstawionych
-wykresach można wyróżnić dwie fazy. Pierwsza z~nich to rozładowywanie
-baterii. Okres ten można rozpoznać po zmniejszającym się pomiędzy
-kolejnymi pomiarami stanem baterii. Okres ładowania widoczny jest na
-wykresie jako czas gwałtownego wzrostu stanu baterii. Na podstawie
-wykresu można oszacować, iż bateria urządzenia Android1 była ładowana
-3 razy, natomiast urządzenia Android2 co najmniej 6 razy. Wskazuje to
-na znaczne zużycie baterii w~drugim urządzeniu lub jego bardzo
-intensywne użytkowanie.
+Marcina Kubika, który jest właścicielem tego urządzenia, konieczne
+było wyłączenie go na jeden dzień. Na przedstawionych wykresach można
+wyróżnić dwie fazy. Pierwsza z~nich to rozładowywanie baterii. Okres
+ten można rozpoznać po zmniejszającym się pomiędzy kolejnymi pomiarami
+stanem baterii. Okres ładowania widoczny jest na wykresie jako czas
+gwałtownego wzrostu stanu baterii. Na podstawie wykresu można
+oszacować, iż bateria urządzenia Android1 była ładowana 3 razy,
+natomiast urządzenia Android2 co najmniej 6 razy. Wskazuje to na
+znaczne zużycie baterii w~drugim urządzeniu lub jego bardzo intensywne
+użytkowanie.
 
 Ponadto na podstawie przedstawionego wykresu można wnioskować o~stylu
 użytkowania obu telefonów. Urządzenie Android1 ładowane jest do bardzo
@@ -474,26 +470,25 @@ wysokiego poziomu baterii, a~następnie użytkownik oczekuje z jego
 urządzenia Android2 natomiast bardzo często wykonuje ładowanie swojego
 telefonu nawet przy stanie powyżej 50\%. W~zależności od typu baterii
 znajdującej się w urządzeniu, takie działanie może skracać jej
-żywotność.
-
-Możliwość analizy sposobu użytkowania danego urządzenia może być dla
-Administratora bardzo pomocne. Może to zostać wykorzystane np. do
-lepszego zarządzania rozdziałem urządzeń mobilnych w firmie. Ponadto
-jeśli monitorowane urządzenia mobilne posiadają znaczną wartość, to
-śledzenie stylu ich użytkowania również jest niezwykle istotne, aby
-zapewnić ich długą żywotność.
+żywotność. Dzięki długoterminowemu monitorowaniu tego typu zachowań
+możliwe są badania wpływu profilu wykorzystania urządzenia na jego
+żywotność i~awaryjność. Możliwość analizy sposobu użytkowania danego
+urządzenia może być dla Administratora bardzo pomocne. Może to zostać
+wykorzystane np. do lepszego zarządzania rozdziałem urządzeń mobilnych
+w firmie. Ponadto jeśli monitorowane urządzenia mobilne posiadają
+znaczną wartość, to śledzenie stylu ich użytkowania również jest
+niezwykle istotne, aby zapewnić ich długą żywotność.
 
 W~trakcie testów monitorowano również siłę sygnały Wi-Fi. Rezultaty
 pomiarów przedstawiono na rysunku \ref{fig:signals}. Ponownie na
 wykresie dla urządzenia drugiego widoczna jest przerwa wynikająca
-z~chwilowego wyłączenia urządzenia z~testów. Na podstawie tych
-wykresów łatwo można zauważyć, że urządzenie Android1 posiada znacznie
-częstszy i~znacznie lepszy dostęp do sieci Wi-Fi niż urządzenie
-Android2. Można wręcz zauważyć, iż urządzenie Android2 jest typowym
-klientem mobilnym, który dostęp do sieci uzyskuje bardzo
-sporadycznie. Słaba siła sygnału sieci Wi-Fi powoduje oczywiście
-zwiększone zużycie baterii, co jest widoczne na wykresie
-\ref{fig:baterie}.
+z~chwilowego wyłączenia urządzenia. Na podstawie tych wykresów łatwo
+można zauważyć, że urządzenie Android1 posiada znacznie częstszy
+i~znacznie lepszy dostęp do sieci Wi-Fi niż urządzenie Android2. Można
+wręcz zauważyć, iż urządzenie Android2 jest typowym klientem mobilnym,
+który dostęp do sieci uzyskuje bardzo sporadycznie. Słaba siła sygnału
+sieci Wi-Fi powoduje oczywiście zwiększone zużycie baterii, co jest
+widoczne na wykresie z~rysunku~\ref{fig:baterie}.
 
 \begin{figure}[ht]
   \caption{Wykres sygnału sieci Wi-Fi w okresie testowania
