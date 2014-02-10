@@ -450,16 +450,18 @@ negocjacja algorytmu szyfrowania oraz generacja odpowiedniego klucza
 symetrycznego. Klient przesyła do serwera zaszyfrowany kluczem
 publicznym komunikat zawierający żądanie algorytmu
 symetrycznego. Serwer po odebraniu komunikatu odszyfrowuje go przy
-użyciu klucza prywatnego. W zależności od dostępności żądanego
+użyciu klucza prywatnego. W~zależności od dostępności żądanego
 algorytmu, do klienta odsyłany jest komunikat akceptujący lub
 odrzucający wybrany algorytm. Klient po odebraniu negatywnego
 potwierdzenia może ponownie zażądać innego algorytmu
 symetrycznego. Klient po odebraniu komunikatu akceptującego wybrany
-algorytm dokonuje generacji klucza symetrycznego, a~następnie oblicza
-jego skrót. Tak przygotowany komunikat szyfrowany jest kluczem
-publicznym i~przesyłany do serwera. Serwer po odebraniu klucza
-sprawdza jego poprawność oraz zgodność z~dołączonym skrótem, co
-stanowi ostatni etap inicjalizacji.
+algorytm dokonuje generacji klucza symetrycznego oraz wektora wartości
+początkowych jeśli jest to wymagane przez tryb pracy algorytmu.
+Następnie obliczany jest skrót całej wiadomości. Tak przygotowany
+komunikat szyfrowany jest kluczem publicznym i~przesyłany do
+serwera. Serwer po odebraniu komunikatu sprawdza poprawność klucza
+oraz wektora początkowego oraz zgodność danych z~dołączonym skrótem,
+co stanowi ostatni etap inicjalizacji.
 
 \begin{table}[H]
 \centering
@@ -475,11 +477,11 @@ stanowi ostatni etap inicjalizacji.
 \begin{table}[H]
 \centering
 \caption{Struktura komunikatu zawierającego klucz symetryczny.}
-
-\begin{tabular}{|p{3cm}|p{5cm}|p{3cm}|p{2cm}|}
-\hline
-Długość skrótu & \raggedright{Kod ESTABLISH\_ENCRYPTION} & \raggedright{Klucz symetryczny} & Skrót \\
-\hline
+\begin{tabular}{|p{1.5cm}|p{4cm}|p{2cm}|p{2.5cm}|p{2cm}|p{1cm}|}
+\hline \raggedright{Długość skrótu} & \raggedright{Kod
+  ESTABLISH\_ENCRYPTION} & \raggedright{Długość klucza} &
+\raggedright{Klucz symetryczny} & \raggedright{Wektor początkowy} &
+Skrót \\ \hline
 \end{tabular}
 \end{table}
 
